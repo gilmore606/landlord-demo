@@ -5,6 +5,9 @@ import android.os.Parcelable
 import com.dlfsystems.landlord.nav.FragAnimPair
 
 abstract class BaseKey : Parcelable {
+
+    open val allowBack = true
+
     val fragmentTag: String
         get() = toString()
 

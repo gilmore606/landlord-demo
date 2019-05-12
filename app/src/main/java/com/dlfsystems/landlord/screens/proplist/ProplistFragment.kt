@@ -10,20 +10,16 @@ import kotlinx.android.synthetic.main.fragment_proplist.*
 class ProplistFragment : BaseFragment() {
 
     override val layoutResource = R.layout.fragment_proplist
-    override val presenter = ProplistPresenter()
+    override val presenter = ProplistPresenter(this)
     override fun defaultState() = ProplistState()
 
     fun state() = stateHolder.state.value as ProplistState
 
     val recyclerAdapter = ProplistRecyclerAdapter()
 
-    init {
+    override fun subscribeUI(view: View) {
         proplist_recyclerview.layoutManager = LinearLayoutManager(context)
         proplist_recyclerview.adapter = recyclerAdapter
-    }
-
-    override fun subscribeUI(view: View) {
-
     }
 
     override fun render(state: BaseState) {

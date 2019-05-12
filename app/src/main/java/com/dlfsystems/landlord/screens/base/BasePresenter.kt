@@ -4,7 +4,7 @@ import com.dlfsystems.landlord.plusAssign
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.subjects.PublishSubject
 
-abstract class BasePresenter {
+abstract class BasePresenter(val fragment: BaseFragment) {
 
     lateinit var stateHolder: StateHolder
 

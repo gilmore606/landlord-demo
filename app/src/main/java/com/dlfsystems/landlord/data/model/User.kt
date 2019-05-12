@@ -1,6 +1,6 @@
 package com.dlfsystems.landlord.data.model
 
-data class User(val id: Int,
-                var name: String,
-                var isRealtor: Boolean,
-                var isAdmin: Boolean)
+data class User(val uid: String = "",
+                var username: String,
+                var isRealtor: Boolean = false,
+                var isAdmin: Boolean = false)

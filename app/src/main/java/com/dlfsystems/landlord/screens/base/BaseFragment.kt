@@ -1,5 +1,6 @@
 package com.dlfsystems.landlord.screens.base
 
+import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -15,10 +16,12 @@ abstract class BaseFragment : androidx.fragment.app.Fragment() {
 
     abstract val layoutResource: Int
     abstract val presenter: BasePresenter
+
     lateinit var stateHolder: StateHolder
     var previousState: BaseState? = null
     val disposables = CompositeDisposable()
     val actions = PublishSubject.create<Action>()
+    var rendering = true
 
     val requireArguments
         get() = this.arguments ?: throw IllegalStateException("Fragment arguments should exist!")
@@ -46,13 +49,18 @@ abstract class BaseFragment : androidx.fragment.app.Fragment() {
 
         disposables += stateHolder.state.observeOn(AndroidSchedulers.mainThread())
             .subscribe {
+                rendering = true
                 render(it)
+                rendering = false
                 previousState = it
             }
 
-        subscribeUI(view)
-
         return view
+    }
+
+    override fun onResume() {
+        super.onResume()
+        view?.also { subscribeUI(it) }
     }
 
     open fun subscribeUI(view: View) { }

@@ -1,6 +1,7 @@
 package com.dlfsystems.landlord.screens.login
 
 import android.view.View
+import com.dlfsystems.landlord.Prefs
 import com.dlfsystems.landlord.R
 import com.dlfsystems.landlord.plusAssign
 import com.dlfsystems.landlord.screens.base.BaseFragment
@@ -12,22 +13,29 @@ import kotlinx.android.synthetic.main.fragment_login.*
 class LoginFragment : BaseFragment() {
 
     override val layoutResource = R.layout.fragment_login
-    override val presenter = LoginPresenter()
-    override fun defaultState() = LoginState()
+    override val presenter = LoginPresenter(this)
+    override fun defaultState() = LoginState(
+        username = Prefs(context!!).loginUser,
+        password = Prefs(context!!).loginPassword
+    )
 
     fun state() = stateHolder.state.value as LoginState
 
     override fun subscribeUI(view: View) {
         disposables += login_username.textChanges().subscribe {
-                stateHolder.mutate(state().copy(
-                    username = it.toString()
-                ))
+                if (!rendering) stateHolder.mutate(
+                    state().copy(
+                        username = it.toString()
+                    )
+                )
             }
 
         disposables += login_password.textChanges().subscribe {
-                stateHolder.mutate(state().copy(
-                    password = it.toString()
-                ))
+                if (!rendering) stateHolder.mutate(
+                    state().copy(
+                        password = it.toString()
+                    )
+                )
             }
 
         disposables += login_button_login.clicks().subscribe {
@@ -50,10 +58,15 @@ class LoginFragment : BaseFragment() {
 
         val canSubmit = !state.waiting and (state.username != "") and (state.password != "")
 
+        if (state.username != login_username.text.toString()) login_username.setText(state.username)
+        if (state.password != login_password.text.toString()) login_password.setText(state.password)
+
         login_button_login.visibility =
             if (canSubmit) View.VISIBLE else View.INVISIBLE
         login_button_register.visibility =
             if (canSubmit) View.VISIBLE else View.INVISIBLE
+        login_loader.visibility =
+            if (state.waiting) View.VISIBLE else View.GONE
 
         login_errortext.text = state.lastError
     }

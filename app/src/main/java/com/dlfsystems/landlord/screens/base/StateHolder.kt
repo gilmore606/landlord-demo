@@ -3,6 +3,7 @@ package com.dlfsystems.landlord.screens.base
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.SavedStateHandle
 import io.reactivex.subjects.ReplaySubject
+import timber.log.Timber
 
 class StateHolder(private val savedState: SavedStateHandle) : ViewModel() {
 
@@ -17,6 +18,7 @@ class StateHolder(private val savedState: SavedStateHandle) : ViewModel() {
 
     fun mutate(newState: BaseState) {
         hasState = true
+        Timber.d("MUTATE " + newState.toString())
         state.onNext(newState)
         savedState.set("state", state.value)
     }
