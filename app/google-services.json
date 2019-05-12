@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "1070618687860",
+    "firebase_url": "https://landlord-b349a.firebaseio.com",
+    "project_id": "landlord-b349a",
+    "storage_bucket": "landlord-b349a.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1070618687860:android:49f312ff3c5bfaf2",
+        "android_client_info": {
+          "package_name": "com.dlfsystems.landlord"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1070618687860-qehcel16tte7sgqoj2tif4bao7ph3d3p.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.dlfsystems.landlord",
+            "certificate_hash": "403fe1a0699b21358a19f04c9cacba1d8ad0b0ac"
+          }
+        },
+        {
+          "client_id": "1070618687860-3m53nmghi0tmjqboj391e5gstmgie532.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD8enrx5VGQRhpmBqVBUMqabdHokdAnFTc"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1070618687860-3m53nmghi0tmjqboj391e5gstmgie532.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
