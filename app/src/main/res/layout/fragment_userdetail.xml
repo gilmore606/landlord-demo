@@ -29,6 +29,11 @@
         <Button android:layout_width="wrap_content" android:layout_height="wrap_content"
                 android:id="@+id/userdetail_apply_button"
                 android:text="APPLY" />
+
+        <Button android:layout_width="wrap_content" android:layout_height="wrap_content"
+                android:id="@+id/userdetail_delete_button"
+                android:text="DELETE USER" />
+
     </LinearLayout>
 
     <com.airbnb.lottie.LottieAnimationView android:layout_width="wrap_content" android:layout_height="wrap_content"

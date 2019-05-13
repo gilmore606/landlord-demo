@@ -23,19 +23,27 @@ class UserdetailFragment : BaseFragment() {
 
     override fun subscribeUI(view: View) {
         userdetail_realtor_switch.setOnCheckedChangeListener { _, value ->
-            actions.onNext(UserChangeRealtorAction(value))
+            actions.onNext(UserChangeRealtor(value))
         }
         userdetail_admin_switch.setOnCheckedChangeListener { _, value ->
-            actions.onNext(UserChangeAdminAction(value))
+            actions.onNext(UserChangeAdmin(value))
         }
         userdetail_apply_button.setOnClickListener {
-            actions.onNext(UserSaveChanges(user = User(
-                uid = state().userId,
-                username = state().username,
-                isRealtor = state().isRealtor,
-                isAdmin = state().isAdmin
-            )))
+            actions.onNext(UserSaveChanges(userFromState()))
         }
+        userdetail_delete_button.setOnClickListener {
+            actions.onNext(UserDelete(userFromState()))
+        }
+    }
+
+    private fun userFromState(): User {
+        val state = state()
+        return User(
+            uid = state.userId,
+            username = state.username,
+            isRealtor = state.isRealtor,
+            isAdmin = state.isAdmin
+        )
     }
 
     override fun render(state: BaseState) {
@@ -47,15 +55,15 @@ class UserdetailFragment : BaseFragment() {
                 userdetail_loader.visibility = View.VISIBLE
             }
             (!state.loading and (state.username == "")) -> {
-                actions.onNext(LoadUserAction(state.userId))
+                actions.onNext(LoadUser(state.userId))
             }
             (!state.loading and (state.username != "")) -> {
                 userdetail_loader.visibility = View.GONE
                 userdetail_content.visibility = View.VISIBLE
 
                 userdetail_username.setText(state.username)
-                userdetail_realtor_switch.isActivated = state.isRealtor
-                userdetail_admin_switch.isActivated = state.isAdmin
+                userdetail_realtor_switch.isChecked = state.isRealtor
+                userdetail_admin_switch.isChecked = state.isAdmin
             }
         }
     }

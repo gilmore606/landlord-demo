@@ -23,7 +23,11 @@ class FirebaseRepository : Repository {
         })
     }
 
-    fun getUsers(): Query {
+    override fun deleteUser(userid: String) {
+        repo.child("users").child(userid).setValue(null)
+    }
+
+    override fun getUsers(): Query {
         return repo.child("").child("users")
     }
 }

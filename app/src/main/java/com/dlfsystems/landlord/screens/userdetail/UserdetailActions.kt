@@ -3,22 +3,26 @@ package com.dlfsystems.landlord.screens.userdetail
 import com.dlfsystems.landlord.data.model.User
 import com.dlfsystems.landlord.screens.base.Action
 
-class LoadUserAction(
+class LoadUser(
     val userid: String
 ) : Action
 
-class UserLoadedAction(
+class UserLoaded(
     val user: User
 ) : Action
 
-class UserChangeRealtorAction(
+class UserChangeRealtor(
     val value: Boolean
 ) : Action
 
-class UserChangeAdminAction(
+class UserChangeAdmin(
     val value: Boolean
 ) : Action
 
 class UserSaveChanges(
+    val user: User
+) : Action
+
+class UserDelete(
     val user: User
 ) : Action

@@ -5,6 +5,8 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
+import androidx.appcompat.app.AlertDialog
 import androidx.lifecycle.SavedStateVMFactory
 import androidx.lifecycle.ViewModelProvider
 import com.dlfsystems.landlord.plusAssign
@@ -73,4 +75,19 @@ abstract class BaseFragment : androidx.fragment.app.Fragment() {
 
     open fun render(state: BaseState) { }
 
+    fun makeToast(message: String) {
+        activity?.runOnUiThread {
+            Toast.makeText(activity, message, Toast.LENGTH_SHORT).show()
+        }
+    }
+
+    fun confirmAndDo(title: String, message: String, doIt: () -> Unit) {
+        AlertDialog.Builder(context!!)
+            .setTitle(title).setMessage(message)
+            .setNegativeButton("Cancel") { _,_ -> }
+            .setPositiveButton("Yes") { _,_ ->
+                doIt()
+            }
+            .create().show()
+    }
 }

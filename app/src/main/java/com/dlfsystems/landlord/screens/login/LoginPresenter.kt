@@ -17,6 +17,8 @@ class LoginPresenter(fragment: BaseFragment) : BasePresenter(fragment) {
 
     fun state() = stateHolder.state.value as LoginState
 
+    val repo = FirebaseRepository()
+
     override fun hearAction(action: Action) {
         when {
             (action is LoginAction) -> {
@@ -37,7 +39,7 @@ class LoginPresenter(fragment: BaseFragment) : BasePresenter(fragment) {
             .addOnCompleteListener {
                 if (it.isSuccessful()) {
                     val uid = Rudder.auth.currentUser!!.uid
-                    FirebaseRepository().getUser(uid) {
+                    repo.getUser(uid) {
                         onLogin(it, password)
                     }
                 } else {
@@ -53,7 +55,7 @@ class LoginPresenter(fragment: BaseFragment) : BasePresenter(fragment) {
                 if (it.isSuccessful()) {
                     val uid = Rudder.auth.currentUser!!.uid
                     val user = User(uid = uid, username = username)
-                    FirebaseRepository().putUser(user)
+                    repo.putUser(user)
                     onLogin(user, password)
                 } else {
                     mutate(state().copy(lastError = it.exception?.message ?: "Couldn't register -- try again.",
