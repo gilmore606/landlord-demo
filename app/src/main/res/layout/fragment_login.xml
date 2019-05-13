@@ -10,30 +10,37 @@
         app:lottie_loop="false" app:lottie_autoPlay="true" />
 
     <TextView android:layout_width="match_parent" android:layout_height="wrap_content"
-              android:lines="1"
+              android:lines="1" android:theme="@style/ErrorText"
               android:id="@+id/login_errortext" />
 
-    <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content"
-                    android:orientation="horizontal" >
-        <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
-                  android:text="Username" />
-        <EditText android:layout_width="wrap_content" android:layout_height="wrap_content"
-                  android:lines="1"
-                  android:id="@+id/login_username" />
-    </LinearLayout>
-    <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content"
-                  android:orientation="horizontal" >
-        <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
-                  android:text="Password" />
-        <EditText android:layout_width="wrap_content" android:layout_height="wrap_content"
-                  android:lines="1"
-                  android:id="@+id/login_password" />
+    <LinearLayout android:layout_width="wrap_content" android:layout_height="wrap_content"
+                android:orientation="horizontal" android:layout_margin="36dp" >
+
+        <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content"
+                        android:orientation="vertical" >
+            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                      android:text="email" />
+            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                      android:text="password" />
+
+        </LinearLayout>
+        <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content"
+                      android:orientation="vertical" >
+            <EditText android:layout_width="match_parent" android:layout_height="wrap_content"
+                      android:lines="1" android:inputType="text" android:theme="@style/TextInput"
+                      android:layout_margin="12dp"
+                      android:id="@+id/login_username" />
+            <EditText android:layout_width="match_parent" android:layout_height="wrap_content"
+                      android:lines="1" android:inputType="textPassword" android:theme="@style/TextInput"
+                      android:layout_margin="12dp"
+                      android:id="@+id/login_password" />
+        </LinearLayout>
     </LinearLayout>
     <Button android:layout_width="wrap_content" android:layout_height="wrap_content"
-            android:text="LOG IN"
+            android:text="LOG IN" android:layout_gravity="center_horizontal"
             android:id="@+id/login_button_login" />
     <Button android:layout_width="wrap_content" android:layout_height="wrap_content"
-            android:text="REGISTER"
+            android:text="REGISTER" android:layout_gravity="center_horizontal"
             android:id="@+id/login_button_register" />
     <com.airbnb.lottie.LottieAnimationView android:layout_width="wrap_content" android:layout_height="wrap_content"
         android:id="@+id/login_loader" app:lottie_rawRes="@raw/loader_anim" android:layout_gravity="center_horizontal"

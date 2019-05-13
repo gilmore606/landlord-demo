@@ -62,9 +62,9 @@ class LoginFragment : BaseFragment() {
         if (state.password != login_password.text.toString()) login_password.setText(state.password)
 
         login_button_login.visibility =
-            if (canSubmit) View.VISIBLE else View.INVISIBLE
+            if (canSubmit) View.VISIBLE else View.GONE
         login_button_register.visibility =
-            if (canSubmit) View.VISIBLE else View.INVISIBLE
+            if (canSubmit) View.VISIBLE else View.GONE
         login_loader.visibility =
             if (state.waiting) View.VISIBLE else View.GONE
 

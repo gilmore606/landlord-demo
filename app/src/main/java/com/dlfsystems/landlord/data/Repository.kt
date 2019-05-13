@@ -5,5 +5,5 @@ import com.dlfsystems.landlord.data.model.User
 interface Repository {
 
     fun putUser(user: User)
-    fun getUser(uid: String): User
+    fun getUser(uid: String, callback: (User) -> Unit)
 }

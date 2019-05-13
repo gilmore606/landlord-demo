@@ -35,11 +35,10 @@ class LoginPresenter(fragment: BaseFragment) : BasePresenter(fragment) {
         Rudder.auth.signInWithEmailAndPassword(username, password)
             .addOnCompleteListener {
                 if (it.isSuccessful()) {
-                    Prefs(fragment.context!!).loginUser = username
-                    Prefs(fragment.context!!).loginPassword = password
-                    Prefs(fragment.context!!).userId = Rudder.auth.currentUser!!.uid
-                    mutate(state().copy(lastError = "", waiting = false))
-                    Rudder.navTo(ProplistKey())
+                    val uid = Rudder.auth.currentUser!!.uid
+                    FirebaseRepository().getUser(uid) {
+                        onLogin(it, password)
+                    }
                 } else {
                     mutate(state().copy(lastError = it.exception?.message ?: "Couldn't log in -- try again.",
                                         waiting = false))
@@ -51,12 +50,22 @@ class LoginPresenter(fragment: BaseFragment) : BasePresenter(fragment) {
         Rudder.auth.createUserWithEmailAndPassword(username, password)
             .addOnCompleteListener {
                 if (it.isSuccessful()) {
-                    FirebaseRepository().putUser(User(username = username))
-                    loginUser(username, password)
+                    val uid = Rudder.auth.currentUser!!.uid
+                    val user = User(uid = uid, username = username)
+                    FirebaseRepository().putUser(user)
+                    onLogin(user, password)
                 } else {
                     mutate(state().copy(lastError = it.exception?.message ?: "Couldn't register -- try again.",
                                         waiting = false))
                 }
             }
+    }
+
+    fun onLogin(user: User, password: String) {
+        Prefs(fragment.context!!).loginUser = user.username
+        Prefs(fragment.context!!).loginPassword = password
+        Prefs(fragment.context!!).userId = user.uid
+        mutate(state().copy(lastError = "", waiting = false))
+        Rudder.navTo(ProplistKey())
     }
 }
