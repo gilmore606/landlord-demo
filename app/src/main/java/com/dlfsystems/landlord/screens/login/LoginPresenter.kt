@@ -8,6 +8,7 @@ import com.dlfsystems.landlord.screens.base.Action
 import com.dlfsystems.landlord.screens.base.BaseFragment
 import com.dlfsystems.landlord.screens.base.BasePresenter
 import com.dlfsystems.landlord.screens.proplist.ProplistKey
+import com.dlfsystems.landlord.screens.userlist.UserlistKey
 import com.google.firebase.database.FirebaseDatabase
 import timber.log.Timber
 import java.lang.RuntimeException
@@ -66,6 +67,6 @@ class LoginPresenter(fragment: BaseFragment) : BasePresenter(fragment) {
         Prefs(fragment.context!!).loginPassword = password
         Prefs(fragment.context!!).userId = user.uid
         mutate(state().copy(lastError = "", waiting = false))
-        Rudder.navTo(ProplistKey())
+        Rudder.navTo(UserlistKey())
     }
 }

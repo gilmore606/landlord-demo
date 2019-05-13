@@ -17,4 +17,12 @@
         <item name="android:textSize">10dp</item>
         <item name="android:textColor">#DD0000</item>
     </style>
+
+    <style name="UserlistName" parent="Theme.AppCompat.Light">
+        <item name="android:textSize">16dp</item>
+    </style>
+
+    <style name="UserlistRole" parent="UserlistName">
+        <item name="android:textStyle">italic</item>
+    </style>
 </resources>

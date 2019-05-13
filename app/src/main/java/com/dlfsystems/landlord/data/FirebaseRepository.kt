@@ -1,10 +1,7 @@
 package com.dlfsystems.landlord.data
 
 import com.dlfsystems.landlord.data.model.User
-import com.google.firebase.database.DataSnapshot
-import com.google.firebase.database.DatabaseError
-import com.google.firebase.database.FirebaseDatabase
-import com.google.firebase.database.ValueEventListener
+import com.google.firebase.database.*
 
 class FirebaseRepository : Repository {
 
@@ -24,5 +21,9 @@ class FirebaseRepository : Repository {
                 callback(snapshot.getValue<User>(User::class.java)!!)
             }
         })
+    }
+
+    fun getUsers(): Query {
+        return repo.child("").child("users")
     }
 }
