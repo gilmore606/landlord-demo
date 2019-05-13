@@ -3,6 +3,7 @@ package com.dlfsystems.landlord.screens.userdetail
 import android.os.Bundle
 import android.view.View
 import com.dlfsystems.landlord.R
+import com.dlfsystems.landlord.data.model.User
 import com.dlfsystems.landlord.screens.base.BaseFragment
 import com.dlfsystems.landlord.screens.base.BaseState
 import kotlinx.android.synthetic.main.fragment_userdetail.*
@@ -21,7 +22,20 @@ class UserdetailFragment : BaseFragment() {
         )
 
     override fun subscribeUI(view: View) {
-
+        userdetail_realtor_switch.setOnCheckedChangeListener { _, value ->
+            actions.onNext(UserChangeRealtorAction(value))
+        }
+        userdetail_admin_switch.setOnCheckedChangeListener { _, value ->
+            actions.onNext(UserChangeAdminAction(value))
+        }
+        userdetail_apply_button.setOnClickListener {
+            actions.onNext(UserSaveChanges(user = User(
+                uid = state().userId,
+                username = state().username,
+                isRealtor = state().isRealtor,
+                isAdmin = state().isAdmin
+            )))
+        }
     }
 
     override fun render(state: BaseState) {
@@ -38,7 +52,10 @@ class UserdetailFragment : BaseFragment() {
             (!state.loading and (state.username != "")) -> {
                 userdetail_loader.visibility = View.GONE
                 userdetail_content.visibility = View.VISIBLE
+
                 userdetail_username.setText(state.username)
+                userdetail_realtor_switch.isActivated = state.isRealtor
+                userdetail_admin_switch.isActivated = state.isAdmin
             }
         }
     }

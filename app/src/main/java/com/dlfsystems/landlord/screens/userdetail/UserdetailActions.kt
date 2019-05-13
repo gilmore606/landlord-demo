@@ -10,3 +10,15 @@ class LoadUserAction(
 class UserLoadedAction(
     val user: User
 ) : Action
+
+class UserChangeRealtorAction(
+    val value: Boolean
+) : Action
+
+class UserChangeAdminAction(
+    val value: Boolean
+) : Action
+
+class UserSaveChanges(
+    val user: User
+) : Action

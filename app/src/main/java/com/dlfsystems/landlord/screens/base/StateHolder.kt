@@ -17,6 +17,7 @@ class StateHolder(private val savedState: SavedStateHandle) : ViewModel() {
     }
 
     fun mutate(newState: BaseState) {
+        if (hasState and newState.equals(state.value)) return
         hasState = true
         Timber.d("MUTATE " + newState.toString())
         state.onNext(newState)

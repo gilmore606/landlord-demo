@@ -16,7 +16,7 @@ class ProplistRecyclerHolder(itemView: View): RecyclerView.ViewHolder(itemView) 
 class ProplistRecyclerAdapter : RecyclerView.Adapter<ProplistRecyclerHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ProplistRecyclerHolder =
-            ProplistRecyclerHolder(LayoutInflater.from(parent.context).inflate(R.layout.proplist_item, parent, false))
+            ProplistRecyclerHolder(LayoutInflater.from(parent.context).inflate(R.layout.item_proplist, parent, false))
 
     override fun getItemCount(): Int = 0
 

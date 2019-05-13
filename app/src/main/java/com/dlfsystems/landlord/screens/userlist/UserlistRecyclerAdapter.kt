@@ -10,7 +10,7 @@ import com.dlfsystems.landlord.screens.base.Action
 import com.firebase.ui.database.FirebaseRecyclerAdapter
 import com.firebase.ui.database.FirebaseRecyclerOptions
 import io.reactivex.subjects.PublishSubject
-import kotlinx.android.synthetic.main.userlist_row.view.*
+import kotlinx.android.synthetic.main.item_userlist.view.*
 
 class UserlistHolder(val view: View, val user: User? = null) : RecyclerView.ViewHolder(view) {
 
@@ -34,7 +34,7 @@ class UserlistRecyclerAdapter(options: FirebaseRecyclerOptions<User>, val action
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): UserlistHolder =
         UserlistHolder(
             LayoutInflater.from(parent.context)
-            .inflate(R.layout.userlist_row, parent, false))
+            .inflate(R.layout.item_userlist, parent, false))
 
     override fun onBindViewHolder(holder: UserlistHolder, position: Int, model: User) =
         holder.bind(model, actions)
