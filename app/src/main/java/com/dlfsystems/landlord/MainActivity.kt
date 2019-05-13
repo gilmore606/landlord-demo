@@ -38,7 +38,7 @@ class MainActivity : AppCompatActivity(), StateChanger {
         fragmentStateChanger = FragmentStateChanger(supportFragmentManager, R.id.base_frame)
         backstackDelegate.setStateChanger(this)
 
-        disposables += Rudder.navDest.distinctUntilChanged().observeOn(AndroidSchedulers.mainThread())
+        disposables += Rudder.navDest.observeOn(AndroidSchedulers.mainThread())
             .subscribe {
                 navigateTo(it)
             }
@@ -49,6 +49,7 @@ class MainActivity : AppCompatActivity(), StateChanger {
     }
 
     private fun navigateTo(destKey: BaseKey) {
+        Timber.d("RUDDER navigateTo " + destKey.toString())
         hideKeyboard()
         backstackDelegate.backstack.goTo(destKey)
         if (!destKey.allowBack)
@@ -63,6 +64,7 @@ class MainActivity : AppCompatActivity(), StateChanger {
 
     override fun handleStateChange(stateChange: StateChange, completionCallback: StateChanger.Callback) {
         if (stateChange.isTopNewStateEqualToPrevious) {
+            Timber.d("RUDDER statechange was same as previous")
             completionCallback.stateChangeComplete()
             return
         }

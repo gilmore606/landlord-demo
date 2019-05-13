@@ -4,6 +4,7 @@ import com.dlfsystems.landlord.screens.base.BaseKey
 import com.google.firebase.auth.FirebaseAuth
 import io.reactivex.Emitter
 import io.reactivex.observables.ConnectableObservable
+import timber.log.Timber
 
 object Rudder {
 
@@ -20,6 +21,7 @@ object Rudder {
     }
 
     fun navTo(dest: BaseKey) {
+        Timber.d("RUDDER navTo " + dest.toString())
         navDestEmitter.onNext(dest)
     }
 

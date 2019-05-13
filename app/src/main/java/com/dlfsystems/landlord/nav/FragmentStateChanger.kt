@@ -3,6 +3,7 @@ package com.dlfsystems.landlord.nav
 import com.dlfsystems.landlord.screens.base.BaseFragment
 import com.dlfsystems.landlord.screens.base.BaseKey
 import com.zhuinden.simplestack.StateChange
+import timber.log.Timber
 
 
 class FragmentStateChanger(
@@ -13,6 +14,7 @@ class FragmentStateChanger(
     class FragWithTag(val fragment: BaseFragment, val tag: String)
 
     fun handleStateChange(stateChange: StateChange) {
+        Timber.d("RUDDER state change")
         val removeList = ArrayList<BaseFragment>(0)
         val addList = ArrayList<FragWithTag>(0)
         val showList = ArrayList<BaseFragment>(0)
@@ -53,10 +55,14 @@ class FragmentStateChanger(
 
         fragmentManager.beginTransaction().disallowAddToBackStack().apply {
             setCustomAnimations(animationSet.animIn, animationSet.animOut)
-            removeList.forEach { remove(it) }
-            addList.forEach { add(containerId, it.fragment, it.tag) }
-            showList.forEach { show(it) }
-            hideList.forEach { hide(it) }
+            removeList.forEach { remove(it)
+                Timber.d("RUDDER remove " + it.tag) }
+            addList.forEach { add(containerId, it.fragment, it.tag)
+                Timber.d("RUDDER add " + it.tag) }
+            showList.forEach { show(it)
+                Timber.d("RUDDER show " + it.tag) }
+            hideList.forEach { hide(it)
+                Timber.d("RUDDER hide " + it.tag) }
         }.commitNow()
         fragmentManager.executePendingTransactions()
 
