@@ -2,20 +2,26 @@ package com.dlfsystems.landlord
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.view.MenuItem
 import androidx.appcompat.app.AppCompatDelegate
+import androidx.core.view.GravityCompat
 import com.dlfsystems.landlord.nav.FragmentStateChanger
 import com.dlfsystems.landlord.nav.Rudder
 import com.dlfsystems.landlord.screens.base.BaseKey
 import com.dlfsystems.landlord.screens.login.LoginKey
+import com.dlfsystems.landlord.screens.proplist.ProplistKey
+import com.dlfsystems.landlord.screens.userlist.UserlistKey
+import com.google.android.material.navigation.NavigationView
 import com.zhuinden.simplestack.BackstackDelegate
 import com.zhuinden.simplestack.History
 import com.zhuinden.simplestack.StateChange
 import com.zhuinden.simplestack.StateChanger
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
+import kotlinx.android.synthetic.main.activity_main.*
 import timber.log.Timber
 
-class MainActivity : AppCompatActivity(), StateChanger {
+class MainActivity : AppCompatActivity(), StateChanger, NavigationView.OnNavigationItemSelectedListener {
 
     lateinit var backstackDelegate: BackstackDelegate
     lateinit var fragmentStateChanger: FragmentStateChanger
@@ -34,6 +40,14 @@ class MainActivity : AppCompatActivity(), StateChanger {
 
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+
+        setSupportActionBar(toolbar)
+        supportActionBar?.apply {
+            title = "Landlord"
+            setDisplayHomeAsUpEnabled(true)
+            setHomeAsUpIndicator(R.drawable.ic_menu)
+        }
+        nav_view.setNavigationItemSelectedListener(this)
 
         fragmentStateChanger = FragmentStateChanger(supportFragmentManager, R.id.base_frame)
         backstackDelegate.setStateChanger(this)
@@ -57,7 +71,9 @@ class MainActivity : AppCompatActivity(), StateChanger {
     }
 
     override fun onBackPressed() {
-        if (!backstackDelegate.onBackPressed()) {
+        if (drawer_layout.isDrawerOpen(GravityCompat.START)) {
+            drawer_layout.closeDrawer(GravityCompat.START)
+        } else if (!backstackDelegate.onBackPressed()) {
             super.onBackPressed()
         }
     }
@@ -70,5 +86,38 @@ class MainActivity : AppCompatActivity(), StateChanger {
         }
         fragmentStateChanger.handleStateChange(stateChange)
         completionCallback.stateChangeComplete()
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        return when (item.itemId) {
+            android.R.id.home -> {
+                drawer_layout.openDrawer(GravityCompat.START)
+                true
+            }
+            else -> super.onOptionsItemSelected(item)
+        }
+    }
+
+    override fun onNavigationItemSelected(item: MenuItem): Boolean {
+        when (item.itemId) {
+            R.id.nav_item_proplist -> {
+                Rudder.navTo(ProplistKey())
+            }
+            R.id.nav_item_propmap -> {
+
+            }
+            R.id.nav_item_userlist -> {
+                Rudder.navTo(UserlistKey())
+            }
+            R.id.nav_item_logout -> {
+                logOut()
+            }
+        }
+        drawer_layout.closeDrawer(GravityCompat.START)
+        return true
+    }
+
+    private fun logOut() {
+
     }
 }
