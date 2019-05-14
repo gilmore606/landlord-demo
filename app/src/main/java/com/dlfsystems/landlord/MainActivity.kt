@@ -42,6 +42,7 @@ class MainActivity : AppCompatActivity(), StateChanger, NavigationView.OnNavigat
         backstackDelegate.onCreate(savedInstanceState,
             lastCustomNonConfigurationInstance,
             History.single(LoginKey()))
+        backstackDelegate.registerForLifecycleCallbacks(this)
 
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
