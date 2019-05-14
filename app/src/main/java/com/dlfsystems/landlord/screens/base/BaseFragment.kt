@@ -14,6 +14,7 @@ import com.dlfsystems.landlord.plusAssign
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.subjects.PublishSubject
+import timber.log.Timber
 
 abstract class BaseFragment : androidx.fragment.app.Fragment() {
 
@@ -53,10 +54,7 @@ abstract class BaseFragment : androidx.fragment.app.Fragment() {
 
         disposables += stateHolder.state.observeOn(AndroidSchedulers.mainThread())
             .subscribe {
-                rendering = true
                 _render(it)
-                rendering = false
-                previousState = it
             }
 
         return view
@@ -75,9 +73,17 @@ abstract class BaseFragment : androidx.fragment.app.Fragment() {
 
     open fun onCreateView(view: View) { }
 
+    fun onShowFromBackStack() {
+        _render(stateHolder.state?.value ?: defaultState())
+    }
+
     private fun _render(state: BaseState) {
+        rendering = true
+        Timber.d("RENDER " + state.toString())
         (activity as MainActivity).toggleToolbar(showToolbar)
         render(state)
+        rendering = false
+        previousState = state
     }
 
     open fun render(state: BaseState) { }

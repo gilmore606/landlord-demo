@@ -66,5 +66,6 @@ class FragmentStateChanger(
         }.commitNow()
         fragmentManager.executePendingTransactions()
 
+        showList.forEach { it.onShowFromBackStack() }
     }
 }
