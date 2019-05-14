@@ -31,6 +31,7 @@ class MainActivity : AppCompatActivity(), StateChanger, NavigationView.OnNavigat
     lateinit var backstackDelegate: BackstackDelegate
     lateinit var fragmentStateChanger: FragmentStateChanger
     var disposables = CompositeDisposable()
+    lateinit var prefs: Prefs
 
     override fun onCreate(savedInstanceState: Bundle?) {
 
@@ -55,6 +56,9 @@ class MainActivity : AppCompatActivity(), StateChanger, NavigationView.OnNavigat
         }
         nav_view.setNavigationItemSelectedListener(this)
 
+        prefs = Prefs(this)
+        prefs.user?.also { onLogin(it, prefs.loginPassword) }
+
         fragmentStateChanger = FragmentStateChanger(supportFragmentManager, R.id.base_frame)
         backstackDelegate.setStateChanger(this)
 
@@ -70,9 +74,9 @@ class MainActivity : AppCompatActivity(), StateChanger, NavigationView.OnNavigat
 
     private fun navigateTo(destKey: BaseKey) {
         hideKeyboard()
-        backstackDelegate.backstack.goTo(destKey)
         if (!destKey.allowBack)
             backstackDelegate.backstack.setHistory(History.single(destKey), StateChange.REPLACE)
+        backstackDelegate.backstack.goTo(destKey)
     }
 
     fun toggleToolbar(showToolbar: Boolean) {
@@ -136,10 +140,9 @@ class MainActivity : AppCompatActivity(), StateChanger, NavigationView.OnNavigat
     }
 
     fun onLogin(user: User, password: String) {
-        Prefs(this).loginUser = user.username
-        Prefs(this).loginPassword = password
-        Prefs(this).userId = user.uid
-
+        prefs.loginUser = user.username
+        prefs.loginPassword = password
+        prefs.user = user
         nav_view.menu.findItem(R.id.nav_item_propadd).setEnabled(user.isRealtor)
         nav_view.menu.findItem(R.id.nav_item_userlist).setEnabled(user.isAdmin)
 
@@ -148,7 +151,7 @@ class MainActivity : AppCompatActivity(), StateChanger, NavigationView.OnNavigat
     }
 
     private fun logOut() {
-        Prefs(this).userId = ""
+        prefs.user = null
         Rudder.navTo(LoginKey())
     }
 }
