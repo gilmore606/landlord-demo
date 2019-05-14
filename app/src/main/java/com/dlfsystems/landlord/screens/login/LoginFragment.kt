@@ -12,6 +12,7 @@ import kotlinx.android.synthetic.main.fragment_login.*
 
 class LoginFragment : BaseFragment() {
 
+    override val showToolbar = false
     override val layoutResource = R.layout.fragment_login
     override val presenter = LoginPresenter(this)
     override fun defaultState() = LoginState(

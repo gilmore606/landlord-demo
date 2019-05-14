@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.view.MenuItem
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.core.view.GravityCompat
+import androidx.drawerlayout.widget.DrawerLayout
 import com.dlfsystems.landlord.data.model.User
 import com.dlfsystems.landlord.nav.FragmentStateChanger
 import com.dlfsystems.landlord.nav.Rudder
@@ -50,7 +51,6 @@ class MainActivity : AppCompatActivity(), StateChanger, NavigationView.OnNavigat
             setDisplayHomeAsUpEnabled(true)
             setHomeAsUpIndicator(R.drawable.ic_menu)
         }
-        supportActionBar?.hide()
         nav_view.setNavigationItemSelectedListener(this)
 
         fragmentStateChanger = FragmentStateChanger(supportFragmentManager, R.id.base_frame)
@@ -68,12 +68,19 @@ class MainActivity : AppCompatActivity(), StateChanger, NavigationView.OnNavigat
 
     private fun navigateTo(destKey: BaseKey) {
         hideKeyboard()
-        if (destKey is LoginKey) supportActionBar?.hide()
-        else supportActionBar?.show()
-
         backstackDelegate.backstack.goTo(destKey)
         if (!destKey.allowBack)
             backstackDelegate.backstack.setHistory(History.single(destKey), StateChange.REPLACE)
+    }
+
+    fun toggleToolbar(showToolbar: Boolean) {
+        if (showToolbar and !(supportActionBar?.isShowing ?: true)) {
+            supportActionBar?.show()
+            drawer_layout.setDrawerLockMode(DrawerLayout.LOCK_MODE_UNLOCKED)
+        } else if (!showToolbar and (supportActionBar?.isShowing ?: false)) {
+            supportActionBar?.hide()
+            drawer_layout.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED)
+        }
     }
 
     override fun onBackPressed() {
@@ -136,6 +143,7 @@ class MainActivity : AppCompatActivity(), StateChanger, NavigationView.OnNavigat
     }
 
     private fun logOut() {
+        Prefs(this).userId = ""
         Rudder.navTo(LoginKey())
     }
 }

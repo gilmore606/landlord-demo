@@ -9,6 +9,7 @@ import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.lifecycle.SavedStateVMFactory
 import androidx.lifecycle.ViewModelProvider
+import com.dlfsystems.landlord.MainActivity
 import com.dlfsystems.landlord.plusAssign
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
@@ -18,6 +19,7 @@ abstract class BaseFragment : androidx.fragment.app.Fragment() {
 
     abstract val layoutResource: Int
     abstract val presenter: BasePresenter
+    open val showToolbar = true
 
     lateinit var stateHolder: StateHolder
     var previousState: BaseState? = null
@@ -52,7 +54,7 @@ abstract class BaseFragment : androidx.fragment.app.Fragment() {
         disposables += stateHolder.state.observeOn(AndroidSchedulers.mainThread())
             .subscribe {
                 rendering = true
-                render(it)
+                _render(it)
                 rendering = false
                 previousState = it
             }
@@ -72,6 +74,11 @@ abstract class BaseFragment : androidx.fragment.app.Fragment() {
     abstract fun defaultState(): BaseState
 
     open fun onCreateView(view: View) { }
+
+    private fun _render(state: BaseState) {
+        (activity as MainActivity).toggleToolbar(showToolbar)
+        render(state)
+    }
 
     open fun render(state: BaseState) { }
 
