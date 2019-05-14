@@ -5,11 +5,14 @@ import android.os.Bundle
 import android.view.MenuItem
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.core.view.GravityCompat
+import com.dlfsystems.landlord.data.model.User
 import com.dlfsystems.landlord.nav.FragmentStateChanger
 import com.dlfsystems.landlord.nav.Rudder
 import com.dlfsystems.landlord.screens.base.BaseKey
 import com.dlfsystems.landlord.screens.login.LoginKey
+import com.dlfsystems.landlord.screens.propdetail.PropdetailKey
 import com.dlfsystems.landlord.screens.proplist.ProplistKey
+import com.dlfsystems.landlord.screens.propmap.PropmapKey
 import com.dlfsystems.landlord.screens.userlist.UserlistKey
 import com.google.android.material.navigation.NavigationView
 import com.zhuinden.simplestack.BackstackDelegate
@@ -47,6 +50,7 @@ class MainActivity : AppCompatActivity(), StateChanger, NavigationView.OnNavigat
             setDisplayHomeAsUpEnabled(true)
             setHomeAsUpIndicator(R.drawable.ic_menu)
         }
+        supportActionBar?.hide()
         nav_view.setNavigationItemSelectedListener(this)
 
         fragmentStateChanger = FragmentStateChanger(supportFragmentManager, R.id.base_frame)
@@ -63,8 +67,10 @@ class MainActivity : AppCompatActivity(), StateChanger, NavigationView.OnNavigat
     }
 
     private fun navigateTo(destKey: BaseKey) {
-        Timber.d("RUDDER navigateTo " + destKey.toString())
         hideKeyboard()
+        if (destKey is LoginKey) supportActionBar?.hide()
+        else supportActionBar?.show()
+
         backstackDelegate.backstack.goTo(destKey)
         if (!destKey.allowBack)
             backstackDelegate.backstack.setHistory(History.single(destKey), StateChange.REPLACE)
@@ -104,7 +110,10 @@ class MainActivity : AppCompatActivity(), StateChanger, NavigationView.OnNavigat
                 Rudder.navTo(ProplistKey())
             }
             R.id.nav_item_propmap -> {
-
+                Rudder.navTo(PropmapKey())
+            }
+            R.id.nav_item_propadd -> {
+                Rudder.navTo(PropdetailKey(""))
             }
             R.id.nav_item_userlist -> {
                 Rudder.navTo(UserlistKey())
@@ -117,7 +126,16 @@ class MainActivity : AppCompatActivity(), StateChanger, NavigationView.OnNavigat
         return true
     }
 
-    private fun logOut() {
+    fun onLogin(user: User, password: String) {
+        Prefs(this).loginUser = user.username
+        Prefs(this).loginPassword = password
+        Prefs(this).userId = user.uid
 
+        nav_view.menu.findItem(R.id.nav_item_propadd).setEnabled(user.isRealtor)
+        nav_view.menu.findItem(R.id.nav_item_userlist).setEnabled(user.isAdmin)
+    }
+
+    private fun logOut() {
+        Rudder.navTo(LoginKey())
     }
 }

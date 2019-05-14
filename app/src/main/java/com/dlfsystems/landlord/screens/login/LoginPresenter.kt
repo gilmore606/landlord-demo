@@ -1,5 +1,6 @@
 package com.dlfsystems.landlord.screens.login
 
+import com.dlfsystems.landlord.MainActivity
 import com.dlfsystems.landlord.Prefs
 import com.dlfsystems.landlord.data.FirebaseRepository
 import com.dlfsystems.landlord.data.model.User
@@ -65,9 +66,7 @@ class LoginPresenter(fragment: BaseFragment) : BasePresenter(fragment) {
     }
 
     fun onLogin(user: User, password: String) {
-        Prefs(fragment.context!!).loginUser = user.username
-        Prefs(fragment.context!!).loginPassword = password
-        Prefs(fragment.context!!).userId = user.uid
+        (fragment.activity as MainActivity).onLogin(user, password)
         mutate(state().copy(lastError = "", waiting = false))
         Rudder.navTo(UserlistKey())
     }
