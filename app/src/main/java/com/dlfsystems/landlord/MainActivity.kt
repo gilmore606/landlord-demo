@@ -1,10 +1,14 @@
 package com.dlfsystems.landlord
 
+import android.Manifest
+import android.content.pm.PackageManager
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.MenuItem
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatDelegate
+import androidx.core.app.ActivityCompat
+import androidx.core.content.ContextCompat
 import androidx.core.view.GravityCompat
 import androidx.drawerlayout.widget.DrawerLayout
 import com.dlfsystems.landlord.data.model.User
@@ -153,5 +157,23 @@ class MainActivity : AppCompatActivity(), StateChanger, NavigationView.OnNavigat
     private fun logOut() {
         prefs.user = null
         Rudder.navTo(LoginKey())
+    }
+
+    fun checkPermissions(): Boolean {
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
+            return true
+        } else {
+            ActivityCompat.requestPermissions(this, arrayOf(Manifest.permission.ACCESS_FINE_LOCATION), 0)
+            return false
+        }
+    }
+
+    override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
+        if (!grantResults.isEmpty()) {
+            if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+
+            }
+        }
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
     }
 }

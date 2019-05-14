@@ -40,4 +40,8 @@
         <item name="android:textSize">10dp</item>
         <item name="android:textColor">#AAAAAA</item>
     </style>
+    <style name="FieldLabel" parent="Theme.AppCompat.Light">
+        <item name="android:textSize">12dp</item>
+        <item name="android:textColor">#AAAAAA</item>
+    </style>
 </resources>

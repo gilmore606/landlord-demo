@@ -68,6 +68,6 @@ class LoginPresenter(fragment: BaseFragment) : BasePresenter(fragment) {
     fun onLogin(user: User, password: String) {
         (fragment.activity as MainActivity).onLogin(user, password)
         mutate(state().copy(lastError = "", waiting = false))
-        Rudder.navTo(UserlistKey())
+        Rudder.navTo(ProplistKey())
     }
 }
