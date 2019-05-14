@@ -3,6 +3,7 @@ package com.dlfsystems.landlord
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.MenuItem
+import android.widget.TextView
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.core.view.GravityCompat
 import androidx.drawerlayout.widget.DrawerLayout
@@ -140,6 +141,9 @@ class MainActivity : AppCompatActivity(), StateChanger, NavigationView.OnNavigat
 
         nav_view.menu.findItem(R.id.nav_item_propadd).setEnabled(user.isRealtor)
         nav_view.menu.findItem(R.id.nav_item_userlist).setEnabled(user.isAdmin)
+
+        nav_view.getHeaderView(0).findViewById<TextView>(R.id.nav_header_username)
+            .setText(user.username)
     }
 
     private fun logOut() {
