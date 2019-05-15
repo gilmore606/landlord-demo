@@ -12,7 +12,7 @@ class UserlistPresenter(fragment: BaseFragment) : BasePresenter(fragment) {
 
     override fun hearAction(action: Action) {
         when {
-            (action is ViewUserAction) -> {
+            (action is ViewUser) -> {
                 Rudder.navTo(UserdetailKey(action.userid))
             }
             else -> { throw RuntimeException(action.toString()) }

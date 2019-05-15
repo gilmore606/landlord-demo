@@ -12,7 +12,7 @@ data class PropdetailState(
     val sqft: Int = 0,
     val rent: Int = 0,
     val rooms: Int = 0,
-    val addtime: Int = 0,
+    val addtime: Long = 0,
     val available: Boolean = true,
     val realtorId: String = "",
     val address: String = "",

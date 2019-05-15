@@ -18,12 +18,14 @@ class UserlistFragment : BaseFragment() {
 
     fun state() = stateHolder.state.value as UserlistState
 
+    val repo = FirebaseRepository()
+
     lateinit var recyclerAdapter: UserlistRecyclerAdapter
 
     override fun subscribeUI(view: View) {
         userlist_recyclerview.layoutManager = LinearLayoutManager(context)
         val options = FirebaseRecyclerOptions.Builder<User>()
-            .setQuery(FirebaseRepository().getUsers(), User::class.java)
+            .setQuery(repo.getUsers(), User::class.java)
             .setLifecycleOwner(this)
             .build()
         recyclerAdapter = UserlistRecyclerAdapter(options, actions)

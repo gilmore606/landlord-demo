@@ -25,4 +25,9 @@ object Rudder {
         navDestEmitter.onNext(dest)
     }
 
+    fun navBack() {
+        Timber.d("RUDDER navBack")
+        navDestEmitter.onNext(BackKey())
+    }
+
 }

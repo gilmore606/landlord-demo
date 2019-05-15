@@ -16,9 +16,7 @@ class UserlistHolder(val view: View, val user: User? = null) : RecyclerView.View
 
     fun bind(user: User, actions: PublishSubject<Action>) {
         view.setOnClickListener {
-            actions.onNext(
-                ViewUserAction(user.uid)
-            )
+            actions.onNext(ViewUser(user.uid))
         }
         view.userrow_name.text = user.username
         view.userrow_role.text = if (user.isAdmin and user.isRealtor) "Admin / Realtor"

@@ -12,6 +12,7 @@ import androidx.core.content.ContextCompat
 import androidx.core.view.GravityCompat
 import androidx.drawerlayout.widget.DrawerLayout
 import com.dlfsystems.landlord.data.model.User
+import com.dlfsystems.landlord.nav.BackKey
 import com.dlfsystems.landlord.nav.FragmentStateChanger
 import com.dlfsystems.landlord.nav.Rudder
 import com.dlfsystems.landlord.screens.base.BaseKey
@@ -78,9 +79,13 @@ class MainActivity : AppCompatActivity(), StateChanger, NavigationView.OnNavigat
 
     private fun navigateTo(destKey: BaseKey) {
         hideKeyboard()
-        if (!destKey.allowBack)
-            backstackDelegate.backstack.setHistory(History.single(destKey), StateChange.REPLACE)
-        backstackDelegate.backstack.goTo(destKey)
+        if (destKey is BackKey) {
+            backstackDelegate.onBackPressed()
+        } else {
+            if (!destKey.allowBack)
+                backstackDelegate.backstack.setHistory(History.single(destKey), StateChange.REPLACE)
+            backstackDelegate.backstack.goTo(destKey)
+        }
     }
 
     fun toggleToolbar(showToolbar: Boolean) {

@@ -1,5 +1,6 @@
 package com.dlfsystems.landlord.screens.propdetail
 
+import com.dlfsystems.landlord.data.model.Prop
 import com.dlfsystems.landlord.screens.base.Action
 
 
@@ -16,7 +17,10 @@ class LocateAddressFromCoords(
     val y: Double
 ): Action
 
-class ReceiveCoords(
-    val x: Double,
-    val y: Double
+class SelectRealtor(
+    val realtorId: String
+): Action
+
+class SubmitProp(
+    val property: Prop
 ): Action

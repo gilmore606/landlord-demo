@@ -5,6 +5,10 @@ import android.location.Geocoder
 import android.location.Location
 import com.dlfsystems.landlord.MainActivity
 import com.dlfsystems.landlord.data.FirebaseRepository
+import com.dlfsystems.landlord.data.model.Prop
+import com.dlfsystems.landlord.ioThread
+import com.dlfsystems.landlord.nav.BackKey
+import com.dlfsystems.landlord.nav.Rudder
 import com.dlfsystems.landlord.screens.base.Action
 import com.dlfsystems.landlord.screens.base.BaseFragment
 import com.dlfsystems.landlord.screens.base.BasePresenter
@@ -18,6 +22,7 @@ class PropdetailPresenter(fragment: BaseFragment) : BasePresenter(fragment) {
     fun state() = stateHolder.state.value as PropdetailState
 
     val repo = FirebaseRepository()
+    val geocoder: Geocoder by lazy { Geocoder(fragment.activity, Locale.getDefault()) }
 
     override fun hearAction(action: Action) {
         when {
@@ -46,7 +51,19 @@ class PropdetailPresenter(fragment: BaseFragment) : BasePresenter(fragment) {
                 }
             }
             (action is LocateCoordsFromAddress) -> {
-
+                mutate(state().copy(loading = true))
+                requestCoordsFromAddress(state().address + ", " + state().city + ", " + state().state + ", " + state().zip)
+                { coordx, coordy ->
+                    mutate(state().copy(loading = false,
+                                        coordx = coordx,
+                                        coordy = coordy))
+                }
+            }
+            (action is SelectRealtor) -> {
+                mutate(state().copy(realtorId = action.realtorId))
+            }
+            (action is SubmitProp) -> {
+                submitProperty(action.property)
             }
             else -> { throw RuntimeException(action.toString()) }
         }
@@ -77,11 +94,36 @@ class PropdetailPresenter(fragment: BaseFragment) : BasePresenter(fragment) {
     }
 
     private fun requestAddress(x: Double, y: Double, callback: (Address?) -> Unit) {
-        try {
-            val addresses = Geocoder(fragment.activity, Locale.getDefault()).getFromLocation(x, y, 1)
-            if (addresses.size > 0) callback(addresses[0])
-            else callback(null)
-        } catch (e: Exception) { callback(null) }
+        ioThread {
+            try {
+                val addresses = geocoder.getFromLocation(x, y, 1)
+                if (addresses.size > 0) callback(addresses[0])
+                else callback(null)
+            } catch (e: Exception) {
+                callback(null)
+            }
+        }
+    }
+
+    private fun requestCoordsFromAddress(address: String, callback: (Double, Double) -> Unit) {
+        ioThread {
+            try {
+                val addresses = geocoder.getFromLocationName(address, 1)
+                if (addresses.size > 0) {
+                    callback(addresses[0].latitude, addresses[0].longitude)
+                } else {
+                    callback(0.0, 0.0)
+                }
+            } catch (e: Exception) {
+                callback(0.0, 0.0)
+            }
+        }
+    }
+
+    private fun submitProperty(property: Prop) {
+        repo.putProp(property)
+        fragment.makeToast("Property listing saved.")
+        Rudder.navBack()
     }
 
     private fun getAbbrevForState(state: String) =
