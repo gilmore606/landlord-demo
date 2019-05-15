@@ -15,6 +15,7 @@ data class PropdetailState(
     val addtime: Long = 0,
     val available: Boolean = true,
     val realtorId: String = "",
+    val realtorUsername: String = "",
     val address: String = "",
     val city: String = "",
     val state: String = "",

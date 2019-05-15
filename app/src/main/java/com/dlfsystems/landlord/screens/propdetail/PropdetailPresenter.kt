@@ -58,7 +58,8 @@ class PropdetailPresenter(fragment: BaseFragment) : BasePresenter(fragment) {
                 }
             }
             (action is SelectRealtor) -> {
-                mutate(state().copy(realtorId = action.realtorId))
+                mutate(state().copy(realtorId = action.realtorId,
+                                    realtorUsername = action.realtorUsername))
             }
             (action is SubmitProperty) -> {
                 submitProperty(action.property)

@@ -6,6 +6,7 @@ import com.dlfsystems.landlord.R
 import com.dlfsystems.landlord.afterTextChanged
 import com.dlfsystems.landlord.screens.base.BaseFragment
 import com.dlfsystems.landlord.screens.base.BaseState
+import com.dlfsystems.landlord.setIfChanged
 import kotlinx.android.synthetic.main.fragment_login.*
 
 class LoginFragment : BaseFragment() {
@@ -22,12 +23,10 @@ class LoginFragment : BaseFragment() {
 
     override fun subscribeUI(view: View) {
         login_username.afterTextChanged {
-            if (!rendering)
-                stateHolder.mutate(state().copy(username = it))
+            if (!rendering) stateHolder.mutate(state().copy(username = it))
         }
         login_password.afterTextChanged {
-            if (!rendering) stateHolder.mutate(state().copy(password = it)
-            )
+            if (!rendering) stateHolder.mutate(state().copy(password = it))
         }
         login_button_login.setOnClickListener {
             actions.onNext(LoginAction(
@@ -48,8 +47,8 @@ class LoginFragment : BaseFragment() {
 
         val canSubmit = !state.waiting and (state.username != "") and (state.password != "")
 
-        if (state.username != login_username.text.toString()) login_username.setText(state.username)
-        if (state.password != login_password.text.toString()) login_password.setText(state.password)
+        login_username.setIfChanged(state.username)
+        login_password.setIfChanged(state.password)
 
         login_button_login.visibility =
             if (canSubmit) View.VISIBLE else View.GONE

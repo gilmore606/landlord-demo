@@ -18,7 +18,8 @@ class LocateAddressFromCoords(
 ): Action
 
 class SelectRealtor(
-    val realtorId: String
+    val realtorId: String,
+    val realtorUsername: String
 ): Action
 
 class SubmitProperty(
