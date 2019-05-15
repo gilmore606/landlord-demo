@@ -11,5 +11,7 @@ interface Repository {
     fun deleteUser(userid: String)
     fun getUsers(): Query
     fun getRealtors(callback: (List<User>) -> Unit)
+    fun getProp(propId: String, callback: (Prop) -> Unit)
     fun putProp(prop: Prop)
+    fun deleteProp(propId: String)
 }

@@ -54,7 +54,7 @@ class UserdetailPresenter(fragment: BaseFragment) : BasePresenter(fragment) {
             //Rudder.auth.deleteUser(user.uid)
             repo.deleteUser(user.uid)
             fragment.makeToast(user.username + " deleted.")
-            Rudder.navTo(UserlistKey())
+            Rudder.navBack()
         }
     }
 }

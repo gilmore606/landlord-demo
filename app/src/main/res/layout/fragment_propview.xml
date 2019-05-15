@@ -1,7 +1,26 @@
 <?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+             android:layout_width="match_parent" android:layout_height="match_parent"
+             xmlns:app="http://schemas.android.com/apk/res-auto">
+
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
               android:orientation="vertical"
+              android:id="@+id/propview_content"
               android:layout_width="match_parent"
               android:layout_height="match_parent">
 
+
+    <Button android:layout_width="wrap_content" android:layout_height="wrap_content"
+            android:id="@+id/propview_edit_button"
+            android:text="EDIT" />
+    <Button android:layout_width="wrap_content" android:layout_height="wrap_content"
+            android:id="@+id/propview_delete_button"
+            android:text="DELETE" />
+    <Button android:layout_width="wrap_content" android:layout_height="wrap_content"
+            android:id="@+id/propview_available_button"
+            android:text="SET UNAVAILABLE" />
 </LinearLayout>
+    <com.airbnb.lottie.LottieAnimationView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                                           android:id="@+id/propview_loader" app:lottie_rawRes="@raw/loader_anim" android:layout_gravity="center_horizontal"
+                                           app:lottie_loop="true" app:lottie_autoPlay="true" android:visibility="gone" />
+</FrameLayout>

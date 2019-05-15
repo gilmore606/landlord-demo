@@ -7,7 +7,6 @@ import android.widget.ArrayAdapter
 import com.dlfsystems.landlord.R
 import com.dlfsystems.landlord.data.FirebaseRepository
 import com.dlfsystems.landlord.data.model.Prop
-import com.dlfsystems.landlord.data.model.User
 import com.dlfsystems.landlord.screens.base.BaseFragment
 import com.dlfsystems.landlord.screens.base.BaseState
 import com.dlfsystems.landlord.validate
@@ -24,10 +23,11 @@ class PropdetailFragment : BaseFragment() {
 
     val repo = FirebaseRepository()
 
-    override fun makeStateFromArguments(arguments: Bundle): BaseState =
-            PropdetailState(
-                propId = arguments.getSerializable("propId") as String
-            )
+    override fun makeStateFromArguments(arguments: Bundle): BaseState {
+        val propId = arguments.getSerializable("propId") as String
+        val loading = (propId != "")
+        return PropdetailState(propId = propId, loading = loading)
+    }
 
     override fun subscribeUI(view: View) {
 

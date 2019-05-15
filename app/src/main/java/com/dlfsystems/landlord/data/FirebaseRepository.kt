@@ -52,11 +52,26 @@ class FirebaseRepository : Repository {
         return repo.child("").child("props")
     }
 
+    override fun getProp(propId: String, callback: (Prop) -> Unit) {
+        repo.child("props").child(propId).addListenerForSingleValueEvent(object: ValueEventListener {
+            override fun onCancelled(e: DatabaseError) {
+
+            }
+            override fun onDataChange(snapshot: DataSnapshot) {
+                callback(snapshot.getValue<Prop>(Prop::class.java)!!)
+            }
+        })
+    }
+
     override fun putProp(prop: Prop) {
         var propToPut = prop
         if (prop.id == "") {
             propToPut = prop.copy(id = repo.child("props").push().key ?: "")
         }
         repo.child("props").child(propToPut.id).setValue(propToPut)
+    }
+
+    override fun deleteProp(propId: String) {
+        repo.child("props").child(propId).setValue(null)
     }
 }
