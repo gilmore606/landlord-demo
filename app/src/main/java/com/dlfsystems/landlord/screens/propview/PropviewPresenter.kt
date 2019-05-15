@@ -18,7 +18,7 @@ class PropviewPresenter(fragment: BaseFragment) : BasePresenter(fragment) {
     override fun hearAction(action: Action) {
         when {
             (action is LoadProperty) -> {
-                loadProperty(action.prop)
+                loadProperty(action.property)
             }
             (action is EditProperty) -> {
                 Rudder.navTo(PropdetailKey(action.propId))

@@ -4,7 +4,7 @@ import com.dlfsystems.landlord.data.model.Prop
 import com.dlfsystems.landlord.screens.base.Action
 
 class LoadProperty(
-    val prop: Prop
+    val property: Prop
 ) : Action
 
 class EditProperty(

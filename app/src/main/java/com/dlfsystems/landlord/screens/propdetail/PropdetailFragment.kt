@@ -7,10 +7,13 @@ import android.widget.ArrayAdapter
 import com.dlfsystems.landlord.R
 import com.dlfsystems.landlord.data.FirebaseRepository
 import com.dlfsystems.landlord.data.model.Prop
+import com.dlfsystems.landlord.isValidCoord
 import com.dlfsystems.landlord.screens.base.BaseFragment
 import com.dlfsystems.landlord.screens.base.BaseState
+import com.dlfsystems.landlord.setIfChanged
 import com.dlfsystems.landlord.validate
 import kotlinx.android.synthetic.main.fragment_propdetail.*
+import kotlinx.android.synthetic.main.fragment_propdetail.view.*
 import timber.log.Timber
 
 class PropdetailFragment : BaseFragment() {
@@ -30,6 +33,12 @@ class PropdetailFragment : BaseFragment() {
     }
 
     override fun subscribeUI(view: View) {
+        if (state().loading) {
+            repo.getProp(state().propId) {
+                actions.onNext(LoadProperty(it))
+            }
+            propdetail_submit_button.text = "UPDATE LISTING"
+        }
 
         var realtorList = listOf<String>()
         var realtorIds = listOf<String>()
@@ -51,7 +60,39 @@ class PropdetailFragment : BaseFragment() {
             }
         }
 
-        propdetail_rooms.validate({ it.toIntOrNull() ?: 0 > 0 }, "Number of rooms")
+        propdetail_name.validate({ it.length > 0 }, "Title of listing", {
+            stateHolder.mutate(state().copy(name = it))
+        })
+        propdetail_desc.validate({ it.length > 0 }, "Description", {
+            stateHolder.mutate(state().copy(desc = it))
+        })
+        propdetail_coordx.validate({ it.isValidCoord() }, "Latitude", {
+            stateHolder.mutate(state().copy(coordx = it.toDouble()))
+        })
+        propdetail_coordy.validate({ it.isValidCoord() }, "Longitude", {
+            stateHolder.mutate(state().copy(coordy = it.toDouble()))
+        })
+        propdetail_rooms.validate({ it.toIntOrNull() ?: 0 > 0 }, "Number of rooms", {
+            stateHolder.mutate(state().copy(rooms = it.toInt()))
+        })
+        propdetail_sqft.validate({ it.toIntOrNull() ?: 0 > 0}, "Floor space", {
+            stateHolder.mutate(state().copy(sqft = it.toInt()))
+        })
+        propdetail_rent.validate({ it.toIntOrNull() ?: 0 > 0}, "Monthly rent", {
+            stateHolder.mutate(state().copy(rent = it.toInt()))
+        })
+        propdetail_address.validate({ it.length > 0 }, "Address", {
+            stateHolder.mutate(state().copy(address = it))
+        })
+        propdetail_city.validate({ it.length > 0 }, "City", {
+            stateHolder.mutate(state().copy(city = it))
+        })
+        propdetail_state.validate({ it.length == 2 }, "State code", {
+            stateHolder.mutate(state().copy(state = it))
+        })
+        propdetail_zip.validate({ (it.length == 5) and (it.toIntOrNull() ?: 0 > 0) }, "5-digit ZIP code", {
+            stateHolder.mutate(state().copy(zip = it))
+        })
 
         propdetail_address_gps_button.setOnClickListener {
             actions.onNext(LocateAddress())
@@ -67,7 +108,8 @@ class PropdetailFragment : BaseFragment() {
             actions.onNext(LocateCoordsFromAddress(propdetail_address.text.toString()))
         }
         propdetail_submit_button.setOnClickListener {
-            actions.onNext(SubmitProp(propFromState()))
+            if (isSubmittable())
+                actions.onNext(SubmitProperty(propFromState()))
         }
     }
 
@@ -78,12 +120,19 @@ class PropdetailFragment : BaseFragment() {
             propdetail_loader.visibility = View.GONE
             propdetail_content.visibility = View.VISIBLE
 
-            propdetail_coordx.setText(state.coordx.toString())
-            propdetail_coordy.setText(state.coordy.toString())
-            propdetail_address.setText(state.address)
-            propdetail_city.setText(state.city)
-            propdetail_state.setText(state.state)
-            propdetail_zip.setText(state.zip)
+            propdetail_coordx.setIfChanged(state.coordx.toString())
+            propdetail_coordy.setIfChanged(state.coordy.toString())
+            propdetail_name.setIfChanged(state.name)
+            propdetail_desc.setIfChanged(state.desc)
+            propdetail_sqft.setIfChanged(state.sqft.toString())
+            propdetail_rent.setIfChanged(state.rent.toString())
+            propdetail_rooms.setIfChanged(state.rooms.toString())
+            propdetail_address.setIfChanged(state.address)
+            propdetail_city.setIfChanged(state.city)
+            propdetail_state.setIfChanged(state.state)
+            propdetail_zip.setIfChanged(state.zip)
+
+            propdetail_submit_button.isEnabled = isSubmittable()
         } else {
             propdetail_loader.visibility = View.VISIBLE
             propdetail_content.visibility = View.GONE
@@ -109,5 +158,14 @@ class PropdetailFragment : BaseFragment() {
             zip = propdetail_zip.text.toString()
         )
         return prop
+    }
+
+    private fun isSubmittable(): Boolean {
+        return ((propdetail_coordx.error == null) and (propdetail_coordy.error == null) and
+                (propdetail_name.error == null) and (propdetail_desc.error == null) and
+                (propdetail_sqft.error == null) and (propdetail_rent.error == null) and
+                (propdetail_rooms.error == null) and (propdetail_address.error == null) and
+                (propdetail_city.error == null) and (propdetail_state.error == null) and
+                (propdetail_zip.error == null))
     }
 }

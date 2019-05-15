@@ -4,6 +4,7 @@ import android.app.Activity
 import android.content.Context
 import android.content.SharedPreferences
 import android.preference.PreferenceManager
+import android.service.autofill.Validators.and
 import android.text.Editable
 import android.text.TextWatcher
 import android.view.View
@@ -53,9 +54,25 @@ fun EditText.afterTextChanged(afterTextChanged: (String) -> Unit) {
     })
 }
 
-fun EditText.validate(validator: (String) -> Boolean, message: String) {
+fun EditText.validate(validator: (String) -> Boolean, message: String, saver: ((String) -> Unit)? = null) {
     this.afterTextChanged {
-        this.error = if (validator(it)) null else message
+        if (!validator(it)) this.error = message
+        else {
+            this.error = null
+            if (saver != null) saver(it)
+        }
     }
     this.error = if (validator(this.text.toString())) null else message
+}
+
+fun String.isValidCoord(): Boolean {
+    if (length < 1) return false
+    if (toDouble() == 0.0) return false
+    if (indexOf('.') < 0) return false
+    return true
+}
+
+fun EditText.setIfChanged(newText: String) {
+    if ((text.toString() != newText) and (text.toString() != (newText + " ")))
+        setText(newText)
 }

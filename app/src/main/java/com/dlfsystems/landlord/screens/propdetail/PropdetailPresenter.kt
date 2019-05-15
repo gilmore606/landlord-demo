@@ -7,13 +7,11 @@ import com.dlfsystems.landlord.MainActivity
 import com.dlfsystems.landlord.data.FirebaseRepository
 import com.dlfsystems.landlord.data.model.Prop
 import com.dlfsystems.landlord.ioThread
-import com.dlfsystems.landlord.nav.BackKey
 import com.dlfsystems.landlord.nav.Rudder
 import com.dlfsystems.landlord.screens.base.Action
 import com.dlfsystems.landlord.screens.base.BaseFragment
 import com.dlfsystems.landlord.screens.base.BasePresenter
 import com.google.android.gms.location.LocationServices
-import timber.log.Timber
 import java.lang.RuntimeException
 import java.util.*
 
@@ -62,8 +60,11 @@ class PropdetailPresenter(fragment: BaseFragment) : BasePresenter(fragment) {
             (action is SelectRealtor) -> {
                 mutate(state().copy(realtorId = action.realtorId))
             }
-            (action is SubmitProp) -> {
+            (action is SubmitProperty) -> {
                 submitProperty(action.property)
+            }
+            (action is LoadProperty) -> {
+                loadProperty(action.property)
             }
             else -> { throw RuntimeException(action.toString()) }
         }
@@ -124,6 +125,26 @@ class PropdetailPresenter(fragment: BaseFragment) : BasePresenter(fragment) {
         repo.putProp(property)
         fragment.makeToast("Property listing saved.")
         Rudder.navBack()
+    }
+
+    private fun loadProperty(prop: Prop) {
+        mutate(state().copy(
+            loading = false,
+            coordx = prop.coordx,
+            coordy = prop.coordy,
+            name = prop.name,
+            desc = prop.desc,
+            sqft = prop.sqft,
+            rent = prop.rent,
+            rooms = prop.rooms,
+            addtime = prop.addtime,
+            available = prop.available,
+            realtorId = prop.realtorId,
+            address = prop.address,
+            city = prop.city,
+            state = prop.state,
+            zip = prop.zip
+        ))
     }
 
     private fun getAbbrevForState(state: String) =

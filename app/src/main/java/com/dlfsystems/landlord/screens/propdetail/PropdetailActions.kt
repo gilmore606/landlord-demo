@@ -21,6 +21,10 @@ class SelectRealtor(
     val realtorId: String
 ): Action
 
-class SubmitProp(
+class SubmitProperty(
+    val property: Prop
+): Action
+
+class LoadProperty(
     val property: Prop
 ): Action
