@@ -33,7 +33,7 @@ class FirebaseRepository : Repository {
     }
 
     override fun getRealtors(callback: (List<User>) -> Unit) {
-        repo.child("users").orderByChild("isRealtor").equalTo(true)
+        repo.child("users").orderByChild("realtor").equalTo(true)
             .addListenerForSingleValueEvent(object: ValueEventListener {
                 override fun onDataChange(dataSnapshot: DataSnapshot) {
                     callback(
