@@ -11,7 +11,12 @@ class LocateCoordsFromAddress(
     val address: String
 ): Action
 
+class LocateAddressFromCoords(
+    val x: Double,
+    val y: Double
+): Action
+
 class ReceiveCoords(
-    val x: Long,
-    val y: Long
+    val x: Double,
+    val y: Double
 ): Action

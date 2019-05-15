@@ -24,6 +24,10 @@ class PropdetailFragment : BaseFragment() {
         propdetail_address_gps_button.setOnClickListener {
             actions.onNext(LocateAddress())
         }
+        propdetail_address_coords_button.setOnClickListener {
+            actions.onNext(LocateAddressFromCoords(propdetail_coordx.text.toString().toDouble(),
+                propdetail_coordy.text.toString().toDouble()))
+        }
         propdetail_coords_gps_button.setOnClickListener {
             actions.onNext(LocateCoords())
         }
@@ -38,6 +42,7 @@ class PropdetailFragment : BaseFragment() {
         if (!state.loading) {
             propdetail_coordx.setText(state.coordx.toString())
             propdetail_coordy.setText(state.coordy.toString())
+            propdetail_address.setText(state.address)
         }
     }
 }
