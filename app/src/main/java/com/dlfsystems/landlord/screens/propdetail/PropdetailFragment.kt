@@ -43,6 +43,9 @@ class PropdetailFragment : BaseFragment() {
             propdetail_coordx.setText(state.coordx.toString())
             propdetail_coordy.setText(state.coordy.toString())
             propdetail_address.setText(state.address)
+            propdetail_city.setText(state.city)
+            propdetail_state.setText(state.state)
+            propdetail_zip.setText(state.zip)
         }
     }
 }

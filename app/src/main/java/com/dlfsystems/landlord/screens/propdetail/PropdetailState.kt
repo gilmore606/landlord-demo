@@ -7,5 +7,17 @@ data class PropdetailState(
     val loading: Boolean = false,
     val coordx: Double = 0.0,
     val coordy: Double = 0.0,
-    val address: String = ""
+    val name: String = "",
+    val desc: String = "",
+    val sqft: Int = 0,
+    val rent: Int = 0,
+    val rooms: Int = 0,
+    val addtime: Int = 0,
+    val available: Boolean = true,
+    val realtorId: String = "",
+    val address: String = "",
+    val city: String = "",
+    val state: String = "",
+    val zip: String = ""
+
 ) : BaseState()

@@ -1,27 +1,52 @@
 <?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent" android:layout_height="match_parent">
 <GridLayout xmlns:android="http://schemas.android.com/apk/res/android"
               android:columnCount="2" android:layout_margin="12dp"
               android:layout_width="match_parent"
               android:layout_height="match_parent">
 
     <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
-              style="@style/FieldLabel" android:layout_margin="8dp" android:gravity="right"
-              android:layout_gravity="top"
+              style="@style/FieldLabel" android:layout_margin="4dp" android:gravity="right"
+              android:layout_gravity="top|end"
               android:text="title" />
-    <EditText android:layout_width="0dp" android:layout_height="wrap_content" android:layout_margin="8dp"
-              android:layout_gravity="fill_horizontal" android:background="@drawable/bg_field"
+    <EditText android:layout_width="0dp" android:layout_height="wrap_content" android:layout_margin="4dp"
+              android:layout_gravity="fill_horizontal" android:background="@drawable/bg_field" style="@style/Input"
               android:id="@+id/propdetail_name" />
 
     <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
-              style="@style/FieldLabel" android:layout_margin="8dp" android:gravity="right"
-              android:layout_gravity="top"
+              style="@style/FieldLabel" android:layout_margin="4dp" android:gravity="right"
+              android:layout_gravity="top|end"
               android:text="address" />
+    <EditText android:layout_width="0dp" android:layout_height="wrap_content" android:layout_margin="4dp"
+              android:layout_gravity="fill_horizontal" android:background="@drawable/bg_field" style="@style/Input"
+              android:id="@+id/propdetail_address" />
+
+    <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+              style="@style/FieldLabel" android:layout_margin="4dp" android:gravity="right"
+              android:layout_gravity="top|end"
+              android:text="city + state" />
+    <LinearLayout android:layout_width="wrap_content" android:layout_height="wrap_content"
+                  android:orientation="horizontal">
+        <EditText android:layout_width="150dp" android:layout_height="wrap_content" android:layout_margin="4dp"
+                  android:background="@drawable/bg_field" style="@style/Input"
+                  android:id="@+id/propdetail_city" />
+        <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                  android:text="," />
+        <EditText android:layout_width="70dp" android:layout_height="wrap_content" android:layout_margin="4dp"
+                  android:background="@drawable/bg_field" style="@style/Input"
+                  android:id="@+id/propdetail_state" />
+    </LinearLayout>
+
+    <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+              style="@style/FieldLabel" android:layout_margin="4dp" android:gravity="right"
+              android:layout_gravity="top|end"
+              android:text="zipcode" />
     <LinearLayout android:layout_width="0dp" android:layout_height="wrap_content"
                   android:layout_gravity="fill_horizontal"
                   android:orientation="vertical" >
-        <EditText android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_margin="8dp"
-                  android:layout_gravity="fill_horizontal" android:background="@drawable/bg_field"
-                  android:id="@+id/propdetail_address" />
+        <EditText android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_margin="4dp"
+                  android:background="@drawable/bg_field" style="@style/Input"
+                  android:id="@+id/propdetail_zip" />
         <LinearLayout android:layout_width="wrap_content" android:layout_height="wrap_content"
                       android:orientation="horizontal" >
             <Button android:layout_width="wrap_content" android:layout_height="wrap_content"
@@ -32,23 +57,23 @@
     </LinearLayout>
 
     <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
-              style="@style/FieldLabel" android:layout_margin="8dp" android:gravity="right"
-              android:layout_gravity="top"
+              style="@style/FieldLabel" android:layout_margin="4dp" android:gravity="right"
+              android:layout_gravity="top|end"
               android:text="coords" />
     <LinearLayout android:layout_width="0dp" android:layout_height="wrap_content"
                   android:layout_gravity="fill_horizontal" android:orientation="vertical" >
         <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content"
                       android:orientation="horizontal" >
             <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
-                      style="@style/FieldLabel"
+                      style="@style/FieldLabel" android:layout_gravity="top"
                       android:text="lat" />
-            <EditText android:layout_width="90dp" android:layout_height="wrap_content" android:layout_margin="8dp"
-                      android:id="@+id/propdetail_coordx" android:background="@drawable/bg_field" />
+            <EditText android:layout_width="90dp" android:layout_height="wrap_content" android:layout_margin="4dp" android:lines="1"
+                      android:id="@+id/propdetail_coordx" android:background="@drawable/bg_field"  style="@style/Input" />
             <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
-                      style="@style/FieldLabel"
+                      style="@style/FieldLabel" android:layout_gravity="top"
                       android:text="long" />
-            <EditText android:layout_width="90dp" android:layout_height="wrap_content" android:layout_margin="8dp"
-                      android:id="@+id/propdetail_coordy" android:background="@drawable/bg_field" />
+            <EditText android:layout_width="90dp" android:layout_height="wrap_content" android:layout_margin="4dp" android:lines="1"
+                      android:id="@+id/propdetail_coordy" android:background="@drawable/bg_field" style="@style/Input" />
         </LinearLayout>
         <LinearLayout android:layout_width="wrap_content" android:layout_height="wrap_content"
                       android:orientation="horizontal" >
@@ -60,13 +85,31 @@
     </LinearLayout>
 
     <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
-              style="@style/FieldLabel" android:layout_margin="8dp" android:gravity="right"
-              android:layout_gravity="top"
+              style="@style/FieldLabel" android:layout_margin="4dp" android:gravity="right"
+              android:layout_gravity="top|end"
               android:text="description" />
-    <EditText android:layout_width="0dp" android:layout_height="wrap_content" android:layout_margin="8dp"
+    <EditText android:layout_width="0dp" android:layout_height="wrap_content" android:layout_margin="4dp"
               android:layout_gravity="fill_horizontal"
-              android:minLines="2" android:background="@drawable/bg_field"
+              android:minLines="2" android:background="@drawable/bg_field" style="@style/Input"
               android:id="@+id/propdetail_desc" />
 
+    <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+              style="@style/FieldLabel" android:layout_margin="4dp" android:gravity="right"
+              android:layout_gravity="top|end"
+              android:text="size" />
+    <LinearLayout android:layout_width="wrap_content" android:layout_height="wrap_content"
+                  android:orientation="horizontal">
+        <EditText android:layout_width="100dp" android:layout_height="wrap_content" android:layout_margin="4dp"
+                  android:background="@drawable/bg_field" style="@style/Input"
+                  android:id="@+id/propdetail_sqft" />
+        <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" style="@style/FieldLabel"
+                  android:text="sq ft   " />
+        <EditText android:layout_width="70dp" android:layout_height="wrap_content" android:layout_margin="4dp"
+                  android:background="@drawable/bg_field" style="@style/Input"
+                  android:id="@+id/propdetail_rooms" />
+        <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" style="@style/FieldLabel"
+                  android:text="rooms" />
+    </LinearLayout>
 
 </GridLayout>
+</ScrollView>

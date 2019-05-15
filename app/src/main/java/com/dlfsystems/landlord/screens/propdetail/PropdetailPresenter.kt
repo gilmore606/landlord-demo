@@ -1,11 +1,8 @@
 package com.dlfsystems.landlord.screens.propdetail
 
-import android.Manifest
-import android.content.pm.PackageManager
 import android.location.Address
 import android.location.Geocoder
 import android.location.Location
-import androidx.core.content.ContextCompat
 import com.dlfsystems.landlord.MainActivity
 import com.dlfsystems.landlord.data.FirebaseRepository
 import com.dlfsystems.landlord.screens.base.Action
@@ -25,7 +22,14 @@ class PropdetailPresenter(fragment: BaseFragment) : BasePresenter(fragment) {
     override fun hearAction(action: Action) {
         when {
             (action is LocateAddress) -> {
-
+                mutate(state().copy(loading = true))
+                requestCoordsHere {
+                    mutate(state().copy(coordx = it.latitude,
+                                        coordy = it.longitude))
+                    requestAddress(it.latitude, it.longitude) {
+                        updateAddress(it)
+                    }
+                }
             }
             (action is LocateCoords) -> {
                 mutate(state().copy(loading = true))
@@ -38,15 +42,28 @@ class PropdetailPresenter(fragment: BaseFragment) : BasePresenter(fragment) {
             (action is LocateAddressFromCoords) -> {
                 mutate(state().copy(loading = true))
                 requestAddress(state().coordx, state().coordy) {
-                    mutate(state().copy(loading = false,
-                                        address = if (it == null) state().address
-                                                  else it.getAddressLine(0)))
+                    updateAddress(it)
                 }
             }
             (action is LocateCoordsFromAddress) -> {
 
             }
             else -> { throw RuntimeException(action.toString()) }
+        }
+    }
+
+    private fun updateAddress(it: Address?) {
+        if (it == null) {
+            mutate(state().copy(loading = false, address = state().address))
+        } else {
+            var address = it.getAddressLine(0)
+            if (address.contains(',')) address = address.slice(0..(address.indexOf(',')-1))
+            mutate(state().copy(loading = false,
+                address = address,
+                city = it.getLocality(),
+                state = getAbbrevForState(it.getAdminArea()),
+                zip = it.getPostalCode()
+            ))
         }
     }
 
@@ -66,4 +83,60 @@ class PropdetailPresenter(fragment: BaseFragment) : BasePresenter(fragment) {
             else callback(null)
         } catch (e: Exception) { callback(null) }
     }
+
+    private fun getAbbrevForState(state: String) =
+            when (state) {
+                "Alabama" -> "AL"
+                "Alaska" -> "AK"
+                "Arizona" -> "AZ"
+                "Arkansas" -> "AR"
+                "California" -> "CA"
+                "Colorado" -> "CO"
+                "Connecticut" -> "CT"
+                "Delaware" -> "DE"
+                "District of Columbia" -> "DC"
+                "Florida" -> "FL"
+                "Georgia" -> "GA"
+                "Hawaii" -> "HI"
+                "Idaho" -> "ID"
+                "Illinois" -> "IL"
+                "Indiana" -> "IN"
+                "Iowa" -> "IA"
+                "Kansas" -> "KS"
+                "Kentucky" -> "KY"
+                "Louisiana" -> "LA"
+                "Maine" -> "ME"
+                "Maryland" -> "MD"
+                "Massachusetts" -> "MA"
+                "Michigan" -> "MI"
+                "Minnesota" -> "MN"
+                "Mississippi" -> "MS"
+                "Missouri" -> "MO"
+                "Montana" -> "MT"
+                "Nebraska" -> "NE"
+                "Nevada" -> "NV"
+                "New Hampshire" -> "NH"
+                "New Jersey" -> "NJ"
+                "New Mexico" -> "NM"
+                "New York" -> "NY"
+                "North Carolina" -> "NC"
+                "North Dakota" -> "ND"
+                "Ohio" -> "OH"
+                "Oklahoma" -> "OK"
+                "Oregon" -> "OR"
+                "Pennsylvania" -> "PA"
+                "Rhode Island" -> "RI"
+                "South Carolina" -> "SC"
+                "South Dakota" -> "SD"
+                "Tennessee" -> "TN"
+                "Texas" -> "TX"
+                "Utah" -> "UT"
+                "Vermont" -> "VT"
+                "Virginia" -> "VA"
+                "Washington" -> "WA"
+                "West Virginia" -> "WV"
+                "Wisconsin" -> "WI"
+                "Wyoming" -> "WY"
+                else -> state
+            }
 }
