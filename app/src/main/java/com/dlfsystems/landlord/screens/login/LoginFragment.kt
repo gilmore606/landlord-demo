@@ -3,11 +3,9 @@ package com.dlfsystems.landlord.screens.login
 import android.view.View
 import com.dlfsystems.landlord.Prefs
 import com.dlfsystems.landlord.R
-import com.dlfsystems.landlord.plusAssign
+import com.dlfsystems.landlord.afterTextChanged
 import com.dlfsystems.landlord.screens.base.BaseFragment
 import com.dlfsystems.landlord.screens.base.BaseState
-import com.jakewharton.rxbinding3.view.clicks
-import com.jakewharton.rxbinding3.widget.textChanges
 import kotlinx.android.synthetic.main.fragment_login.*
 
 class LoginFragment : BaseFragment() {
@@ -23,35 +21,26 @@ class LoginFragment : BaseFragment() {
     fun state() = stateHolder.state.value as LoginState
 
     override fun subscribeUI(view: View) {
-        disposables += login_username.textChanges().subscribe {
-                if (!rendering) stateHolder.mutate(
-                    state().copy(
-                        username = it.toString()
-                    )
-                )
-            }
-
-        disposables += login_password.textChanges().subscribe {
-                if (!rendering) stateHolder.mutate(
-                    state().copy(
-                        password = it.toString()
-                    )
-                )
-            }
-
-        disposables += login_button_login.clicks().subscribe {
-                actions.onNext(LoginAction(
-                    state().username,
-                    state().password
-                ))
-            }
-
-        disposables += login_button_register.clicks().subscribe {
-                actions.onNext(RegisterAction(
-                    state().username,
-                    state().password
-                ))
-            }
+        login_username.afterTextChanged {
+            if (!rendering)
+                stateHolder.mutate(state().copy(username = it))
+        }
+        login_password.afterTextChanged {
+            if (!rendering) stateHolder.mutate(state().copy(password = it)
+            )
+        }
+        login_button_login.setOnClickListener {
+            actions.onNext(LoginAction(
+                state().username,
+                state().password
+            ))
+        }
+        login_button_register.setOnClickListener {
+            actions.onNext(RegisterAction(
+                state().username,
+                state().password
+            ))
+        }
     }
 
     override fun render(state: BaseState) {
