@@ -1,6 +1,7 @@
 package com.dlfsystems.landlord.screens.propmap
 
 import android.os.Bundle
+import android.service.autofill.Validators.and
 import android.service.autofill.Validators.or
 import android.view.View
 import com.dlfsystems.landlord.Prefs
@@ -18,6 +19,7 @@ import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MarkerOptions
 import kotlinx.android.synthetic.main.fragment_propmap.*
+import java.lang.RuntimeException
 
 class PropmapFragment : BaseFragment() {
 
@@ -36,8 +38,11 @@ class PropmapFragment : BaseFragment() {
     override fun subscribeUI(view: View) {
         propmap_mapview.getMapAsync {
             map = it
-            populateMarkers()
+            actions.onNext(LoadProperties())
             moveCamera(state().coordx, state().coordy, state().zoom)
+            map?.setOnInfoWindowClickListener {
+                actions.onNext(ViewProperty(propIdForMarkerId(it.id)))
+            }
         }
 
         propmap_filterbutton.setOnClickListener {
@@ -52,11 +57,11 @@ class PropmapFragment : BaseFragment() {
     override fun render(state: BaseState) {
         state as PropmapState
 
-        previousState?.also {
-            if (state.filter != (it as PropmapState).filter) populateMarkers()
-        }
-
         propmap_filtertext?.text = state.filter.description()
+
+        if ((state.markerIds == null) and (state.props?.size ?: 0 > 0) and !state.loading) {
+            stateHolder.mutate(state().copy(markerIds = placeMarkers(state.props!!)))
+        }
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -73,7 +78,8 @@ class PropmapFragment : BaseFragment() {
     }
     override fun onPause() {
         map?.let { stateHolder.mutate(state().copy(coordx = it.cameraPosition.target.latitude,
-                                                    coordy = it.cameraPosition.target.longitude)) }
+                                                    coordy = it.cameraPosition.target.longitude,
+                                                    zoom = it.cameraPosition.zoom)) }
         propmap_mapview.onPause()
         super.onPause()
     }
@@ -94,15 +100,36 @@ class PropmapFragment : BaseFragment() {
         map?.let { it.moveCamera(CameraUpdateFactory.newLatLngZoom(LatLng(coordx, coordy), zoom))}
     }
 
-    private fun populateMarkers() {
-        repo.getFilteredProps(state().filter) { props ->
-            map?.clear()
-            props.forEach {
-                val marker = MarkerOptions().position(LatLng(it.coordx, it.coordy))
-                    .title(it.name)
-                    .snippet(it.getSnippet())
-                map?.addMarker(marker)
+    fun clearMarkers() { map?.clear() }
+
+    fun addMarker(markerOptions: MarkerOptions): String? {
+        map?.also {
+            val marker = it.addMarker(markerOptions)
+            return marker.id
+        }
+        return null
+    }
+
+    private fun placeMarkers(props: List<Prop>): List<String> {
+        var markerIds = ArrayList<String>(0)
+        props.forEach {
+            val markerOptions = MarkerOptions().position(LatLng(it.coordx, it.coordy))
+                .title(it.name)
+                .snippet(it.getSnippet())
+            map?.also {
+                val marker = it.addMarker(markerOptions)
+                markerIds.add(marker.id)
             }
         }
+        return markerIds
+    }
+
+    private fun propIdForMarkerId(markerId: String): String {
+        if (state().markerIds == null) throw RuntimeException("markerIds was null when queried!")
+        val i = state().markerIds?.indexOf(markerId) ?: -1
+        if (i > 0) {
+            return state().props!![i].id
+        }
+        throw RuntimeException("markerId not found on query!")
     }
 }
