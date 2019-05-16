@@ -1,6 +1,7 @@
 package com.dlfsystems.landlord.data
 
 import com.dlfsystems.landlord.data.model.Prop
+import com.dlfsystems.landlord.data.model.PropFilter
 import com.dlfsystems.landlord.data.model.User
 import com.google.firebase.database.*
 
@@ -59,6 +60,23 @@ class FirebaseRepository : Repository {
             }
             override fun onDataChange(snapshot: DataSnapshot) {
                 callback(snapshot.getValue<Prop>(Prop::class.java)!!)
+            }
+        })
+    }
+
+    override fun getFilteredProps(filter: PropFilter, callback: (List<Prop>) -> Unit) {
+        repo.child("props").addListenerForSingleValueEvent(object: ValueEventListener {
+            override fun onCancelled(p0: DatabaseError) {
+
+            }
+
+            override fun onDataChange(snapshot: DataSnapshot) {
+                val matches = ArrayList<Prop>(0)
+                snapshot.children.forEach {
+                    val prop = it.getValue<Prop>(Prop::class.java)
+                    prop?.also { if (filter.matches(prop)) matches.add(prop) }
+                }
+                callback(matches)
             }
         })
     }

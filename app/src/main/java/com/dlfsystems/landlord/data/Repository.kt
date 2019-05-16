@@ -1,6 +1,7 @@
 package com.dlfsystems.landlord.data
 
 import com.dlfsystems.landlord.data.model.Prop
+import com.dlfsystems.landlord.data.model.PropFilter
 import com.dlfsystems.landlord.data.model.User
 import com.google.firebase.database.Query
 
@@ -14,4 +15,5 @@ interface Repository {
     fun getProp(propId: String, callback: (Prop) -> Unit)
     fun putProp(prop: Prop)
     fun deleteProp(propId: String)
+    fun getFilteredProps(filter: PropFilter, callback: (List<Prop>) -> Unit)
 }

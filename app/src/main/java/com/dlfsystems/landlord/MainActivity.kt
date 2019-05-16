@@ -83,9 +83,13 @@ class MainActivity : AppCompatActivity(), StateChanger, NavigationView.OnNavigat
             backstackDelegate.onBackPressed()
         } else {
             if (!destKey.allowBack)
-                backstackDelegate.backstack.setHistory(History.single(destKey), StateChange.REPLACE)
+                setBackstackRoot(destKey)
             backstackDelegate.backstack.goTo(destKey)
         }
+    }
+
+    private fun setBackstackRoot(key: BaseKey) {
+        backstackDelegate.backstack.setHistory(History.single(key), StateChange.REPLACE)
     }
 
     fun toggleToolbar(showToolbar: Boolean) {

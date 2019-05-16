@@ -8,6 +8,9 @@ import kotlinx.android.parcel.Parcelize
 @Parcelize
 data class ProplistKey(val tag: String) : BaseKey() {
     constructor(): this("ProplistKey")
+
+    override val allowBack = false
+
     override fun createFragment() = ProplistFragment()
 
     override fun getAnimation(): FragAnimPair =

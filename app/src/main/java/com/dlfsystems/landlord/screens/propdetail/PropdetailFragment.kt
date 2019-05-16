@@ -48,9 +48,16 @@ class PropdetailFragment : BaseFragment() {
             val realtorAdapter = ArrayAdapter(context!!, android.R.layout.simple_spinner_item, realtorList)
             realtorAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
             propdetail_realtor_spinner.adapter = realtorAdapter
-            if (state().realtorId != "")
-                stateHolder.mutate(state().copy(
-                    realtorUsername = realtorList[realtorIds.indexOf(state().realtorId)]))
+            if (state().realtorId != "") {
+                val i = realtorIds.indexOf(state().realtorId)
+                if (i > 0) {
+                    stateHolder.mutate(
+                        state().copy(
+                            realtorUsername = realtorList[realtorIds.indexOf(state().realtorId)]
+                        )
+                    )
+                }
+            }
         }
 
 
