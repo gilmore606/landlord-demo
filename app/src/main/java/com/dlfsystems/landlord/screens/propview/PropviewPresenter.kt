@@ -63,8 +63,8 @@ class PropviewPresenter(fragment: BaseFragment) : BasePresenter(fragment) {
     }
 
     private fun propFromState(): Prop {
-        var state = state()
-        var prop = Prop(
+        val state = state()
+        val prop = Prop(
             id = state.propId,
             coordx = state.coordx,
             coordy = state.coordy,

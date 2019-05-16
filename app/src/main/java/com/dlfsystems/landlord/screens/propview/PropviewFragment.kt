@@ -1,7 +1,9 @@
 package com.dlfsystems.landlord.screens.propview
 
 import android.os.Bundle
+import android.service.autofill.Validators.or
 import android.view.View
+import com.dlfsystems.landlord.Prefs
 import com.dlfsystems.landlord.R
 import com.dlfsystems.landlord.data.FirebaseRepository
 import com.dlfsystems.landlord.screens.base.BaseFragment
@@ -17,6 +19,7 @@ class PropviewFragment : BaseFragment() {
     fun state() = stateHolder.state.value as PropviewState
 
     val repo = FirebaseRepository()
+    val prefs by lazy { Prefs(context!!) }
 
     override fun makeStateFromArguments(arguments: Bundle): BaseState =
             PropviewState(
@@ -25,6 +28,16 @@ class PropviewFragment : BaseFragment() {
             )
 
     override fun subscribeUI(view: View) {
+        if ((prefs.user?.isAdmin ?: false) or (prefs.user?.isRealtor ?: false)) {
+            propview_edit_button.visibility = View.VISIBLE
+            propview_delete_button.visibility = View.VISIBLE
+            propview_available_button.visibility = View.VISIBLE
+        } else {
+            propview_edit_button.visibility = View.GONE
+            propview_delete_button.visibility = View.GONE
+            propview_available_button.visibility = View.GONE
+        }
+
         if (state().loading) {
             repo.getProp(state().propId) {
                 actions.onNext(LoadProperty(it))
