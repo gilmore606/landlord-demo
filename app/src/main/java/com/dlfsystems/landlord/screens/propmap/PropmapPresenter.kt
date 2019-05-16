@@ -3,9 +3,11 @@ package com.dlfsystems.landlord.screens.propmap
 import com.dlfsystems.landlord.data.FirebaseRepository
 import com.dlfsystems.landlord.data.model.Prop
 import com.dlfsystems.landlord.data.model.PropFilter
+import com.dlfsystems.landlord.nav.Rudder
 import com.dlfsystems.landlord.screens.base.Action
 import com.dlfsystems.landlord.screens.base.BaseFragment
 import com.dlfsystems.landlord.screens.base.BasePresenter
+import com.dlfsystems.landlord.screens.propview.PropviewKey
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MarkerOptions
 
@@ -24,6 +26,9 @@ class PropmapPresenter(fragment: BaseFragment) : BasePresenter(fragment) {
             (action is ChangeFilter) -> {
                 mutate(state().copy(filter = action.filter, loading = true))
                 loadProperties(action.filter)
+            }
+            (action is ViewProperty) -> {
+                Rudder.navTo(PropviewKey(action.propId))
             }
             else -> { throw RuntimeException(action.toString()) }
         }

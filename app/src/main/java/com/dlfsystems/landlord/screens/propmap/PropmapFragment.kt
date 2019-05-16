@@ -100,16 +100,6 @@ class PropmapFragment : BaseFragment() {
         map?.let { it.moveCamera(CameraUpdateFactory.newLatLngZoom(LatLng(coordx, coordy), zoom))}
     }
 
-    fun clearMarkers() { map?.clear() }
-
-    fun addMarker(markerOptions: MarkerOptions): String? {
-        map?.also {
-            val marker = it.addMarker(markerOptions)
-            return marker.id
-        }
-        return null
-    }
-
     private fun placeMarkers(props: List<Prop>): List<String> {
         var markerIds = ArrayList<String>(0)
         props.forEach {
