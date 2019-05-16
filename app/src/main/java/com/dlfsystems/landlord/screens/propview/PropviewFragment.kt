@@ -48,6 +48,14 @@ class PropviewFragment : BaseFragment() {
         if (!state.loading) {
             propview_loader.visibility = View.GONE
             propview_content.visibility = View.VISIBLE
+
+            propview_available.text =
+                if (state.available) "This property is available for rent."
+                else "This property has been rented, and is no longer available."
+            propview_available_button.text =
+                if (state.available) "Set unavailable"
+                else "Set available"
+
         } else {
             propview_loader.visibility = View.VISIBLE
             propview_content.visibility = View.GONE

@@ -27,7 +27,8 @@ class PropviewPresenter(fragment: BaseFragment) : BasePresenter(fragment) {
                 confirmAndDeleteProperty(action.propId)
             }
             (action is SetAvailable) -> {
-
+                mutate(state().copy(available = action.available))
+                updateProperty(propFromState())
             }
             else -> { throw RuntimeException(action.toString()) }
         }
@@ -59,5 +60,32 @@ class PropviewPresenter(fragment: BaseFragment) : BasePresenter(fragment) {
             state = prop.state,
             zip = prop.zip
         ))
+    }
+
+    private fun propFromState(): Prop {
+        var state = state()
+        var prop = Prop(
+            id = state.propId,
+            coordx = state.coordx,
+            coordy = state.coordy,
+            name = state.name,
+            desc = state.desc,
+            sqft = state.sqft,
+            rent = state.rent,
+            rooms = state.rooms,
+            addtime = state.addtime,
+            available = state.available,
+            realtorId = state.realtorId,
+            address = state.address,
+            city = state.city,
+            state = state.state,
+            zip = state.zip
+        )
+        return prop
+    }
+
+    private fun updateProperty(property: Prop) {
+        repo.putProp(property)
+        fragment.makeToast("Property is now " + (if (property.available) "available" else "unavailable") + ".")
     }
 }
