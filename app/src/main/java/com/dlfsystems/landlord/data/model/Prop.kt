@@ -15,4 +15,8 @@ data class Prop(val id: String = "",
                 val city: String = "",
                 val state: String = "",
                 val zip: String = ""
-)
+) {
+    fun getSnippet(): String {
+        return rooms.toString() + " room " + sqft.toString() + "sqft $" + rent.toString() +"/mo"
+    }
+}

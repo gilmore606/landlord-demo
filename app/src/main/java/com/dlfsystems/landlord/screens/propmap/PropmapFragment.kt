@@ -2,12 +2,16 @@ package com.dlfsystems.landlord.screens.propmap
 
 import android.os.Bundle
 import android.view.View
+import com.dlfsystems.landlord.Prefs
 import com.dlfsystems.landlord.R
 import com.dlfsystems.landlord.data.FirebaseRepository
 import com.dlfsystems.landlord.data.model.Prop
 import com.dlfsystems.landlord.data.model.PropFilter
+import com.dlfsystems.landlord.nav.Rudder
+import com.dlfsystems.landlord.plusAssign
 import com.dlfsystems.landlord.screens.base.BaseFragment
 import com.dlfsystems.landlord.screens.base.BaseState
+import com.dlfsystems.landlord.screens.filter.FilterKey
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MarkerOptions
@@ -15,9 +19,11 @@ import kotlinx.android.synthetic.main.fragment_propmap.*
 
 class PropmapFragment : BaseFragment() {
 
+    val prefs by lazy { Prefs(context!!) }
+
     override val layoutResource = R.layout.fragment_propmap
     override val presenter = PropmapPresenter(this)
-    override fun defaultState() = PropmapState()
+    override fun defaultState() = PropmapState(filter = prefs.searchFilter)
 
     fun state() = stateHolder.state.value as PropmapState
 
@@ -28,15 +34,20 @@ class PropmapFragment : BaseFragment() {
     override fun subscribeUI(view: View) {
         propmap_mapview.getMapAsync {
             map = it
-            repo.getFilteredProps(PropFilter()) {
-                populateMarkers(it)
-            }
+            populateMarkers()
         }
 
+        propmap_filterbutton.setOnClickListener {
+            Rudder.navTo(FilterKey())
+        }
+
+        disposables += Rudder.filter.subscribe {
+            actions.onNext(ChangeFilter(it))
+        }
     }
 
     override fun render(state: BaseState) {
-
+        populateMarkers()
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -74,12 +85,15 @@ class PropmapFragment : BaseFragment() {
 
     }
 
-    private fun populateMarkers(props: List<Prop>) {
-        map?.clear()
-        props.forEach {
-            val marker = MarkerOptions().position(LatLng(it.coordx, it.coordy))
-                .title(it.name)
-            map?.addMarker(marker)
+    private fun populateMarkers() {
+        repo.getFilteredProps(state().filter) { props ->
+            map?.clear()
+            props.forEach {
+                val marker = MarkerOptions().position(LatLng(it.coordx, it.coordy))
+                    .title(it.name)
+                    .snippet(it.getSnippet())
+                map?.addMarker(marker)
+            }
         }
     }
 }
