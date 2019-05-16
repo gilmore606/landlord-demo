@@ -92,8 +92,8 @@ class PropmapFragment : BaseFragment() {
         propmap_mapview.onStart()
     }
     override fun onStop() {
-        super.onStop()
         propmap_mapview.onStop()
+        super.onStop()
     }
 
     private fun moveCamera(coordx: Double, coordy: Double, zoom: Float) {

@@ -13,6 +13,16 @@
     <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
               android:id="@+id/propview_available" />
 
+    <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content"
+                  android:orientation="horizontal">
+        <LinearLayout android:layout_width="wrap_content" android:layout_height="wrap_content"
+                      android:orientation="vertical">
+
+        </LinearLayout>
+        <com.google.android.gms.maps.MapView android:layout_width="300dp"
+                                             android:layout_height="200dp"
+                                             android:id="@+id/propview_mapview" />
+    </LinearLayout>
     <Button android:layout_width="wrap_content" android:layout_height="wrap_content"
             android:id="@+id/propview_edit_button"
             android:text="EDIT" />
