@@ -48,4 +48,8 @@
         <item name="android:textSize">12dp</item>
         <item name="android:textColor">#AAAAAA</item>
     </style>
+    <style name="FilterDesc" parent="Theme.AppCompat.Light">
+        <item name="android:textSize">14dp</item>
+        <item name="android:textStyle">bold</item>
+    </style>
 </resources>

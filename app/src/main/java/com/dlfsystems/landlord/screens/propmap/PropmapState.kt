@@ -5,6 +5,8 @@ import com.dlfsystems.landlord.screens.base.BaseState
 import com.google.android.gms.maps.model.LatLng
 
 data class PropmapState(
-    val coord: LatLng = LatLng(0.0, 0.0),
+    val coordx: Double = 37.814,
+    val coordy: Double = -122.259,
+    val zoom: Float = 12f,
     val filter: PropFilter
 ) : BaseState()

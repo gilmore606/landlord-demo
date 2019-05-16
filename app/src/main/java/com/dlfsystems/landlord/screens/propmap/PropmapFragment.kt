@@ -1,6 +1,7 @@
 package com.dlfsystems.landlord.screens.propmap
 
 import android.os.Bundle
+import android.service.autofill.Validators.or
 import android.view.View
 import com.dlfsystems.landlord.Prefs
 import com.dlfsystems.landlord.R
@@ -12,6 +13,7 @@ import com.dlfsystems.landlord.plusAssign
 import com.dlfsystems.landlord.screens.base.BaseFragment
 import com.dlfsystems.landlord.screens.base.BaseState
 import com.dlfsystems.landlord.screens.filter.FilterKey
+import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MarkerOptions
@@ -35,6 +37,7 @@ class PropmapFragment : BaseFragment() {
         propmap_mapview.getMapAsync {
             map = it
             populateMarkers()
+            moveCamera(state().coordx, state().coordy, state().zoom)
         }
 
         propmap_filterbutton.setOnClickListener {
@@ -47,7 +50,13 @@ class PropmapFragment : BaseFragment() {
     }
 
     override fun render(state: BaseState) {
-        populateMarkers()
+        state as PropmapState
+
+        previousState?.also {
+            if (state.filter != (it as PropmapState).filter) populateMarkers()
+        }
+
+        propmap_filtertext?.text = state.filter.description()
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -63,14 +72,14 @@ class PropmapFragment : BaseFragment() {
         super.onDestroyView()
     }
     override fun onPause() {
-        map?.let { stateHolder.mutate(state().copy(coord = it.cameraPosition.target)) }
+        map?.let { stateHolder.mutate(state().copy(coordx = it.cameraPosition.target.latitude,
+                                                    coordy = it.cameraPosition.target.longitude)) }
         propmap_mapview.onPause()
         super.onPause()
     }
     override fun onResume() {
         super.onResume()
         propmap_mapview.onResume()
-        moveCamera(state().coord)
     }
     override fun onStart() {
         super.onStart()
@@ -81,8 +90,8 @@ class PropmapFragment : BaseFragment() {
         propmap_mapview.onStop()
     }
 
-    private fun moveCamera(coord: LatLng) {
-
+    private fun moveCamera(coordx: Double, coordy: Double, zoom: Float) {
+        map?.let { it.moveCamera(CameraUpdateFactory.newLatLngZoom(LatLng(coordx, coordy), zoom))}
     }
 
     private fun populateMarkers() {
