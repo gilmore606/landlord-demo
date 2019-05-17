@@ -15,10 +15,10 @@ class FragmentStateChanger(
 
     fun handleStateChange(stateChange: StateChange) {
         Timber.d("RUDDER state change")
-        val removeList = ArrayList<BaseFragment>(0)
-        val addList = ArrayList<FragWithTag>(0)
-        val showList = ArrayList<BaseFragment>(0)
-        val hideList = ArrayList<BaseFragment>(0)
+        val removeList = HashSet<BaseFragment>(0)
+        val addList = HashSet<FragWithTag>(0)
+        val showList = HashSet<BaseFragment>(0)
+        val hideList = HashSet<BaseFragment>(0)
 
         val previousState = stateChange.getPreviousState<BaseKey>()
         val newState = stateChange.getNewState<BaseKey>()

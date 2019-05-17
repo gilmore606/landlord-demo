@@ -38,9 +38,12 @@ class MainActivity : AppCompatActivity(), StateChanger, NavigationView.OnNavigat
     var disposables = CompositeDisposable()
     lateinit var prefs: Prefs
 
+    var createCount = 0
+
     override fun onCreate(savedInstanceState: Bundle?) {
 
-        if (BuildConfig.DEBUG) Timber.plant(Timber.DebugTree())
+        createCount++
+        Timber.d("RUDDER activity onCreate " + hashCode() + " (" + createCount + ")")
 
         AppCompatDelegate.setCompatVectorFromResourcesEnabled(true)
 
@@ -66,11 +69,20 @@ class MainActivity : AppCompatActivity(), StateChanger, NavigationView.OnNavigat
 
         fragmentStateChanger = FragmentStateChanger(supportFragmentManager, R.id.base_frame)
         backstackDelegate.setStateChanger(this)
+    }
 
+    override fun onStart() {
+        super.onStart()
         disposables += Rudder.navDest.observeOn(AndroidSchedulers.mainThread())
             .subscribe {
                 navigateTo(it)
             }
+    }
+
+    override fun onDestroy() {
+        Timber.d("RUDDER activity onDestroy " + toString())
+        disposables.dispose()
+        super.onDestroy()
     }
 
     override fun onRetainCustomNonConfigurationInstance(): Any? {

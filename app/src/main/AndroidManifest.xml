@@ -7,6 +7,7 @@
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
 
     <application
+            android:name="com.dlfsystems.landlord.ApplicationController"
             android:allowBackup="true"
             android:icon="@mipmap/ic_launcher"
             android:label="@string/app_name"
@@ -19,7 +20,8 @@
         <meta-data
             android:name="com.google.android.geo.API_KEY"
             android:value="AIzaSyBpOKP2n55Q1ree6jdROGfadNB5YU3ujJs" />
-        <activity android:name=".MainActivity">
+        <activity android:name=".MainActivity"
+                  android:launchMode="singleTop" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
 
