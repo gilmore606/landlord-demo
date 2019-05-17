@@ -43,6 +43,9 @@ class PropmapFragment : BaseFragment() {
             }
         }
 
+        filterbar.setOnClickListener {
+            Rudder.navTo(FilterKey())
+        }
         filterbar_edit_button.setOnClickListener {
             Rudder.navTo(FilterKey())
         }

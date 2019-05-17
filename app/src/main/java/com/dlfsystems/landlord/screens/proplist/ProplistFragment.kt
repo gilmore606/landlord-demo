@@ -38,6 +38,9 @@ class ProplistFragment : BaseFragment() {
         recyclerAdapter = ProplistRecyclerAdapter(options, actions)
         proplist_recyclerview.adapter = recyclerAdapter
 
+        filterbar.setOnClickListener {
+            Rudder.navTo(FilterKey())
+        }
         filterbar_edit_button.setOnClickListener {
             Rudder.navTo(FilterKey())
         }

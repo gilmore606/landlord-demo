@@ -68,6 +68,7 @@ class FilterFragment : BaseFragment() {
         filter_sqftmax.setIfChanged(state.sizemax.toString())
 
         filter_apply_button.isEnabled = isSubmittable()
+
         filterbar_text.text = filterFromState(state).description()
     }
 
