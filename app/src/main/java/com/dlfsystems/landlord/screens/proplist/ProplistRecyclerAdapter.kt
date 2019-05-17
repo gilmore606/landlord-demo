@@ -7,8 +7,6 @@ import androidx.recyclerview.widget.RecyclerView
 import com.dlfsystems.landlord.R
 import com.dlfsystems.landlord.data.model.Prop
 import com.dlfsystems.landlord.screens.base.Action
-import com.firebase.ui.database.FirebaseRecyclerAdapter
-import com.firebase.ui.database.FirebaseRecyclerOptions
 import io.reactivex.subjects.PublishSubject
 import kotlinx.android.synthetic.main.item_proplist.view.*
 

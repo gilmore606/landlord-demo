@@ -49,10 +49,6 @@ class FirebaseRepository : Repository {
             })
     }
 
-    fun getProps(): Query {
-        return repo.child("").child("props")
-    }
-
     override fun getProp(propId: String, callback: (Prop) -> Unit) {
         repo.child("props").child(propId).addListenerForSingleValueEvent(object: ValueEventListener {
             override fun onCancelled(e: DatabaseError) {

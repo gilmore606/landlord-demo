@@ -97,6 +97,11 @@ class PropmapFragment : BaseFragment() {
         super.onStop()
     }
 
+    override fun onShowFromBackStack() {
+        super.onShowFromBackStack()
+        actions.onNext(LoadProperties())
+    }
+
     private fun moveCamera(coordx: Double, coordy: Double, zoom: Float) {
         map?.let { it.moveCamera(CameraUpdateFactory.newLatLngZoom(LatLng(coordx, coordy), zoom))}
     }

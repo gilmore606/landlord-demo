@@ -54,4 +54,9 @@ class ProplistFragment : BaseFragment() {
 
         recyclerAdapter.updateProps(state.props)
     }
+
+    override fun onShowFromBackStack() {
+        super.onShowFromBackStack()
+        actions.onNext(LoadProperties())
+    }
 }

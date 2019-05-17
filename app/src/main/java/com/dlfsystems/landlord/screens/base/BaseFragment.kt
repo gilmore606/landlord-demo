@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.annotation.CallSuper
 import androidx.appcompat.app.AlertDialog
 import androidx.lifecycle.SavedStateVMFactory
 import androidx.lifecycle.ViewModelProvider
@@ -73,7 +74,8 @@ abstract class BaseFragment : androidx.fragment.app.Fragment() {
 
     open fun onCreateView(view: View) { }
 
-    fun onShowFromBackStack() {
+    @CallSuper
+    open fun onShowFromBackStack() {
         _render(stateHolder.state?.value ?: defaultState())
     }
 
