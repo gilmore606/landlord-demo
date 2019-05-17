@@ -11,7 +11,6 @@ import com.dlfsystems.landlord.plusAssign
 import com.dlfsystems.landlord.screens.base.BaseFragment
 import com.dlfsystems.landlord.screens.base.BaseState
 import com.dlfsystems.landlord.screens.filter.FilterKey
-import com.firebase.ui.database.FirebaseRecyclerOptions
 import kotlinx.android.synthetic.main.fragment_proplist.*
 import kotlinx.android.synthetic.main.include_filterbar.*
 
@@ -31,12 +30,10 @@ class ProplistFragment : BaseFragment() {
 
     override fun subscribeUI(view: View) {
         proplist_recyclerview.layoutManager = LinearLayoutManager(context)
-        val options = FirebaseRecyclerOptions.Builder<Prop>()
-            .setQuery(repo.getProps(), Prop::class.java)
-            .setLifecycleOwner(this)
-            .build()
-        recyclerAdapter = ProplistRecyclerAdapter(options, actions)
+        recyclerAdapter = ProplistRecyclerAdapter(state().props, actions)
         proplist_recyclerview.adapter = recyclerAdapter
+
+        actions.onNext(LoadProperties())
 
         filterbar.setOnClickListener {
             Rudder.navTo(FilterKey())
@@ -54,5 +51,7 @@ class ProplistFragment : BaseFragment() {
         state as ProplistState
 
         filterbar_text?.text = state.filter.description()
+
+        recyclerAdapter.updateProps(state.props)
     }
 }

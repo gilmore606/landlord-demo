@@ -92,7 +92,8 @@ class MainActivity : AppCompatActivity(), StateChanger, NavigationView.OnNavigat
     private fun navigateTo(destKey: BaseKey) {
         hideKeyboard()
         if (destKey is BackKey) {
-            backstackDelegate.onBackPressed()
+            Timber.d("RUDDER saw BackKey")
+            onBackPressed()
         } else {
             if (!destKey.allowBack)
                 setBackstackRoot(destKey)

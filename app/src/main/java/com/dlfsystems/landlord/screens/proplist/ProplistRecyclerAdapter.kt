@@ -23,18 +23,24 @@ class ProplistHolder(val view: View, val prop: Prop? = null): RecyclerView.ViewH
     }
 }
 
-class ProplistRecyclerAdapter(options: FirebaseRecyclerOptions<Prop>, val actions: PublishSubject<Action>) :
-        FirebaseRecyclerAdapter<Prop, ProplistHolder>(options) {
+class ProplistRecyclerAdapter(var props: List<Prop>, val actions: PublishSubject<Action>) :
+        RecyclerView.Adapter<ProplistHolder>() {
+
+    override fun getItemCount(): Int =
+        props.size
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ProplistHolder =
             ProplistHolder(
                 LayoutInflater.from(parent.context)
                     .inflate(R.layout.item_proplist, parent, false))
 
-    override fun onBindViewHolder(holder: ProplistHolder, position: Int, model: Prop) =
-            holder.bind(model, actions)
+    override fun onBindViewHolder(holder: ProplistHolder, position: Int) =
+            holder.bind(props[position], actions)
 
-    override fun onDataChanged() {
-
+    fun updateProps(newprops: List<Prop>) {
+        if (newprops != props) {
+            props = newprops
+            notifyDataSetChanged()
+        }
     }
 }

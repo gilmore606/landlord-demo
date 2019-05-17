@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+             android:layout_width="match_parent" android:layout_height="match_parent"
+             android:layout_margin="12dp"
+             xmlns:app="http://schemas.android.com/apk/res-auto">
+    <GridLayout android:layout_width="wrap_content" android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:columnCount="2" android:id="@+id/userdetail_content" >
+        <EditText android:layout_width="wrap_content" android:layout_height="wrap_content"
+                  android:id="@+id/userdetail_username"
+                  android:layout_margin="10dp" android:layout_columnSpan="2"
+        />
+
+        <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                      android:orientation="vertical"
+                      android:layout_width="wrap_content"
+                      android:layout_height="match_parent">
+
+            <Switch android:layout_width="wrap_content" android:layout_height="wrap_content"
+                    android:layout_margin="16dp"
+                    android:id="@+id/userdetail_realtor_switch"
+                    android:switchMinWidth="48dp"
+                    android:text="Realtor: "
+                    android:textOff="No" android:textOn="Yes" />
+            <Switch android:layout_width="wrap_content" android:layout_height="wrap_content"
+                    android:layout_margin="16dp"
+                    android:id="@+id/userdetail_admin_switch"
+                    android:switchMinWidth="48dp"
+                    android:text="Admin: "
+                    android:textOff="No" android:textOn="Yes" />
+        </LinearLayout>
+        <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                      android:orientation="vertical"
+                      android:layout_width="wrap_content"
+                      android:layout_height="match_parent">
+            <Button android:layout_width="wrap_content" android:layout_height="wrap_content"
+                    android:id="@+id/userdetail_apply_button"
+                    android:text="APPLY" />
+
+            <Button android:layout_width="wrap_content" android:layout_height="wrap_content"
+                    android:id="@+id/userdetail_delete_button"
+                    android:text="DELETE USER" />
+
+        </LinearLayout>
+    </GridLayout>
+    <com.airbnb.lottie.LottieAnimationView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                                           android:id="@+id/userdetail_loader" app:lottie_rawRes="@raw/loader_anim" android:layout_gravity="center_horizontal"
+                                           app:lottie_loop="true" app:lottie_autoPlay="true" android:visibility="gone" />
+</FrameLayout>
