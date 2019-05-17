@@ -1,14 +1,11 @@
 package com.dlfsystems.landlord.screens.propmap
 
 import android.os.Bundle
-import android.service.autofill.Validators.and
-import android.service.autofill.Validators.or
 import android.view.View
 import com.dlfsystems.landlord.Prefs
 import com.dlfsystems.landlord.R
 import com.dlfsystems.landlord.data.FirebaseRepository
 import com.dlfsystems.landlord.data.model.Prop
-import com.dlfsystems.landlord.data.model.PropFilter
 import com.dlfsystems.landlord.nav.Rudder
 import com.dlfsystems.landlord.plusAssign
 import com.dlfsystems.landlord.screens.base.BaseFragment
@@ -101,11 +98,12 @@ class PropmapFragment : BaseFragment() {
     }
 
     private fun placeMarkers(props: List<Prop>): List<String> {
+        map?.clear()
         var markerIds = ArrayList<String>(0)
         props.forEach {
             val markerOptions = MarkerOptions().position(LatLng(it.coordx, it.coordy))
                 .title(it.name)
-                .snippet(it.getSnippet())
+                .snippet(it.makeSnippet())
             map?.also {
                 val marker = it.addMarker(markerOptions)
                 markerIds.add(marker.id)

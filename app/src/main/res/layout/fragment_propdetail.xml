@@ -53,7 +53,7 @@
                   android:orientation="vertical" >
         <EditText android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_margin="4dp"
                   android:background="@drawable/bg_field" style="@style/Input"
-                  android:maxLines="1" android:inputType="text"
+                  android:maxLines="1" android:inputType="numberDecimal"
                   android:id="@+id/propdetail_zip" />
         <LinearLayout android:layout_width="wrap_content" android:layout_height="wrap_content"
                       android:orientation="horizontal" >

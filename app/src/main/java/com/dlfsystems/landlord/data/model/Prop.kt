@@ -1,5 +1,7 @@
 package com.dlfsystems.landlord.data.model
 
+import java.io.Serializable
+
 data class Prop(val id: String = "",
                 val coordx: Double = 0.0,
                 val coordy: Double = 0.0,
@@ -15,8 +17,8 @@ data class Prop(val id: String = "",
                 val city: String = "",
                 val state: String = "",
                 val zip: String = ""
-) {
-    fun getSnippet(): String {
+): Serializable {
+    fun makeSnippet(): String {
         return rooms.toString() + " room " + sqft.toString() + "sqft $" + rent.toString() +"/mo"
     }
 }

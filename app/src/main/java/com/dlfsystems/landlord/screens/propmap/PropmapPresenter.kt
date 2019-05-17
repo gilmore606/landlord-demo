@@ -24,7 +24,7 @@ class PropmapPresenter(fragment: BaseFragment) : BasePresenter(fragment) {
                 loadProperties(state().filter)
             }
             (action is ChangeFilter) -> {
-                mutate(state().copy(filter = action.filter, loading = true))
+                mutate(state().copy(filter = action.filter, loading = true, markerIds = null))
                 loadProperties(action.filter)
             }
             (action is ViewProperty) -> {

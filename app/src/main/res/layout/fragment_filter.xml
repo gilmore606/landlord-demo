@@ -4,4 +4,56 @@
               android:layout_width="match_parent"
               android:layout_height="match_parent">
 
+    <GridLayout android:layout_width="match_parent" android:layout_height="wrap_content"
+                android:columnCount="2" >
+        <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                  style="@style/FieldLabel" android:layout_margin="4dp" android:gravity="right"
+                  android:layout_gravity="top|end"
+                  android:text="floor space" />
+        <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content"
+                      android:orientation="horizontal" >
+            <EditText android:layout_width="90dp" android:layout_height="wrap_content" android:layout_margin="4dp" android:lines="1"
+                      android:id="@+id/filter_sqftmin" android:background="@drawable/bg_field"  style="@style/Input"
+                      android:maxLines="1"
+                      android:inputType="numberDecimal" />
+            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                      style="@style/FieldLabel"
+                      android:text=" to " />
+            <EditText android:layout_width="90dp" android:layout_height="wrap_content" android:layout_margin="4dp" android:lines="1"
+                      android:id="@+id/filter_sqftmax" android:background="@drawable/bg_field"  style="@style/Input"
+                      android:maxLines="1"
+                      android:inputType="numberDecimal" />
+        </LinearLayout>
+
+        <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                  style="@style/FieldLabel" android:layout_margin="4dp" android:gravity="right"
+                  android:layout_gravity="top|end"
+                  android:text="monthly rent" />
+        <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content"
+                      android:orientation="horizontal" >
+            <EditText android:layout_width="90dp" android:layout_height="wrap_content" android:layout_margin="4dp" android:lines="1"
+                      android:id="@+id/filter_pricemin" android:background="@drawable/bg_field"  style="@style/Input"
+                      android:maxLines="1"
+                      android:inputType="numberDecimal" />
+            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                      style="@style/FieldLabel"
+                      android:text=" to " />
+            <EditText android:layout_width="90dp" android:layout_height="wrap_content" android:layout_margin="4dp" android:lines="1"
+                      android:id="@+id/filter_pricemax" android:background="@drawable/bg_field"  style="@style/Input"
+                      android:maxLines="1"
+                      android:inputType="numberDecimal" />
+        </LinearLayout>
+
+        <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                  style="@style/FieldLabel" android:layout_margin="4dp" android:gravity="right"
+                  android:layout_gravity="top|end"
+                  android:text="minimum rooms" />
+        <EditText android:layout_width="90dp" android:layout_height="wrap_content" android:layout_margin="4dp" android:lines="1"
+                  android:id="@+id/filter_rooms" android:background="@drawable/bg_field"  style="@style/Input"
+                  android:maxLines="1"
+                  android:inputType="numberDecimal" />
+    </GridLayout>
+    <Button android:layout_width="wrap_content" android:layout_height="wrap_content"
+            android:id="@+id/filter_apply_button"
+            android:text="APPLY" />
 </LinearLayout>
