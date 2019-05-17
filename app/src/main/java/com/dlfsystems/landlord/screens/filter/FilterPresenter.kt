@@ -20,25 +20,37 @@ class FilterPresenter(fragment: BaseFragment) : BasePresenter(fragment) {
                 updateFilter()
                 Rudder.navBack()
             }
+            (action is Cancel) -> {
+                Rudder.navBack()
+            }
+            (action is ClearFilter) -> {
+                mutate(state().copy(
+                    sizemin = 0,
+                    sizemax = 0,
+                    pricemin = 0,
+                    pricemax = 0,
+                    rooms = 0
+                ))
+            }
             else -> { throw RuntimeException(action.toString()) }
         }
     }
 
     private fun updateFilter() {
-        val filter = filterFromState()
+        val filter = filterFromState(state())
         prefs.searchFilter = filter
         Rudder.updateFilter(filter)
     }
 
-    private fun filterFromState(): PropFilter {
+    private fun filterFromState(state: FilterState): PropFilter {
         var filter = PropFilter(
             rented = true,
             unrented = true,
-            sizemin = state().sizemin,
-            sizemax = state().sizemax,
-            pricemin = state().pricemin,
-            pricemax = state().pricemax,
-            rooms = state().rooms
+            sizemin = state.sizemin,
+            sizemax = state.sizemax,
+            pricemin = state.pricemin,
+            pricemax = state.pricemax,
+            rooms = state.rooms
         )
         return filter
     }

@@ -3,12 +3,14 @@ package com.dlfsystems.landlord.screens.filter
 import android.view.View
 import com.dlfsystems.landlord.Prefs
 import com.dlfsystems.landlord.R
+import com.dlfsystems.landlord.data.model.PropFilter
 import com.dlfsystems.landlord.nav.Rudder.filter
 import com.dlfsystems.landlord.screens.base.BaseFragment
 import com.dlfsystems.landlord.screens.base.BaseState
 import com.dlfsystems.landlord.setIfChanged
 import com.dlfsystems.landlord.validate
 import kotlinx.android.synthetic.main.fragment_filter.*
+import kotlinx.android.synthetic.main.include_filterbar.*
 
 class FilterFragment : BaseFragment() {
 
@@ -26,8 +28,17 @@ class FilterFragment : BaseFragment() {
     fun state() = stateHolder.state.value as FilterState
 
     override fun subscribeUI(view: View) {
+        filterbar_edit_button.setImageDrawable(resources.getDrawable(R.drawable.ic_undo))
+        filterbar_edit_button.setOnClickListener {
+            actions.onNext(Cancel())
+        }
+
         filter_apply_button.setOnClickListener {
             actions.onNext(ApplyFilter())
+        }
+
+        filter_clear_button.setOnClickListener {
+            actions.onNext(ClearFilter())
         }
 
         filter_pricemin.validate({ true }, "Minimum rent", {
@@ -57,6 +68,7 @@ class FilterFragment : BaseFragment() {
         filter_sqftmax.setIfChanged(state.sizemax.toString())
 
         filter_apply_button.isEnabled = isSubmittable()
+        filterbar_text.text = filterFromState(state).description()
     }
 
     private fun isSubmittable(): Boolean {
@@ -77,5 +89,18 @@ class FilterFragment : BaseFragment() {
         val min = filter_sqftmin.text.toString().toIntOrNull() ?: 0
         if ((min > 0) and (max > 0) and (max < min)) return false
         return true
+    }
+
+    private fun filterFromState(state: FilterState): PropFilter {
+        var filter = PropFilter(
+            rented = true,
+            unrented = true,
+            sizemin = state().sizemin,
+            sizemax = state().sizemax,
+            pricemin = state().pricemin,
+            pricemax = state().pricemax,
+            rooms = state().rooms
+        )
+        return filter
     }
 }
