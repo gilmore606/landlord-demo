@@ -1,6 +1,7 @@
 package com.dlfsystems.landlord.screens.proplist
 
 import android.view.View
+import androidx.core.view.ViewCompat
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.dlfsystems.landlord.Prefs
 import com.dlfsystems.landlord.R

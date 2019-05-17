@@ -18,6 +18,9 @@ class ProplistHolder(val view: View, val prop: Prop? = null): RecyclerView.ViewH
         }
         view.proprow_name.text = prop.name
         view.proprow_address.text = prop.address
+        view.proprow_rent.text = "$" + prop.rent.toString()
+        view.proprow_rooms.text = prop.rooms.toString() + " rooms"
+        view.proprow_sqft.text = prop.sqft.toString() + " sqft"
     }
 }
 
