@@ -16,6 +16,7 @@ import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MarkerOptions
 import kotlinx.android.synthetic.main.fragment_propmap.*
+import kotlinx.android.synthetic.main.include_filterbar.*
 import java.lang.RuntimeException
 
 class PropmapFragment : BaseFragment() {
@@ -42,7 +43,7 @@ class PropmapFragment : BaseFragment() {
             }
         }
 
-        propmap_filterbutton.setOnClickListener {
+        filterbar_edit_button.setOnClickListener {
             Rudder.navTo(FilterKey())
         }
 
@@ -54,7 +55,7 @@ class PropmapFragment : BaseFragment() {
     override fun render(state: BaseState) {
         state as PropmapState
 
-        propmap_filtertext?.text = state.filter.description()
+        filterbar_text?.text = state.filter.description()
 
         if ((state.markerIds == null) and (state.props?.size ?: 0 > 0) and !state.loading) {
             stateHolder.mutate(state().copy(markerIds = placeMarkers(state.props!!)))

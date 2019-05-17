@@ -16,7 +16,7 @@ class ProplistHolder(val view: View, val prop: Prop? = null): RecyclerView.ViewH
 
     fun bind(prop: Prop, actions: PublishSubject<Action>) {
         view.setOnClickListener {
-            actions.onNext(ViewProp(prop.id))
+            actions.onNext(ViewProperty(prop.id))
         }
         view.proprow_name.text = prop.name
         view.proprow_address.text = prop.address

@@ -29,13 +29,13 @@ class LoginFragment : BaseFragment() {
             if (!rendering) stateHolder.mutate(state().copy(password = it))
         }
         login_button_login.setOnClickListener {
-            actions.onNext(LoginAction(
+            actions.onNext(LogIn(
                 state().username,
                 state().password
             ))
         }
         login_button_register.setOnClickListener {
-            actions.onNext(RegisterAction(
+            actions.onNext(Register(
                 state().username,
                 state().password
             ))

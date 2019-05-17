@@ -1,7 +1,6 @@
 package com.dlfsystems.landlord.screens.login
 
 import com.dlfsystems.landlord.MainActivity
-import com.dlfsystems.landlord.Prefs
 import com.dlfsystems.landlord.data.FirebaseRepository
 import com.dlfsystems.landlord.data.model.User
 import com.dlfsystems.landlord.nav.Rudder
@@ -9,9 +8,6 @@ import com.dlfsystems.landlord.screens.base.Action
 import com.dlfsystems.landlord.screens.base.BaseFragment
 import com.dlfsystems.landlord.screens.base.BasePresenter
 import com.dlfsystems.landlord.screens.proplist.ProplistKey
-import com.dlfsystems.landlord.screens.userlist.UserlistKey
-import com.google.firebase.database.FirebaseDatabase
-import timber.log.Timber
 import java.lang.RuntimeException
 
 class LoginPresenter(fragment: BaseFragment) : BasePresenter(fragment) {
@@ -22,11 +18,11 @@ class LoginPresenter(fragment: BaseFragment) : BasePresenter(fragment) {
 
     override fun hearAction(action: Action) {
         when {
-            (action is LoginAction) -> {
+            (action is LogIn) -> {
                 mutate(state().copy(lastError = "", waiting = true))
                 loginUser(action.username, action.password)
             }
-            (action is RegisterAction) -> {
+            (action is Register) -> {
                 mutate(state().copy(lastError = "", waiting = true))
                 registerUser(action.username, action.password)
             }

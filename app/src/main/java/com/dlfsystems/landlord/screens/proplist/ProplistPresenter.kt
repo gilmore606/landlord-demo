@@ -13,8 +13,11 @@ class ProplistPresenter(fragment: BaseFragment) : BasePresenter(fragment) {
 
     override fun hearAction(action: Action) {
         when {
-            (action is ViewProp) -> {
+            (action is ViewProperty) -> {
                 Rudder.navTo(PropviewKey(action.propId))
+            }
+            (action is ChangeFilter) -> {
+                mutate(state().copy(filter = action.filter))
             }
             else -> { throw RuntimeException(action.toString()) }
         }
