@@ -16,7 +16,7 @@
               android:text="title" />
     <EditText android:layout_width="0dp" android:layout_height="wrap_content" android:layout_margin="4dp"
               android:layout_gravity="fill_horizontal" android:background="@drawable/bg_field" style="@style/Input"
-              android:maxLines="1" android:inputType="text"
+              android:maxLines="1" android:inputType="textCapSentences"
               android:id="@+id/propdetail_name" />
 
     <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
@@ -25,7 +25,7 @@
               android:text="address" />
     <EditText android:layout_width="0dp" android:layout_height="wrap_content" android:layout_margin="4dp"
               android:layout_gravity="fill_horizontal" android:background="@drawable/bg_field" style="@style/Input"
-              android:maxLines="1" android:inputType="text"
+              android:maxLines="1" android:inputType="textCapWords"
               android:id="@+id/propdetail_address" />
 
     <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
@@ -35,12 +35,12 @@
     <LinearLayout android:layout_width="wrap_content" android:layout_height="wrap_content"
                   android:orientation="horizontal">
         <EditText android:layout_width="150dp" android:layout_height="wrap_content" android:layout_margin="4dp"
-                  android:background="@drawable/bg_field" style="@style/Input" android:maxLines="1" android:inputType="text"
+                  android:background="@drawable/bg_field" style="@style/Input" android:maxLines="1" android:inputType="textCapWords"
                   android:id="@+id/propdetail_city" />
         <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
                   android:text="," />
         <EditText android:layout_width="70dp" android:layout_height="wrap_content" android:layout_margin="4dp"
-                  android:background="@drawable/bg_field" style="@style/Input" android:maxLines="1" android:inputType="text"
+                  android:background="@drawable/bg_field" style="@style/Input" android:maxLines="1" android:inputType="textCapCharacters"
                   android:id="@+id/propdetail_state" />
     </LinearLayout>
 
