@@ -64,6 +64,14 @@ class ProplistFragment : BaseFragment() {
         filterbar_text?.text = state.filter.description()
         proplist_sort_spinner.setIfChanged(state.sortBy)
         recyclerAdapter.updateProps(state.props)
+
+        if (recyclerAdapter.itemCount > 0) {
+            proplist_swipecontainer.visibility = View.VISIBLE
+            proplist_no_results_text.visibility = View.GONE
+        } else {
+            proplist_swipecontainer.visibility = View.GONE
+            proplist_no_results_text.visibility = View.VISIBLE
+        }
     }
 
     override fun onShowFromBackStack() {

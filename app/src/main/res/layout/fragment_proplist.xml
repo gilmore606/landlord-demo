@@ -19,5 +19,12 @@
                                                            android:id="@+id/proplist_recyclerview" />
         </HorizontalScrollView>
     </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
+    <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+              android:id="@+id/proplist_no_results_text"
+              android:text="No properties match your filter."
+              android:layout_margin="24dp"
+              style="@style/PropAvail"
+              android:visibility="gone"
+              android:layout_gravity="center" />
 
 </LinearLayout>
