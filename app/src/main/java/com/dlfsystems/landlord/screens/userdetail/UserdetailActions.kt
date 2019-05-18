@@ -3,10 +3,6 @@ package com.dlfsystems.landlord.screens.userdetail
 import com.dlfsystems.landlord.data.model.User
 import com.dlfsystems.landlord.screens.base.Action
 
-class LoadUser(
-    val userid: String
-) : Action
-
 class UserLoaded(
     val user: User
 ) : Action

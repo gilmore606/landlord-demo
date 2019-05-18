@@ -24,6 +24,15 @@ class PropdetailPresenter(fragment: BaseFragment) : BasePresenter(fragment) {
 
     override fun hearAction(action: Action) {
         when {
+            (action is InitialState) -> {
+                val state = state()
+                if (!state.loaded) {
+                    mutate(state().copy(loading = true))
+                    repo.getProp(state.propId) {
+                        actions.onNext(LoadProperty(it))
+                    }
+                }
+            }
             (action is LocateAddress) -> {
                 mutate(state().copy(loading = true))
                 requestCoordsHere {
@@ -131,6 +140,7 @@ class PropdetailPresenter(fragment: BaseFragment) : BasePresenter(fragment) {
     private fun loadProperty(prop: Prop) {
         mutate(state().copy(
             loading = false,
+            loaded = true,
             coordx = prop.coordx,
             coordy = prop.coordy,
             name = prop.name,

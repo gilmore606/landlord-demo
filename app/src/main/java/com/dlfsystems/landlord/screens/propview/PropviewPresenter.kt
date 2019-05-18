@@ -17,6 +17,15 @@ class PropviewPresenter(fragment: BaseFragment) : BasePresenter(fragment) {
 
     override fun hearAction(action: Action) {
         when {
+            (action is InitialState) -> {
+                val state = state()
+                if (!state.loaded) {
+                    mutate(state.copy(loading = true))
+                    repo.getProp(state.propId) {
+                        actions.onNext(LoadProperty(it))
+                    }
+                }
+            }
             (action is LoadProperty) -> {
                 loadProperty(action.property)
             }
@@ -29,6 +38,9 @@ class PropviewPresenter(fragment: BaseFragment) : BasePresenter(fragment) {
             (action is SetAvailable) -> {
                 mutate(state().copy(available = action.available))
                 updateProperty(propFromState())
+            }
+            (action is LoadRealtorName) -> {
+                mutate(state().copy(realtorName = action.name))
             }
             else -> { throw RuntimeException(action.toString()) }
         }
@@ -62,9 +74,7 @@ class PropviewPresenter(fragment: BaseFragment) : BasePresenter(fragment) {
             zip = prop.zip
         ))
         repo.getUser(prop.realtorId) {
-            mutate(state().copy(
-                realtorName = it.username
-            ))
+            actions.onNext(LoadRealtorName(it.username))
         }
     }
 

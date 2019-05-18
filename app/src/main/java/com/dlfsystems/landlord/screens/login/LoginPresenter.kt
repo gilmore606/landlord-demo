@@ -18,6 +18,7 @@ class LoginPresenter(fragment: BaseFragment) : BasePresenter(fragment) {
 
     override fun hearAction(action: Action) {
         when {
+            (action is InitialState) -> { }
             (action is LogIn) -> {
                 mutate(state().copy(lastError = "", waiting = true))
                 loginUser(action.username, action.password)

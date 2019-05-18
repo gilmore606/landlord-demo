@@ -6,7 +6,6 @@ import com.dlfsystems.landlord.nav.Rudder
 import com.dlfsystems.landlord.screens.base.Action
 import com.dlfsystems.landlord.screens.base.BaseFragment
 import com.dlfsystems.landlord.screens.base.BasePresenter
-import com.dlfsystems.landlord.screens.userlist.UserlistKey
 import java.lang.RuntimeException
 
 class UserdetailPresenter(fragment: BaseFragment) : BasePresenter(fragment) {
@@ -17,12 +16,13 @@ class UserdetailPresenter(fragment: BaseFragment) : BasePresenter(fragment) {
 
     override fun hearAction(action: Action) {
         when {
-            (action is LoadUser) -> {
-                mutate(state().copy(loading = true))
-                FirebaseRepository().getUser(action.userid) {
-                    fragment.actions.onNext(
-                        UserLoaded(it)
-                    )
+            (action is InitialState) -> {
+                val state = state()
+                if ((state.username == "") and (!state.loading)) {
+                    mutate(state().copy(loading = true))
+                    FirebaseRepository().getUser(state.userId) {
+                        actions.onNext(UserLoaded(it))
+                    }
                 }
             }
             (action is UserLoaded) -> {
@@ -40,7 +40,7 @@ class UserdetailPresenter(fragment: BaseFragment) : BasePresenter(fragment) {
             (action is UserSaveChanges) -> {
                 FirebaseRepository().putUser(action.user)
                 fragment.makeToast(action.user.username + " updated.")
-                Rudder.navTo(UserlistKey())
+                Rudder.navBack()
             }
             (action is UserDelete) -> {
                 confirmAndDeleteUser(action.user)

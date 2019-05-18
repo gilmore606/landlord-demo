@@ -30,17 +30,11 @@ class PropdetailFragment : BaseFragment() {
 
     override fun makeStateFromArguments(arguments: Bundle): BaseState {
         val propId = arguments.getSerializable("propId") as String
-        val loading = (propId != "")
-        return PropdetailState(propId = propId, loading = loading)
+        val isNew = (propId == "")
+        return PropdetailState(propId = propId, loaded = isNew, isNew = isNew)
     }
 
     override fun subscribeUI(view: View) {
-        if (state().loading) {
-            repo.getProp(state().propId) {
-                actions.onNext(LoadProperty(it))
-            }
-            propdetail_submit_button.text = "UPDATE LISTING"
-        }
 
         repo.getRealtors {
             context?.also { context ->
@@ -126,7 +120,12 @@ class PropdetailFragment : BaseFragment() {
     override fun render(state: BaseState) {
         state as PropdetailState
 
-        if (!state.loading) {
+        if (state.isNew) propdetail_submit_button.setIfChanged("UPDATE LISTING")
+
+        if (state.loading)  {
+            propdetail_loader.visibility = View.VISIBLE
+            propdetail_content.visibility = View.GONE
+        } else {
             propdetail_loader.visibility = View.GONE
             propdetail_content.visibility = View.VISIBLE
 
@@ -144,9 +143,6 @@ class PropdetailFragment : BaseFragment() {
             propdetail_realtor_spinner.setSelection(realtorIds.indexOf(state.realtorId))
 
             propdetail_submit_button.isEnabled = isSubmittable()
-        } else {
-            propdetail_loader.visibility = View.VISIBLE
-            propdetail_content.visibility = View.GONE
         }
     }
 

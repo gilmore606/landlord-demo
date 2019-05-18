@@ -1,6 +1,5 @@
 package com.dlfsystems.landlord.screens.base
 
-import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -50,13 +49,12 @@ abstract class BaseFragment : androidx.fragment.app.Fragment() {
         stateHolder = ViewModelProvider(this, SavedStateVMFactory(this))
             .get(StateHolder::class.java)
 
-        presenter.connectStateHolder(stateHolder, initialState)
-        presenter.connectActions(actions)
-
         disposables += stateHolder.state.observeOn(AndroidSchedulers.mainThread())
             .subscribe {
                 _render(it)
             }
+
+        presenter.injectInitialState(stateHolder, initialState, actions)
 
         return view
     }

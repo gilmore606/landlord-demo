@@ -54,9 +54,6 @@ class UserdetailFragment : BaseFragment() {
                 userdetail_content.visibility = View.GONE
                 userdetail_loader.visibility = View.VISIBLE
             }
-            (!state.loading and (state.username == "")) -> {
-                actions.onNext(LoadUser(state.userId))
-            }
             (!state.loading and (state.username != "")) -> {
                 userdetail_loader.visibility = View.GONE
                 userdetail_content.visibility = View.VISIBLE

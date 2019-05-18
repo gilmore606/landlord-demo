@@ -17,9 +17,11 @@ class ProplistPresenter(fragment: BaseFragment) : BasePresenter(fragment) {
 
     override fun hearAction(action: Action) {
         when {
-            (action is LoadProperties) -> {
+            (action is InitialState) -> {
                 mutate(state().copy(loading = true))
                 loadProperties(state().filter)
+            }
+            (action is LoadProperties) -> {
             }
             (action is ViewProperty) -> {
                 Rudder.navTo(PropviewKey(action.propId))

@@ -1,15 +1,12 @@
 package com.dlfsystems.landlord.screens.propmap
 
 import com.dlfsystems.landlord.data.FirebaseRepository
-import com.dlfsystems.landlord.data.model.Prop
 import com.dlfsystems.landlord.data.model.PropFilter
 import com.dlfsystems.landlord.nav.Rudder
 import com.dlfsystems.landlord.screens.base.Action
 import com.dlfsystems.landlord.screens.base.BaseFragment
 import com.dlfsystems.landlord.screens.base.BasePresenter
 import com.dlfsystems.landlord.screens.propview.PropviewKey
-import com.google.android.gms.maps.model.LatLng
-import com.google.android.gms.maps.model.MarkerOptions
 
 class PropmapPresenter(fragment: BaseFragment) : BasePresenter(fragment) {
 
@@ -19,6 +16,7 @@ class PropmapPresenter(fragment: BaseFragment) : BasePresenter(fragment) {
 
     override fun hearAction(action: Action) {
         when {
+            (action is InitialState) -> { }
             (action is LoadProperties) -> {
                 mutate(state().copy(loading = true))
                 loadProperties(state().filter)

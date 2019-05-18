@@ -50,13 +50,6 @@ class PropviewFragment : BaseFragment() {
             propview_available_button.visibility = View.GONE
         }
 
-        if (!state().loaded) {
-            stateHolder.mutate(state().copy(loading = true))
-            repo.getProp(state().propId) {
-                actions.onNext(LoadProperty(it))
-            }
-        }
-
         propview_edit_button.setOnClickListener {
             actions.onNext(EditProperty(state().propId))
         }
@@ -71,7 +64,10 @@ class PropviewFragment : BaseFragment() {
     override fun render(state: BaseState) {
         state as PropviewState
 
-        if (!state.loading) {
+        if (state.loading) {
+            propview_loader.visibility = View.VISIBLE
+            propview_content.visibility = View.GONE
+        } else {
             propview_loader.visibility = View.GONE
             propview_content.visibility = View.VISIBLE
 
@@ -79,21 +75,20 @@ class PropviewFragment : BaseFragment() {
 
             propview_name.setIfChanged(state.name)
             propview_available.text =
-                if (state.available) ""
-                else "Unavailable"
+                if (state.available) "" else "Unavailable"
             propview_available_button.text =
-                if (state.available) "unavailable"
-                else "available"
+                if (state.available) "unavailable" else "available"
             propview_rent.setIfChanged("$" + state.rent.toString() + "/mo")
             propview_sqft.setIfChanged(state.sqft.toString() + "sq ft")
             propview_realtor.setIfChanged(state.realtorName.replace("@", "@\n"))
             propview_date.setIfChanged(dateFormat.format(Date(state.addtime)))
             propview_desc.setIfChanged("\"" + state.desc + "\"")
             propview_address.setIfChanged(state.address + "\n" + state.city + ", " + state.state + " " + state.zip)
-        } else {
-            propview_loader.visibility = View.VISIBLE
-            propview_content.visibility = View.GONE
         }
+    }
+
+    override fun onShowFromBackStack() {
+        super.onShowFromBackStack()
     }
 
     private fun moveCamera(coordx: Double, coordy: Double, title: String) {

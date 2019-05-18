@@ -16,6 +16,7 @@ class FilterPresenter(fragment: BaseFragment) : BasePresenter(fragment) {
 
     override fun hearAction(action: Action) {
         when {
+            (action is InitialState) -> { }
             (action is ApplyFilter) -> {
                 updateFilter()
                 Rudder.navBack()

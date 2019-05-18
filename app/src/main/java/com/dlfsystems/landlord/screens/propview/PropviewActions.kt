@@ -19,3 +19,7 @@ class SetAvailable(
     val propId: String,
     val available: Boolean
 ) : Action
+
+class LoadRealtorName(
+    val name: String
+) : Action
