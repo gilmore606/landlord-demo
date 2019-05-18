@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+             android:layout_width="match_parent" android:layout_height="match_parent"
+             xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                  android:orientation="horizontal"
+                  android:id="@+id/propview_content"
+                  android:layout_margin="12dp"
+                  android:layout_width="match_parent"
+                  android:layout_height="match_parent">
+            <LinearLayout android:layout_width="wrap_content" android:layout_height="match_parent"
+                          android:layout_marginVertical="10dp" android:background="@drawable/bg_shade"
+                          android:padding="8dp" android:layout_gravity="center_vertical"
+                          android:orientation="vertical">
+                <TextView android:layout_width="match_parent" android:layout_height="wrap_content"
+                          style="@style/PropData" android:gravity="right" android:layout_marginVertical="4dp"
+                          android:id="@+id/propview_rent" />
+                <TextView android:layout_width="match_parent" android:layout_height="wrap_content"
+                          style="@style/PropData" android:gravity="right" android:layout_marginVertical="4dp"
+                          android:id="@+id/propview_rooms" />
+                <TextView android:layout_width="match_parent" android:layout_height="wrap_content"
+                          style="@style/PropData" android:gravity="right" android:layout_marginVertical="4dp"
+                          android:id="@+id/propview_sqft" />
+                <TextView android:layout_width="match_parent" android:layout_height="wrap_content"
+                          style="@style/FieldHint" android:layout_marginVertical="4dp"
+                          android:text="realtor:" />
+                <TextView android:layout_width="match_parent" android:layout_height="wrap_content"
+                          style="@style/PropDesc" android:gravity="right" android:layout_marginVertical="4dp"
+                          android:id="@+id/propview_realtor" />
+                <TextView android:layout_width="match_parent" android:layout_height="wrap_content"
+                          style="@style/FieldHint" android:layout_marginVertical="4dp"
+                          android:text="listed on:" />
+                <TextView android:layout_width="match_parent" android:layout_height="wrap_content"
+                          style="@style/PropDesc" android:gravity="right" android:layout_marginVertical="4dp"
+                          android:id="@+id/propview_date" />
+            </LinearLayout>
+            <LinearLayout android:layout_width="0dp" android:layout_height="wrap_content"
+                          android:layout_weight="1"
+                          android:orientation="vertical">
+                <TextView android:layout_width="match_parent" android:layout_height="wrap_content"
+                          android:layout_margin="12dp"
+                          style="@style/PropData" android:gravity="left"
+                          android:id="@+id/propview_address" />
+                <com.google.android.gms.maps.MapView android:layout_width="match_parent"
+                                                     android:layout_height="260dp"
+                                                     android:layout_marginHorizontal="12dp" android:layout_marginBottom="12dp"
+                                                     android:id="@+id/propview_mapview" />
+            </LinearLayout>
+        <LinearLayout android:layout_width="wrap_content" android:layout_height="wrap_content"
+                      android:orientation="vertical">
+
+            <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content"
+                          android:layout_margin="12dp"
+                          android:orientation="horizontal" >
+                <TextView android:layout_width="0dp" android:layout_height="wrap_content"
+                          style="@style/PropName" android:layout_weight="1"
+                          android:id="@+id/propview_name" />
+                <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                          style="@style/PropAvail" android:layout_weight="0"
+                          android:id="@+id/propview_available" />
+            </LinearLayout>
+
+            <TextView android:layout_width="match_parent" android:layout_height="wrap_content"
+                      style="@style/PropDesc" android:gravity="center" android:layout_marginVertical="8dp"
+                      android:layout_marginHorizontal="24dp"
+                      android:id="@+id/propview_desc" />
+            <LinearLayout android:layout_width="wrap_content" android:layout_height="wrap_content"
+                          android:layout_gravity="center_horizontal" android:layout_margin="12dp"
+                          android:orientation="horizontal">
+                <Button android:layout_width="wrap_content" android:layout_height="wrap_content"
+                        android:id="@+id/propview_edit_button" style="@style/Widget.AppCompat.Button.Colored"
+                        android:text="EDIT" />
+                <Button android:layout_width="wrap_content" android:layout_height="wrap_content"
+                        android:id="@+id/propview_delete_button" style="@style/Widget.AppCompat.Button.Colored"
+                        android:text="DELETE" />
+                <Button android:layout_width="wrap_content" android:layout_height="wrap_content"
+                        android:id="@+id/propview_available_button" style="@style/Widget.AppCompat.Button.Colored"
+                        android:text="SET UNAVAILABLE" />
+            </LinearLayout>
+        </LinearLayout>
+    </LinearLayout>
+    <com.airbnb.lottie.LottieAnimationView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                                           android:id="@+id/propview_loader" app:lottie_rawRes="@raw/loader_anim" android:layout_gravity="center_horizontal"
+                                           app:lottie_loop="true" app:lottie_autoPlay="true" android:visibility="gone" />
+</FrameLayout>
