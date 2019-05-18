@@ -10,6 +10,7 @@ import android.text.TextWatcher
 import android.view.View
 import android.view.inputmethod.InputMethodManager
 import android.widget.EditText
+import android.widget.TextView
 import androidx.fragment.app.Fragment
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.disposables.Disposable
@@ -73,6 +74,11 @@ fun String.isValidCoord(): Boolean {
 }
 
 fun EditText.setIfChanged(newText: String) {
+    if ((text.toString() != newText) and (text.toString() != (newText + " ")))
+        setText(newText)
+}
+
+fun TextView.setIfChanged(newText: String) {
     if ((text.toString() != newText) and (text.toString() != (newText + " ")))
         setText(newText)
 }

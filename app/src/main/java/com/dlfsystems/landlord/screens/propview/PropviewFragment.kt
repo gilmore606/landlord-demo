@@ -8,11 +8,14 @@ import com.dlfsystems.landlord.R
 import com.dlfsystems.landlord.data.FirebaseRepository
 import com.dlfsystems.landlord.screens.base.BaseFragment
 import com.dlfsystems.landlord.screens.base.BaseState
+import com.dlfsystems.landlord.setIfChanged
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MarkerOptions
 import kotlinx.android.synthetic.main.fragment_propview.*
+import java.text.SimpleDateFormat
+import java.util.*
 
 class PropviewFragment : BaseFragment() {
 
@@ -24,14 +27,12 @@ class PropviewFragment : BaseFragment() {
 
     val repo = FirebaseRepository()
     val prefs by lazy { Prefs(context!!) }
+    val dateFormat = SimpleDateFormat("MM/dd/yyyy")
 
     var map: GoogleMap? = null
 
     override fun makeStateFromArguments(arguments: Bundle): BaseState =
-            PropviewState(
-                propId = arguments.getSerializable("propId") as String,
-                loading = true
-            )
+            PropviewState(propId = arguments.getSerializable("propId") as String)
 
     override fun subscribeUI(view: View) {
         propview_mapview.getMapAsync {
@@ -49,7 +50,8 @@ class PropviewFragment : BaseFragment() {
             propview_available_button.visibility = View.GONE
         }
 
-        if (state().loading) {
+        if (!state().loaded) {
+            stateHolder.mutate(state().copy(loading = true))
             repo.getProp(state().propId) {
                 actions.onNext(LoadProperty(it))
             }
@@ -75,13 +77,19 @@ class PropviewFragment : BaseFragment() {
 
             moveCamera(state.coordx, state.coordy, state.name)
 
+            propview_name.setIfChanged(state.name)
             propview_available.text =
-                if (state.available) "This property is available for rent."
-                else "This property has been rented, and is no longer available."
+                if (state.available) ""
+                else "Unavailable"
             propview_available_button.text =
-                if (state.available) "Set unavailable"
-                else "Set available"
-
+                if (state.available) "unavailable"
+                else "available"
+            propview_rent.setIfChanged("$" + state.rent.toString() + "/mo")
+            propview_sqft.setIfChanged(state.sqft.toString() + "sq ft")
+            propview_realtor.setIfChanged(state.realtorName.replace("@", "@\n"))
+            propview_date.setIfChanged(dateFormat.format(Date(state.addtime)))
+            propview_desc.setIfChanged("\"" + state.desc + "\"")
+            propview_address.setIfChanged(state.address + "\n" + state.city + ", " + state.state + " " + state.zip)
         } else {
             propview_loader.visibility = View.VISIBLE
             propview_content.visibility = View.GONE

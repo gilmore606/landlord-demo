@@ -34,11 +34,11 @@
                       android:layout_width="wrap_content"
                       android:layout_height="match_parent">
             <Button android:layout_width="wrap_content" android:layout_height="wrap_content"
-                    android:id="@+id/userdetail_apply_button"
+                    android:id="@+id/userdetail_apply_button" style="@style/Widget.AppCompat.Button.Colored"
                     android:text="APPLY" />
 
             <Button android:layout_width="wrap_content" android:layout_height="wrap_content"
-                    android:id="@+id/userdetail_delete_button"
+                    android:id="@+id/userdetail_delete_button" style="@style/Widget.AppCompat.Button.Colored"
                     android:text="DELETE USER" />
 
         </LinearLayout>

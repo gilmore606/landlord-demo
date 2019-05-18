@@ -58,10 +58,10 @@
     <LinearLayout android:layout_width="wrap_content" android:layout_height="wrap_content"
                   android:orientation="horizontal" >
         <Button android:layout_width="wrap_content" android:layout_height="wrap_content"
-                android:id="@+id/filter_apply_button"
+                android:id="@+id/filter_apply_button" style="@style/Widget.AppCompat.Button.Colored"
                 android:text="APPLY" />
         <Button android:layout_width="wrap_content" android:layout_height="wrap_content"
-                android:id="@+id/filter_clear_button"
+                android:id="@+id/filter_clear_button" style="@style/Widget.AppCompat.Button.Colored"
                 android:text="CLEAR" />
     </LinearLayout>
 </LinearLayout>

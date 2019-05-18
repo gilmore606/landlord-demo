@@ -52,4 +52,20 @@
         <item name="android:textSize">14dp</item>
         <item name="android:textStyle">bold</item>
     </style>
+    <style name="PropName" parent="Theme.AppCompat.Light">
+        <item name="android:textSize">20dp</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+    <style name="PropAvail" parent="Theme.AppCompat.Light">
+        <item name="android:textSize">16dp</item>
+        <item name="android:textStyle">italic</item>
+        <item name="android:textColor">#AA0000</item>
+    </style>
+    <style name="PropData" parent="Theme.AppCompat.Light">
+        <item name="android:textSize">16dp</item>
+    </style>
+    <style name="PropDesc" parent="Theme.AppCompat.Light">
+        <item name="android:textSize">14dp</item>
+        <item name="android:textStyle">italic</item>
+    </style>
 </resources>

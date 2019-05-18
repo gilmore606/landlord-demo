@@ -45,6 +45,7 @@ class PropviewPresenter(fragment: BaseFragment) : BasePresenter(fragment) {
     private fun loadProperty(prop: Prop) {
         mutate(state().copy(
             loading = false,
+            loaded = true,
             coordx = prop.coordx,
             coordy = prop.coordy,
             name = prop.name,
@@ -60,6 +61,11 @@ class PropviewPresenter(fragment: BaseFragment) : BasePresenter(fragment) {
             state = prop.state,
             zip = prop.zip
         ))
+        repo.getUser(prop.realtorId) {
+            mutate(state().copy(
+                realtorName = it.username
+            ))
+        }
     }
 
     private fun propFromState(): Prop {

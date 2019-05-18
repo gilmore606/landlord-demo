@@ -34,10 +34,10 @@
                   android:text="password" />
     </LinearLayout>
     <Button android:layout_width="wrap_content" android:layout_height="wrap_content"
-            android:text="LOG IN" android:layout_gravity="center_horizontal"
+            android:text="LOG IN" android:layout_gravity="center_horizontal" style="@style/Widget.AppCompat.Button.Colored"
             android:id="@+id/login_button_login" />
     <Button android:layout_width="wrap_content" android:layout_height="wrap_content"
-            android:text="REGISTER" android:layout_gravity="center_horizontal"
+            android:text="REGISTER" android:layout_gravity="center_horizontal" style="@style/Widget.AppCompat.Button.Colored"
             android:id="@+id/login_button_register" />
     <com.airbnb.lottie.LottieAnimationView android:layout_width="wrap_content" android:layout_height="wrap_content"
         android:id="@+id/login_loader" app:lottie_rawRes="@raw/loader_anim" android:layout_gravity="center_horizontal"
