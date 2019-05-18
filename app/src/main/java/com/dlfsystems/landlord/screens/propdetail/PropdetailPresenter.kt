@@ -32,6 +32,15 @@ class PropdetailPresenter(fragment: BaseFragment) : BasePresenter(fragment) {
                         actions.onNext(LoadProperty(it))
                     }
                 }
+                if (state.realtorList == null) {
+                    repo.getRealtors {
+                        mutate(state().copy(
+                            realtorList = it.map { it.username },
+                            realtorIds = it.map { it.uid },
+                            realtorUsername = (it.firstOrNull { it.uid == state().realtorId })?.username ?: state().realtorUsername
+                        ))
+                    }
+                }
             }
             (action is LocateAddress) -> {
                 mutate(state().copy(loading = true))

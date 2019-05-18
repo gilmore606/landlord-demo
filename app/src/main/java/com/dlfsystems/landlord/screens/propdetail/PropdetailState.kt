@@ -18,6 +18,8 @@ data class PropdetailState(
     val available: Boolean = true,
     val realtorId: String = "",
     val realtorUsername: String = "",
+    val realtorList: List<String>? = null,
+    val realtorIds: List<String>? = null,
     val address: String = "",
     val city: String = "",
     val state: String = "",

@@ -10,6 +10,7 @@ import android.text.TextWatcher
 import android.view.View
 import android.view.inputmethod.InputMethodManager
 import android.widget.EditText
+import android.widget.Spinner
 import android.widget.TextView
 import androidx.fragment.app.Fragment
 import io.reactivex.disposables.CompositeDisposable
@@ -81,4 +82,10 @@ fun EditText.setIfChanged(newText: String) {
 fun TextView.setIfChanged(newText: String) {
     if ((text.toString() != newText) and (text.toString() != (newText + " ")))
         setText(newText)
+}
+
+fun Spinner.setIfChanged(i: Int) {
+    if (selectedItemPosition != i) {
+        setSelection(i)
+    }
 }

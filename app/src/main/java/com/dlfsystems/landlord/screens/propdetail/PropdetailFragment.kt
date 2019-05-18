@@ -13,7 +13,6 @@ import com.dlfsystems.landlord.screens.base.BaseState
 import com.dlfsystems.landlord.setIfChanged
 import com.dlfsystems.landlord.validate
 import kotlinx.android.synthetic.main.fragment_propdetail.*
-import timber.log.Timber
 
 class PropdetailFragment : BaseFragment() {
 
@@ -25,8 +24,7 @@ class PropdetailFragment : BaseFragment() {
 
     val repo = FirebaseRepository()
 
-    var realtorList = listOf<String>()
-    var realtorIds = listOf<String>()
+    var realtorAdapter: ArrayAdapter<String>? = null
 
     override fun makeStateFromArguments(arguments: Bundle): BaseState {
         val propId = arguments.getSerializable("propId") as String
@@ -36,31 +34,15 @@ class PropdetailFragment : BaseFragment() {
 
     override fun subscribeUI(view: View) {
 
-        repo.getRealtors {
-            context?.also { context ->
-                realtorList = it.map { it.username }
-                realtorIds = it.map { it.uid }
-                val realtorAdapter = ArrayAdapter(context, android.R.layout.simple_spinner_item, realtorList)
-                realtorAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
-                propdetail_realtor_spinner.adapter = realtorAdapter
-                if (state().realtorId != "") {
-                    val i = realtorIds.indexOf(state().realtorId)
-                    if (i > 0) {
-                        stateHolder.mutate(
-                            state().copy(
-                                realtorUsername = realtorList[realtorIds.indexOf(state().realtorId)]
-                            )
-                        )
-                    }
-                }
-            }
-        }
-
-
         propdetail_realtor_spinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
             override fun onNothingSelected(arg0: AdapterView<*>) { }
             override fun onItemSelected(arg0: AdapterView<*>, view: View, position: Int, id: Long) {
-                actions.onNext(SelectRealtor(realtorIds[position], realtorList[position]))
+                val state = state()
+                state.realtorIds?.also {
+                    state.realtorList?.also {
+                        actions.onNext(SelectRealtor(state.realtorIds[position], state.realtorList[position]))
+                    }
+                }
             }
         }
 
@@ -142,7 +124,17 @@ class PropdetailFragment : BaseFragment() {
             propdetail_city.setIfChanged(state.city)
             propdetail_state.setIfChanged(state.state)
             propdetail_zip.setIfChanged(state.zip)
-            propdetail_realtor_spinner.setSelection(realtorIds.indexOf(state.realtorId))
+
+            context?.also { state.realtorList?.also {
+                if (realtorAdapter == null) {
+                    realtorAdapter = ArrayAdapter(context!!, android.R.layout.simple_spinner_item, state.realtorList)
+                    realtorAdapter!!.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+                    propdetail_realtor_spinner.adapter = realtorAdapter!!
+                }
+                state.realtorIds?.also {
+                    propdetail_realtor_spinner.setIfChanged(state.realtorIds.indexOf(state.realtorId))
+                }
+            }}
 
             propdetail_submit_button.isEnabled = isSubmittable()
         }
