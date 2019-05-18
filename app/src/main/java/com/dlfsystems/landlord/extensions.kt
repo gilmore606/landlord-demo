@@ -67,6 +67,18 @@ fun EditText.validate(validator: (String) -> Boolean, message: String, saver: ((
     this.error = if (validator(this.text.toString())) null else message
 }
 
+fun EditText.validateNumeric(validator: (String) -> Boolean, message: String, saver: ((String) -> Unit)? = null) {
+    this.afterTextChanged {
+        if (it == "0") text.clear()
+        if (!validator(it)) this.error = message
+        else {
+            this.error = null
+            if (saver != null) saver(it)
+        }
+    }
+    this.error = if (validator(this.text.toString())) null else message
+}
+
 fun String.isValidCoord(): Boolean {
     if (length < 1) return false
     if (toDouble() == 0.0) return false

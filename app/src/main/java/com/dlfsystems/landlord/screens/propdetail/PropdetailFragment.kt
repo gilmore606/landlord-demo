@@ -4,14 +4,11 @@ import android.os.Bundle
 import android.view.View
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
-import com.dlfsystems.landlord.R
+import com.dlfsystems.landlord.*
 import com.dlfsystems.landlord.data.FirebaseRepository
 import com.dlfsystems.landlord.data.model.Prop
-import com.dlfsystems.landlord.isValidCoord
 import com.dlfsystems.landlord.screens.base.BaseFragment
 import com.dlfsystems.landlord.screens.base.BaseState
-import com.dlfsystems.landlord.setIfChanged
-import com.dlfsystems.landlord.validate
 import kotlinx.android.synthetic.main.fragment_propdetail.*
 
 class PropdetailFragment : BaseFragment() {
@@ -58,13 +55,13 @@ class PropdetailFragment : BaseFragment() {
         propdetail_coordy.validate({ it.isValidCoord() }, "Longitude", {
             stateHolder.mutate(state().copy(coordy = it.toDouble()))
         })
-        propdetail_rooms.validate({ it.toIntOrNull() ?: 0 > 0 }, "Number of rooms", {
+        propdetail_rooms.validateNumeric({ it.toIntOrNull() ?: 0 > 0 }, "Number of rooms", {
             stateHolder.mutate(state().copy(rooms = it.toInt()))
         })
-        propdetail_sqft.validate({ it.toIntOrNull() ?: 0 > 0}, "Floor space", {
+        propdetail_sqft.validateNumeric({ it.toIntOrNull() ?: 0 > 0}, "Floor space", {
             stateHolder.mutate(state().copy(sqft = it.toInt()))
         })
-        propdetail_rent.validate({ it.toIntOrNull() ?: 0 > 0}, "Monthly rent", {
+        propdetail_rent.validateNumeric({ it.toIntOrNull() ?: 0 > 0}, "Monthly rent", {
             stateHolder.mutate(state().copy(rent = it.toInt()))
         })
         propdetail_address.validate({ it.length > 0 }, "Address", {
@@ -76,7 +73,7 @@ class PropdetailFragment : BaseFragment() {
         propdetail_state.validate({ it.length == 2 }, "State code", {
             stateHolder.mutate(state().copy(state = it))
         })
-        propdetail_zip.validate({ (it.length == 5) and (it.toIntOrNull() ?: 0 > 0) }, "5-digit ZIP code", {
+        propdetail_zip.validateNumeric({ (it.length == 5) and (it.toIntOrNull() ?: 0 > 0) }, "5-digit ZIP code", {
             stateHolder.mutate(state().copy(zip = it))
         })
 

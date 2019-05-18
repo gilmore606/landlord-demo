@@ -17,6 +17,7 @@
     <EditText android:layout_width="0dp" android:layout_height="wrap_content" android:layout_margin="4dp"
               android:layout_gravity="fill_horizontal" android:background="@drawable/bg_field" style="@style/Input"
               android:maxLines="1" android:inputType="textCapSentences"
+              android:nextFocusDown="@id/propdetail_address"
               android:id="@+id/propdetail_name" />
 
     <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
@@ -26,6 +27,7 @@
     <EditText android:layout_width="0dp" android:layout_height="wrap_content" android:layout_margin="4dp"
               android:layout_gravity="fill_horizontal" android:background="@drawable/bg_field" style="@style/Input"
               android:maxLines="1" android:inputType="textCapWords"
+              android:nextFocusDown="@id/propdetail_city"
               android:id="@+id/propdetail_address" />
 
     <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
@@ -36,11 +38,13 @@
                   android:orientation="horizontal">
         <EditText android:layout_width="150dp" android:layout_height="wrap_content" android:layout_margin="4dp"
                   android:background="@drawable/bg_field" style="@style/Input" android:maxLines="1" android:inputType="textCapWords"
+                  android:nextFocusDown="@id/propdetail_state"
                   android:id="@+id/propdetail_city" />
         <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
                   android:text="," />
         <EditText android:layout_width="70dp" android:layout_height="wrap_content" android:layout_margin="4dp"
                   android:background="@drawable/bg_field" style="@style/Input" android:maxLines="1" android:inputType="textCapCharacters"
+                  android:nextFocusDown="@id/propdetail_zip"
                   android:id="@+id/propdetail_state" />
     </LinearLayout>
 
@@ -54,6 +58,7 @@
         <EditText android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_margin="4dp"
                   android:background="@drawable/bg_field" style="@style/Input"
                   android:maxLines="1" android:inputType="numberDecimal"
+                  android:nextFocusDown="@id/propdetail_coordx"
                   android:id="@+id/propdetail_zip" />
         <LinearLayout android:layout_width="wrap_content" android:layout_height="wrap_content"
                       android:orientation="horizontal" >
@@ -78,6 +83,7 @@
             <EditText android:layout_width="90dp" android:layout_height="wrap_content" android:layout_margin="4dp" android:lines="1"
                       android:id="@+id/propdetail_coordx" android:background="@drawable/bg_field"  style="@style/Input"
                       android:maxLines="1"
+                      android:nextFocusDown="@id/propdetail_coordy"
                       android:inputType="numberDecimal" />
             <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
                       style="@style/FieldLabel" android:layout_gravity="top"
@@ -85,6 +91,7 @@
             <EditText android:layout_width="90dp" android:layout_height="wrap_content" android:layout_margin="4dp" android:lines="1"
                       android:id="@+id/propdetail_coordy" android:background="@drawable/bg_field" style="@style/Input"
                       android:maxLines="1"
+                      android:nextFocusDown="@id/propdetail_desc"
                       android:inputType="numberDecimal" />
         </LinearLayout>
         <LinearLayout android:layout_width="wrap_content" android:layout_height="wrap_content"
@@ -103,6 +110,7 @@
     <EditText android:layout_width="0dp" android:layout_height="wrap_content" android:layout_margin="4dp"
               android:layout_gravity="fill_horizontal"
               android:minLines="2" android:background="@drawable/bg_field" style="@style/Input"
+              android:nextFocusDown="@id/propdetail_sqft"
               android:id="@+id/propdetail_desc" />
 
     <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
@@ -114,12 +122,14 @@
         <EditText android:layout_width="100dp" android:layout_height="wrap_content" android:layout_margin="4dp"
                   android:background="@drawable/bg_field" style="@style/Input" android:inputType="numberDecimal"
                   android:maxLines="1"
+                  android:nextFocusDown="@id/propdetail_rooms"
                   android:id="@+id/propdetail_sqft" />
         <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" style="@style/FieldLabel"
                   android:text="sq ft   " />
         <EditText android:layout_width="70dp" android:layout_height="wrap_content" android:layout_margin="4dp"
                   android:background="@drawable/bg_field" style="@style/Input" android:inputType="numberDecimal"
                   android:maxLines="1"
+                  android:nextFocusDown="@id/propdetail_rent"
                   android:id="@+id/propdetail_rooms" />
         <TextView android:layout_width="wrap_content" android:layout_height="wrap_content" style="@style/FieldLabel"
                   android:text="rooms" />
