@@ -7,5 +7,6 @@ import com.dlfsystems.landlord.screens.base.BaseState
 data class ProplistState(
     val loading: Boolean = false,
     val filter: PropFilter = PropFilter(),
-    val props: List<Prop> = ArrayList<Prop>(0)
+    val props: List<Prop> = ArrayList<Prop>(0),
+    val sortBy: Int = 0
 ) : BaseState()

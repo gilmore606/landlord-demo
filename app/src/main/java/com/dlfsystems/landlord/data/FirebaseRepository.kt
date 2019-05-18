@@ -61,7 +61,7 @@ class FirebaseRepository : Repository {
     }
 
     override fun getFilteredProps(filter: PropFilter, callback: (List<Prop>) -> Unit) {
-        repo.child("props").orderByChild("name").addListenerForSingleValueEvent(object: ValueEventListener {
+        repo.child("props").addListenerForSingleValueEvent(object: ValueEventListener {
             override fun onCancelled(p0: DatabaseError) {
 
             }

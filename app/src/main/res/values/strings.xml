@@ -1,3 +1,9 @@
 <resources>
     <string name="app_name">Landlord</string>
+    <string-array name="sort_by">
+        <item>Lowest price</item>
+        <item>Highest price</item>
+        <item>Floor space</item>
+        <item>Rooms</item>
+    </string-array>
 </resources>

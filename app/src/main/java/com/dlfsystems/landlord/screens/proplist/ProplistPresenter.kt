@@ -1,6 +1,7 @@
 package com.dlfsystems.landlord.screens.proplist
 
 import com.dlfsystems.landlord.data.FirebaseRepository
+import com.dlfsystems.landlord.data.model.Prop
 import com.dlfsystems.landlord.data.model.PropFilter
 import com.dlfsystems.landlord.nav.Rudder
 import com.dlfsystems.landlord.screens.base.Action
@@ -30,13 +31,31 @@ class ProplistPresenter(fragment: BaseFragment) : BasePresenter(fragment) {
                 mutate(state().copy(filter = action.filter))
                 loadProperties(action.filter)
             }
+            (action is SortBy) -> {
+                val state = state()
+                mutate(state.copy(sortBy = action.position,
+                                    props = sortProperties(state.props, action.position)))
+            }
             else -> { throw RuntimeException(action.toString()) }
         }
     }
 
     private fun loadProperties(filter: PropFilter) {
         repo.getFilteredProps(filter) {
-            mutate(state().copy(loading = false, props = it))
+            val state = state()
+            mutate(state.copy(loading = false, props = sortProperties(it, state.sortBy)))
+        }
+    }
+
+    private fun sortProperties(props: List<Prop>, sortBy: Int): List<Prop> {
+        return props.sortedBy {
+            when (sortBy) {
+                0 -> { it.rent }
+                1 -> { -it.rent }
+                2 -> { -it.sqft }
+                3 -> { -it.rooms }
+                else -> { throw RuntimeException(state().toString()) }
+            }
         }
     }
 }

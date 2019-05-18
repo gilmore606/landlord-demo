@@ -12,3 +12,8 @@ class ViewProperty(
 class ChangeFilter(
     val filter: PropFilter
 ) : Action
+
+
+class SortBy(
+    val position: Int
+) : Action
