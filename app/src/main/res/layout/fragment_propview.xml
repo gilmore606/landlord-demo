@@ -37,6 +37,9 @@
                       android:id="@+id/propview_rent" />
             <TextView android:layout_width="match_parent" android:layout_height="wrap_content"
                       style="@style/PropData" android:gravity="right" android:layout_marginVertical="8dp"
+                      android:id="@+id/propview_rooms" />
+            <TextView android:layout_width="match_parent" android:layout_height="wrap_content"
+                      style="@style/PropData" android:gravity="right" android:layout_marginVertical="8dp"
                       android:id="@+id/propview_sqft" />
             <TextView android:layout_width="match_parent" android:layout_height="wrap_content"
                       style="@style/FieldHint" android:layout_marginVertical="8dp"

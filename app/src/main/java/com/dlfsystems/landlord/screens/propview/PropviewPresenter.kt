@@ -26,6 +26,10 @@ class PropviewPresenter(fragment: BaseFragment) : BasePresenter(fragment) {
                     }
                 }
             }
+            (action is Reload) -> {
+                mutate(state().copy(loaded = false))
+                actions.onNext(InitialState())
+            }
             (action is LoadProperty) -> {
                 loadProperty(action.property)
             }

@@ -79,7 +79,8 @@ class PropviewFragment : BaseFragment() {
             propview_available_button.text =
                 if (state.available) "unavailable" else "available"
             propview_rent.setIfChanged("$" + state.rent.toString() + "/mo")
-            propview_sqft.setIfChanged(state.sqft.toString() + "sq ft")
+            propview_sqft.setIfChanged(state.sqft.toString() + " sq ft")
+            propview_rooms.setIfChanged(state.rooms.toString() + " rooms")
             propview_realtor.setIfChanged(state.realtorName.replace("@", "@\n"))
             propview_date.setIfChanged(dateFormat.format(Date(state.addtime)))
             propview_desc.setIfChanged("\"" + state.desc + "\"")
@@ -89,6 +90,7 @@ class PropviewFragment : BaseFragment() {
 
     override fun onShowFromBackStack() {
         super.onShowFromBackStack()
+        actions.onNext(Reload())
     }
 
     private fun moveCamera(coordx: Double, coordy: Double, title: String) {

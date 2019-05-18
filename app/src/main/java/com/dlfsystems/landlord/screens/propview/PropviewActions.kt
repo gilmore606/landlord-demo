@@ -23,3 +23,5 @@ class SetAvailable(
 class LoadRealtorName(
     val name: String
 ) : Action
+
+class Reload : Action

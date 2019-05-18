@@ -120,7 +120,9 @@ class PropdetailFragment : BaseFragment() {
     override fun render(state: BaseState) {
         state as PropdetailState
 
-        if (state.isNew) propdetail_submit_button.setIfChanged("UPDATE LISTING")
+        propdetail_submit_button.setIfChanged(
+            if (state.isNew) "CREATE LISTING" else "UPDATE LISTING"
+        )
 
         if (state.loading)  {
             propdetail_loader.visibility = View.VISIBLE
