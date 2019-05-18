@@ -55,13 +55,13 @@ class PropdetailFragment : BaseFragment() {
         propdetail_coordy.validate({ it.isValidCoord() }, "Longitude", {
             stateHolder.mutate(state().copy(coordy = it.toDouble()))
         })
-        propdetail_rooms.validateNumeric({ it.toIntOrNull() ?: 0 > 0 }, "Number of rooms", {
+        propdetail_rooms.validateNumeric({ it.toIntOrZero() > 0 }, "Number of rooms", {
             stateHolder.mutate(state().copy(rooms = it.toInt()))
         })
-        propdetail_sqft.validateNumeric({ it.toIntOrNull() ?: 0 > 0}, "Floor space", {
+        propdetail_sqft.validateNumeric({ it.toIntOrZero() > 0 }, "Floor space", {
             stateHolder.mutate(state().copy(sqft = it.toInt()))
         })
-        propdetail_rent.validateNumeric({ it.toIntOrNull() ?: 0 > 0}, "Monthly rent", {
+        propdetail_rent.validateNumeric({ it.toIntOrZero() > 0 }, "Monthly rent", {
             stateHolder.mutate(state().copy(rent = it.toInt()))
         })
         propdetail_address.validate({ it.length > 0 }, "Address", {
@@ -73,7 +73,7 @@ class PropdetailFragment : BaseFragment() {
         propdetail_state.validate({ it.length == 2 }, "State code", {
             stateHolder.mutate(state().copy(state = it))
         })
-        propdetail_zip.validateNumeric({ (it.length == 5) and (it.toIntOrNull() ?: 0 > 0) }, "5-digit ZIP code", {
+        propdetail_zip.validateNumeric({ (it.length == 5) and (it.toIntOrZero() > 0) }, "5-digit ZIP code", {
             stateHolder.mutate(state().copy(zip = it))
         })
 

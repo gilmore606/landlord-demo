@@ -14,15 +14,16 @@ class FirebaseRepository : Repository {
     }
 
     override fun getUser(uid: String, callback: (User) -> Unit) {
-        repo.child("users").child(uid).addListenerForSingleValueEvent(object: ValueEventListener {
-            override fun onCancelled(e: DatabaseError) {
+        repo.child("users").child(uid)
+            .addListenerForSingleValueEvent(object: ValueEventListener {
+                override fun onCancelled(e: DatabaseError) {
 
-            }
+                }
 
-            override fun onDataChange(snapshot: DataSnapshot) {
-                callback(snapshot.getValue<User>(User::class.java)!!)
-            }
-        })
+                override fun onDataChange(snapshot: DataSnapshot) {
+                    callback(snapshot.getValue<User>(User::class.java)!!)
+                }
+            })
     }
 
     override fun deleteUser(userid: String) {

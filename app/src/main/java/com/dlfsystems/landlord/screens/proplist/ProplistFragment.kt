@@ -34,6 +34,10 @@ class ProplistFragment : BaseFragment() {
         recyclerAdapter = ProplistRecyclerAdapter(state().props, actions)
         proplist_recyclerview.adapter = recyclerAdapter
 
+        proplist_swipecontainer.setOnRefreshListener {
+            actions.onNext(LoadProperties())
+        }
+
         filterbar.setOnClickListener {
             Rudder.navTo(FilterKey())
         }
@@ -56,6 +60,7 @@ class ProplistFragment : BaseFragment() {
     override fun render(state: BaseState) {
         state as ProplistState
 
+        proplist_swipecontainer.isRefreshing = state.loading
         filterbar_text?.text = state.filter.description()
         proplist_sort_spinner.setIfChanged(state.sortBy)
         recyclerAdapter.updateProps(state.props)

@@ -38,6 +38,11 @@ class ProplistRecyclerAdapter(var props: List<Prop>, val actions: PublishSubject
     override fun onBindViewHolder(holder: ProplistHolder, position: Int) =
             holder.bind(props[position], actions)
 
+    fun clear() {
+        props = ArrayList<Prop>(0)
+        notifyDataSetChanged()
+    }
+
     fun updateProps(newprops: List<Prop>) {
         if (newprops != props) {
             props = newprops

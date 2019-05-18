@@ -116,6 +116,7 @@ class PropmapFragment : BaseFragment() {
             map?.also {
                 val marker = it.addMarker(markerOptions)
                 markerIds.add(marker.id)
+                marker.showInfoWindow()
             }
         }
         return markerIds

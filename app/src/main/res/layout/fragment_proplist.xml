@@ -8,14 +8,16 @@
     <Spinner android:layout_width="wrap_content" android:layout_height="wrap_content"
              android:entries="@array/sort_by"
              android:id="@+id/proplist_sort_spinner" />
-    <HorizontalScrollView android:layout_width="wrap_content"
+    <androidx.swiperefreshlayout.widget.SwipeRefreshLayout android:layout_width="wrap_content"
+                                                           android:layout_height="match_parent"
+                                                           android:id="@+id/proplist_swipecontainer" >
+        <HorizontalScrollView android:layout_width="wrap_content"
                                            android:layout_height="match_parent"
                                              >
-        <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content"
-                      android:orientation="vertical">
-        <androidx.recyclerview.widget.RecyclerView android:layout_width="600dp" android:layout_height="wrap_content"
-                      android:orientation="vertical"
-                      android:id="@+id/proplist_recyclerview" />
-        </LinearLayout>
-    </HorizontalScrollView>
+                <androidx.recyclerview.widget.RecyclerView android:layout_width="600dp" android:layout_height="wrap_content"
+                                                           android:orientation="vertical"
+                                                           android:id="@+id/proplist_recyclerview" />
+        </HorizontalScrollView>
+    </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
+
 </LinearLayout>

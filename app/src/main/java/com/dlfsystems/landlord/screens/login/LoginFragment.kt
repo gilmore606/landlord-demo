@@ -1,33 +1,34 @@
 package com.dlfsystems.landlord.screens.login
 
 import android.view.View
-import com.dlfsystems.landlord.Prefs
-import com.dlfsystems.landlord.R
-import com.dlfsystems.landlord.afterTextChanged
+import com.dlfsystems.landlord.*
 import com.dlfsystems.landlord.screens.base.BaseFragment
 import com.dlfsystems.landlord.screens.base.BaseState
-import com.dlfsystems.landlord.setIfChanged
 import kotlinx.android.synthetic.main.fragment_login.*
 
 class LoginFragment : BaseFragment() {
+
+    val prefs by lazy { Prefs(context!!) }
 
     override val showToolbar = false
     override val layoutResource = R.layout.fragment_login
     override val presenter = LoginPresenter(this)
     override fun defaultState() = LoginState(
-        username = Prefs(context!!).loginUser,
-        password = Prefs(context!!).loginPassword
+        username = prefs.loginUser,
+        password = prefs.loginPassword
     )
 
     fun state() = stateHolder.state.value as LoginState
 
     override fun subscribeUI(view: View) {
-        login_username.afterTextChanged {
-            if (!rendering) stateHolder.mutate(state().copy(username = it))
-        }
-        login_password.afterTextChanged {
-            if (!rendering) stateHolder.mutate(state().copy(password = it))
-        }
+
+        login_username.validate({ it.isNotEmpty() }, "your email address", {
+            stateHolder.mutate(state().copy(username = it))
+        })
+        login_password.validate({ it.length > 5 }, "your password", {
+            stateHolder.mutate(state().copy(password = it))
+        })
+
         login_button_login.setOnClickListener {
             actions.onNext(LogIn(
                 state().username,

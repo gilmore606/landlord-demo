@@ -18,7 +18,7 @@ class FilterPresenter(fragment: BaseFragment) : BasePresenter(fragment) {
         when {
             (action is InitialState) -> { }
             (action is ApplyFilter) -> {
-                updateFilter()
+                applyFilter()
                 Rudder.navBack()
             }
             (action is Cancel) -> {
@@ -37,7 +37,7 @@ class FilterPresenter(fragment: BaseFragment) : BasePresenter(fragment) {
         }
     }
 
-    private fun updateFilter() {
+    private fun applyFilter() {
         val filter = filterFromState(state())
         prefs.searchFilter = filter
         Rudder.updateFilter(filter)

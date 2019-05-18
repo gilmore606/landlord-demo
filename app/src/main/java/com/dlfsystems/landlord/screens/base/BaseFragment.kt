@@ -26,12 +26,6 @@ abstract class BaseFragment : androidx.fragment.app.Fragment() {
     var previousState: BaseState? = null
     val disposables = CompositeDisposable()
     val actions = PublishSubject.create<Action>()
-    var rendering = true
-
-    val requireArguments
-        get() = this.arguments ?: throw IllegalStateException("Fragment arguments should exist!")
-
-    fun <T : BaseKey> getKey(): T? = requireArguments.getParcelable<T>("KEY")
 
     override fun onDestroy() {
         disposables.dispose()
@@ -51,10 +45,10 @@ abstract class BaseFragment : androidx.fragment.app.Fragment() {
 
         disposables += stateHolder.state.observeOn(AndroidSchedulers.mainThread())
             .subscribe {
-                _render(it)
+                doRender(it)
             }
 
-        presenter.injectInitialState(stateHolder, initialState, actions)
+        presenter.injectState(stateHolder, initialState, actions)
 
         return view
     }
@@ -74,15 +68,13 @@ abstract class BaseFragment : androidx.fragment.app.Fragment() {
 
     @CallSuper
     open fun onShowFromBackStack() {
-        _render(stateHolder.state?.value ?: defaultState())
+        doRender(stateHolder.state.value ?: defaultState())
     }
 
-    private fun _render(state: BaseState) {
-        rendering = true
+    private fun doRender(state: BaseState) {
         Timber.d("RENDER " + state.toString())
         (activity as MainActivity).toggleToolbar(showToolbar)
         render(state)
-        rendering = false
         previousState = state
     }
 

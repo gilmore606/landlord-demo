@@ -23,6 +23,8 @@ class ProplistPresenter(fragment: BaseFragment) : BasePresenter(fragment) {
                 loadProperties(state().filter)
             }
             (action is LoadProperties) -> {
+                mutate(state().copy(loading = true))
+                loadProperties(state().filter)
             }
             (action is ViewProperty) -> {
                 Rudder.navTo(PropviewKey(action.propId))

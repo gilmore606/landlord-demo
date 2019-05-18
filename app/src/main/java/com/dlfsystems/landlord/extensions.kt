@@ -101,3 +101,5 @@ fun Spinner.setIfChanged(i: Int) {
         setSelection(i)
     }
 }
+
+fun String.toIntOrZero() = toIntOrNull() ?: 0

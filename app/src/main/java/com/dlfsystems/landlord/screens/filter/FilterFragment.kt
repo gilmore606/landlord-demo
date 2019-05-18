@@ -1,14 +1,11 @@
 package com.dlfsystems.landlord.screens.filter
 
 import android.view.View
-import com.dlfsystems.landlord.Prefs
-import com.dlfsystems.landlord.R
+import com.dlfsystems.landlord.*
 import com.dlfsystems.landlord.data.model.PropFilter
 import com.dlfsystems.landlord.nav.Rudder.filter
 import com.dlfsystems.landlord.screens.base.BaseFragment
 import com.dlfsystems.landlord.screens.base.BaseState
-import com.dlfsystems.landlord.setIfChanged
-import com.dlfsystems.landlord.validate
 import kotlinx.android.synthetic.main.fragment_filter.*
 import kotlinx.android.synthetic.main.include_filterbar.*
 
@@ -41,20 +38,20 @@ class FilterFragment : BaseFragment() {
             actions.onNext(ClearFilter())
         }
 
-        filter_pricemin.validate({ true }, "Minimum rent", {
-            stateHolder.mutate(state().copy(pricemin = it.toIntOrNull() ?: 0))
+        filter_pricemin.validateNumeric({ true }, "Minimum rent", {
+            stateHolder.mutate(state().copy(pricemin = it.toIntOrZero()))
         })
-        filter_pricemax.validate({ isValidPricemax(it) }, "Maximum rent (0 for no limit)", {
-            stateHolder.mutate(state().copy(pricemax = it.toIntOrNull() ?: 0))
+        filter_pricemax.validateNumeric({ isValidPricemax(it) }, "Maximum rent (0 for no limit)", {
+            stateHolder.mutate(state().copy(pricemax = it.toIntOrZero()))
         })
-        filter_sqftmin.validate({ true }, "Minimum floor space", {
-            stateHolder.mutate(state().copy(sizemin = it.toIntOrNull() ?: 0))
+        filter_sqftmin.validateNumeric({ true }, "Minimum floor space", {
+            stateHolder.mutate(state().copy(sizemin = it.toIntOrZero()))
         })
-        filter_sqftmax.validate({ isValidSizemax(it) }, "Maximum floor space (0 for no limit)", {
-            stateHolder.mutate(state().copy(sizemax = it.toIntOrNull() ?: 0))
+        filter_sqftmax.validateNumeric({ isValidSizemax(it) }, "Maximum floor space (0 for no limit)", {
+            stateHolder.mutate(state().copy(sizemax = it.toIntOrZero()))
         })
-        filter_rooms.validate({ true }, "Minimum rooms", {
-            stateHolder.mutate(state().copy(rooms = it.toIntOrNull() ?: 0))
+        filter_rooms.validateNumeric({ true }, "Minimum rooms", {
+            stateHolder.mutate(state().copy(rooms = it.toIntOrZero()))
         })
     }
 
@@ -96,11 +93,11 @@ class FilterFragment : BaseFragment() {
         var filter = PropFilter(
             rented = true,
             unrented = true,
-            sizemin = state().sizemin,
-            sizemax = state().sizemax,
-            pricemin = state().pricemin,
-            pricemax = state().pricemax,
-            rooms = state().rooms
+            sizemin = state.sizemin,
+            sizemax = state.sizemax,
+            pricemin = state.pricemin,
+            pricemax = state.pricemax,
+            rooms = state.rooms
         )
         return filter
     }

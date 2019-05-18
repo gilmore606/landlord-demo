@@ -3,6 +3,7 @@ package com.dlfsystems.landlord.screens.base
 import com.dlfsystems.landlord.plusAssign
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.subjects.PublishSubject
+import leakcanary.LeakSentry
 
 abstract class BasePresenter(val fragment: BaseFragment) {
 
@@ -15,9 +16,9 @@ abstract class BasePresenter(val fragment: BaseFragment) {
 
     fun mutate(newState: BaseState) = stateHolder.mutate(newState)
 
-    fun injectInitialState(stateHolder: StateHolder,
-                           initialState: BaseState,
-                           actions: PublishSubject<Action>) {
+    fun injectState(stateHolder: StateHolder,
+                    initialState: BaseState,
+                    actions: PublishSubject<Action>) {
 
         this.stateHolder = stateHolder
         this.actions = actions
@@ -30,5 +31,6 @@ abstract class BasePresenter(val fragment: BaseFragment) {
 
     fun onDestroy() {
         disposables.dispose()
+        LeakSentry.refWatcher.watch(this)
     }
 }
