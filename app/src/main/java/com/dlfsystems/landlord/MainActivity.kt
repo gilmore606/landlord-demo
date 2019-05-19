@@ -30,6 +30,8 @@ import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import kotlinx.android.synthetic.main.activity_main.*
 import timber.log.Timber
+import com.crashlytics.android.Crashlytics;
+import io.fabric.sdk.android.Fabric;
 
 class MainActivity : AppCompatActivity(), StateChanger, NavigationView.OnNavigationItemSelectedListener {
 
@@ -50,6 +52,8 @@ class MainActivity : AppCompatActivity(), StateChanger, NavigationView.OnNavigat
 
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+
+        Fabric.with(this, Crashlytics())
 
         setSupportActionBar(toolbar)
         supportActionBar?.apply {
@@ -162,6 +166,10 @@ class MainActivity : AppCompatActivity(), StateChanger, NavigationView.OnNavigat
         prefs.loginUser = user.username
         prefs.loginPassword = password
         prefs.user = user
+
+        Crashlytics.setUserIdentifier(user.uid)
+        Crashlytics.setUserEmail(user.username)
+
         nav_view.menu.findItem(R.id.nav_item_propadd).setEnabled(user.isRealtor)
         nav_view.menu.findItem(R.id.nav_item_userlist).setEnabled(user.isAdmin)
 
