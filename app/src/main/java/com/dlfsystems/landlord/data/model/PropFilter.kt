@@ -6,17 +6,15 @@ import java.io.Serializable
 
 @Parcelize
 data class PropFilter(var mineOnly: Boolean = false,
-    var rented: Boolean = true,
-    var unrented: Boolean = true,
-    var sizemin: Int = 0,
-    var sizemax: Int = 0,
-    var pricemin: Int = 0,
-    var pricemax: Int = 0,
-    var rooms: Int = 0) : Parcelable, Serializable {
+                      var includeRented: Boolean = true,
+                      var sizemin: Int = 0,
+                      var sizemax: Int = 0,
+                      var pricemin: Int = 0,
+                      var pricemax: Int = 0,
+                      var rooms: Int = 0) : Parcelable, Serializable {
 
     fun matches(prop: Prop): Boolean {
-        if (prop.available and !unrented) return false
-        if (!prop.available and !rented) return false
+        if (!prop.available and !includeRented) return false
         if (prop.sqft < sizemin) return false
         if ((sizemax > 0) and (prop.sqft > sizemax)) return false
         if (prop.rent < pricemin) return false
@@ -24,6 +22,11 @@ data class PropFilter(var mineOnly: Boolean = false,
         if (prop.rooms < rooms) return false
         return true
     }
+
+    fun restrictForUser(user: User): PropFilter =
+        copy(
+            includeRented = user.isAdmin or user.isRealtor
+        )
 
     fun description(): String {
         var d = ""

@@ -43,16 +43,12 @@ class FilterPresenter(fragment: BaseFragment) : BasePresenter(fragment) {
         Rudder.updateFilter(filter)
     }
 
-    private fun filterFromState(state: FilterState): PropFilter {
-        var filter = PropFilter(
-            rented = true,
-            unrented = true,
+    private fun filterFromState(state: FilterState): PropFilter =
+        PropFilter(
             sizemin = state.sizemin,
             sizemax = state.sizemax,
             pricemin = state.pricemin,
             pricemax = state.pricemax,
             rooms = state.rooms
         )
-        return filter
-    }
 }

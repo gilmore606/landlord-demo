@@ -3,7 +3,6 @@ package com.dlfsystems.landlord.screens.filter
 import android.view.View
 import com.dlfsystems.landlord.*
 import com.dlfsystems.landlord.data.model.PropFilter
-import com.dlfsystems.landlord.nav.Rudder.filter
 import com.dlfsystems.landlord.screens.base.BaseFragment
 import com.dlfsystems.landlord.screens.base.BaseState
 import kotlinx.android.synthetic.main.fragment_filter.*
@@ -89,16 +88,12 @@ class FilterFragment : BaseFragment() {
         return true
     }
 
-    private fun filterFromState(state: FilterState): PropFilter {
-        var filter = PropFilter(
-            rented = true,
-            unrented = true,
+    private fun filterFromState(state: FilterState): PropFilter =
+        PropFilter(
             sizemin = state.sizemin,
             sizemax = state.sizemax,
             pricemin = state.pricemin,
             pricemax = state.pricemax,
             rooms = state.rooms
         )
-        return filter
-    }
 }

@@ -1,5 +1,6 @@
 package com.dlfsystems.landlord.screens.propmap
 
+import com.dlfsystems.landlord.Prefs
 import com.dlfsystems.landlord.data.FirebaseRepository
 import com.dlfsystems.landlord.data.model.PropFilter
 import com.dlfsystems.landlord.nav.Rudder
@@ -13,6 +14,7 @@ class PropmapPresenter(fragment: BaseFragment) : BasePresenter(fragment) {
     fun state() = stateHolder.state.value as PropmapState
 
     val repo = FirebaseRepository()
+    val prefs by lazy { Prefs(fragment.context!!) }
 
     override fun hearAction(action: Action) {
         when {
@@ -34,7 +36,7 @@ class PropmapPresenter(fragment: BaseFragment) : BasePresenter(fragment) {
     }
 
     private fun loadProperties(filter: PropFilter) {
-        repo.getFilteredProps(filter) {
+        repo.getFilteredProps(filter.restrictForUser(prefs.user!!)) {
             mutate(state().copy(loading = false, props = it, markerIds = null))
         }
     }

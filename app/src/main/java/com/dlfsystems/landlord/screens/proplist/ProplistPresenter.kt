@@ -1,5 +1,6 @@
 package com.dlfsystems.landlord.screens.proplist
 
+import com.dlfsystems.landlord.Prefs
 import com.dlfsystems.landlord.data.FirebaseRepository
 import com.dlfsystems.landlord.data.model.Prop
 import com.dlfsystems.landlord.data.model.PropFilter
@@ -15,6 +16,7 @@ class ProplistPresenter(fragment: BaseFragment) : BasePresenter(fragment) {
     fun state() = stateHolder.state.value as ProplistState
 
     val repo = FirebaseRepository()
+    val prefs by lazy { Prefs(fragment.context!!) }
 
     override fun hearAction(action: Action) {
         when {
@@ -43,7 +45,7 @@ class ProplistPresenter(fragment: BaseFragment) : BasePresenter(fragment) {
     }
 
     private fun loadProperties(filter: PropFilter) {
-        repo.getFilteredProps(filter) {
+        repo.getFilteredProps(filter.restrictForUser(prefs.user!!)) {
             val state = state()
             mutate(state.copy(loading = false, props = sortProperties(it, state.sortBy)))
         }
