@@ -53,7 +53,11 @@ class MainActivity : AppCompatActivity(), StateChanger, NavigationView.OnNavigat
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        Fabric.with(this, Crashlytics())
+        Fabric.with(Fabric.Builder(this)
+            .kits(Crashlytics())
+            .appIdentifier(BuildConfig.APPLICATION_ID)
+            .build()
+        )
 
         setSupportActionBar(toolbar)
         supportActionBar?.apply {

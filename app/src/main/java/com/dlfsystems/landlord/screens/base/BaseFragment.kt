@@ -48,7 +48,8 @@ abstract class BaseFragment : androidx.fragment.app.Fragment() {
         stateHolder = ViewModelProvider(this, SavedStateVMFactory(this))
             .get(StateHolder::class.java)
 
-        disposables += stateHolder.state.toFlowable(BackpressureStrategy.LATEST)
+        disposables += stateHolder.state
+            // .toFlowable(BackpressureStrategy.LATEST)
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe {
                 doRender(it)

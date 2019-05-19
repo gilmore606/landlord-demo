@@ -92,7 +92,7 @@ class PropdetailFragment : BaseFragment() {
         }
         propdetail_submit_button.setOnClickListener {
             if (isSubmittable())
-                actions.onNext(SubmitProperty(propFromState()))
+                actions.onNext(SubmitProperty(propFromState(state())))
         }
     }
 
@@ -137,23 +137,23 @@ class PropdetailFragment : BaseFragment() {
         }
     }
 
-    private fun propFromState(): Prop {
+    private fun propFromState(state: PropdetailState): Prop {
         var prop = Prop(
-            id = state().propId,
-            coordx = propdetail_coordx.text.toString().toDouble(),
-            coordy = propdetail_coordy.text.toString().toDouble(),
-            name = propdetail_name.text.toString(),
-            desc = propdetail_desc.text.toString(),
-            sqft = propdetail_sqft.text.toString().toInt(),
-            rent = propdetail_rent.text.toString().toInt(),
-            rooms = propdetail_rooms.text.toString().toInt(),
-            addtime = System.currentTimeMillis(),
-            available = true,
-            realtorId = state().realtorId,
-            address = propdetail_address.text.toString(),
-            city = propdetail_city.text.toString(),
-            state = propdetail_state.text.toString(),
-            zip = propdetail_zip.text.toString()
+            id = state.propId,
+            coordx = state.coordx,
+            coordy = state.coordy,
+            name = state.name,
+            desc = state.desc,
+            sqft = state.sqft,
+            rent = state.rent,
+            rooms = state.rooms,
+            addtime = if (state.addtime.toInt() == 0) System.currentTimeMillis() else state.addtime,
+            available = state.available,
+            realtorId = state.realtorId,
+            address = state.address,
+            city = state.city,
+            state = state.state,
+            zip = state.zip
         )
         return prop
     }
