@@ -14,6 +14,7 @@ import com.dlfsystems.landlord.screens.filter.FilterKey
 import com.dlfsystems.landlord.setIfChanged
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
+import com.google.android.gms.maps.model.BitmapDescriptorFactory
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MarkerOptions
 import kotlinx.android.synthetic.main.fragment_propmap.*
@@ -115,6 +116,10 @@ class PropmapFragment : BaseFragment() {
         props.forEach {
             val markerOptions = MarkerOptions().position(LatLng(it.coordx, it.coordy))
                 .title(it.name)
+                .icon(BitmapDescriptorFactory.defaultMarker(
+                    if (it.available) BitmapDescriptorFactory.HUE_AZURE
+                    else BitmapDescriptorFactory.HUE_ROSE
+                ))
                 .snippet(it.makeSnippet())
             map?.also {
                 val marker = it.addMarker(markerOptions)
