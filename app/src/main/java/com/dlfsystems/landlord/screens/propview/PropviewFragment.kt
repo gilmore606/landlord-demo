@@ -40,15 +40,12 @@ class PropviewFragment : BaseFragment() {
             moveCamera(state().coordx, state().coordy, state().name)
         }
 
-        if ((prefs.user?.isAdmin ?: false) or (prefs.user?.isRealtor ?: false)) {
-            propview_edit_button.visibility = View.VISIBLE
-            propview_delete_button.visibility = View.VISIBLE
-            propview_available_button.visibility = View.VISIBLE
-        } else {
-            propview_edit_button.visibility = View.GONE
-            propview_delete_button.visibility = View.GONE
-            propview_available_button.visibility = View.GONE
-        }
+        val isAdmin = prefs.user!!.isAdmin
+        val isRealtor = prefs.user!!.isRealtor
+
+        propview_edit_button.visibility = if (isAdmin or isRealtor) View.VISIBLE else View.GONE
+        propview_delete_button.visibility = if (isAdmin or isRealtor) View.VISIBLE else View.GONE
+        propview_available_button.visibility = if (isRealtor) View.VISIBLE else View.GONE
 
         propview_edit_button.setOnClickListener {
             actions.onNext(EditProperty(state().propId))
