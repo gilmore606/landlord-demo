@@ -44,7 +44,7 @@ class PropviewPresenter(fragment: BaseFragment) : BasePresenter(fragment) {
                 updateProperty(propFromState())
             }
             (action is LoadRealtorName) -> {
-                mutate(state().copy(realtorName = action.name))
+                mutate(state().copy(realtorName = action.name, loading = false))
             }
             else -> { throw RuntimeException(action.toString()) }
         }
@@ -60,7 +60,6 @@ class PropviewPresenter(fragment: BaseFragment) : BasePresenter(fragment) {
 
     private fun loadProperty(prop: Prop) {
         mutate(state().copy(
-            loading = false,
             loaded = true,
             coordx = prop.coordx,
             coordy = prop.coordy,

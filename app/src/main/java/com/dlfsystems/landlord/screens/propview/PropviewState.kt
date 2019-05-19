@@ -4,7 +4,7 @@ import com.dlfsystems.landlord.screens.base.BaseState
 
 data class PropviewState(
     val propId: String = "",
-    val loading: Boolean = false,
+    val loading: Boolean = true,
     val loaded: Boolean = false,
     val coordx: Double = 0.0,
     val coordy: Double = 0.0,

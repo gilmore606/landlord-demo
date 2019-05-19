@@ -1,13 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
               android:orientation="vertical"
+              android:background="@drawable/bg_screen_alt"
               android:layout_width="match_parent"
               android:layout_height="match_parent">
 
     <include layout="@layout/include_filterbar" />
-    <Spinner android:layout_width="wrap_content" android:layout_height="wrap_content"
-             android:entries="@array/sort_by"
-             android:id="@+id/proplist_sort_spinner" />
+    <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content"
+                  android:orientation="horizontal">
+        <TextView android:layout_width="0dp" android:layout_height="wrap_content"
+                  android:text="sort by "
+                  style="@style/FieldLabel"
+                  android:gravity="center_vertical|end" android:layout_weight="1" />
+        <Spinner android:layout_width="wrap_content" android:layout_height="wrap_content"
+                 android:layout_weight="0"
+                 android:entries="@array/sort_by"
+                 android:id="@+id/proplist_sort_spinner" />
+    </LinearLayout>
     <androidx.swiperefreshlayout.widget.SwipeRefreshLayout android:layout_width="wrap_content"
                                                            android:layout_height="match_parent"
                                                            android:id="@+id/proplist_swipecontainer" >
@@ -16,6 +25,7 @@
                                              >
                 <androidx.recyclerview.widget.RecyclerView android:layout_width="600dp" android:layout_height="wrap_content"
                                                            android:orientation="vertical"
+                                                           android:background="@drawable/bg_screen"
                                                            android:id="@+id/proplist_recyclerview" />
         </HorizontalScrollView>
     </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>

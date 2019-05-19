@@ -46,7 +46,7 @@
     </style>
     <style name="FieldLabel" parent="Theme.AppCompat.Light">
         <item name="android:textSize">12dp</item>
-        <item name="android:textColor">#AAAAAA</item>
+        <item name="android:textColor">#888888</item>
     </style>
     <style name="FilterDesc" parent="Theme.AppCompat.Light">
         <item name="android:textSize">14dp</item>
