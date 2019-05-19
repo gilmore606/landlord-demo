@@ -38,12 +38,7 @@ class MainActivity : AppCompatActivity(), StateChanger, NavigationView.OnNavigat
     var disposables = CompositeDisposable()
     lateinit var prefs: Prefs
 
-    var createCount = 0
-
     override fun onCreate(savedInstanceState: Bundle?) {
-
-        createCount++
-        Timber.d("RUDDER activity onCreate " + hashCode() + " (" + createCount + ")")
 
         AppCompatDelegate.setCompatVectorFromResourcesEnabled(true)
 
@@ -80,7 +75,6 @@ class MainActivity : AppCompatActivity(), StateChanger, NavigationView.OnNavigat
     }
 
     override fun onDestroy() {
-        Timber.d("RUDDER activity onDestroy " + toString())
         disposables.dispose()
         super.onDestroy()
     }
@@ -92,7 +86,6 @@ class MainActivity : AppCompatActivity(), StateChanger, NavigationView.OnNavigat
     private fun navigateTo(destKey: BaseKey) {
         hideKeyboard()
         if (destKey is BackKey) {
-            Timber.d("RUDDER saw BackKey")
             onBackPressed()
         } else {
             if (!destKey.allowBack)
@@ -127,10 +120,10 @@ class MainActivity : AppCompatActivity(), StateChanger, NavigationView.OnNavigat
         if (stateChange.isTopNewStateEqualToPrevious) {
             Timber.d("RUDDER statechange was same as previous")
             completionCallback.stateChangeComplete()
-            return
+        } else {
+            fragmentStateChanger.handleStateChange(stateChange)
+            completionCallback.stateChangeComplete()
         }
-        fragmentStateChanger.handleStateChange(stateChange)
-        completionCallback.stateChangeComplete()
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {

@@ -2,9 +2,6 @@ package com.dlfsystems.landlord
 
 import android.app.Activity
 import android.content.Context
-import android.content.SharedPreferences
-import android.preference.PreferenceManager
-import android.service.autofill.Validators.and
 import android.text.Editable
 import android.text.TextWatcher
 import android.view.View
@@ -19,10 +16,6 @@ import java.util.concurrent.Executors
 
 operator fun CompositeDisposable.plusAssign(subscription: Disposable) {
     add(subscription)
-}
-
-fun prefs(context: Context) : SharedPreferences {
-    return PreferenceManager.getDefaultSharedPreferences(context)
 }
 
 private val IO_EXECUTOR = Executors.newSingleThreadExecutor()
@@ -57,23 +50,23 @@ fun EditText.afterTextChanged(afterTextChanged: (String) -> Unit) {
 }
 
 fun EditText.validate(validator: (String) -> Boolean, message: String, saver: ((String) -> Unit)? = null) {
-    this.afterTextChanged {
-        if (!validator(it)) this.error = message
+    this.afterTextChanged { input ->
+        if (!validator(input)) this.error = message
         else {
             this.error = null
-            if (saver != null) saver(it)
+            saver?.also { saver(input) }
         }
     }
     this.error = if (validator(this.text.toString())) null else message
 }
 
 fun EditText.validateNumeric(validator: (String) -> Boolean, message: String, saver: ((String) -> Unit)? = null) {
-    this.afterTextChanged {
-        if (it == "0") text.clear()
-        if (!validator(it)) this.error = message
+    this.afterTextChanged { input ->
+        if (input == "0") text.clear()
+        if (!validator(input)) this.error = message
         else {
             this.error = null
-            if (saver != null) saver(it)
+            saver?.also { saver(input) }
         }
     }
     this.error = if (validator(this.text.toString())) null else message

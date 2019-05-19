@@ -5,11 +5,9 @@ import kotlinx.android.parcel.IgnoredOnParcel
 import kotlinx.android.parcel.Parcelize
 
 @Parcelize
-data class LoginKey(val tag: String) : BaseKey() {
+data class LoginKey(val tag: String = "LoginKey") : BaseKey() {
     @IgnoredOnParcel
     override val allowBack = false
-
-    constructor(): this("LoginKey")
 
     override fun createFragment() = LoginFragment()
 }

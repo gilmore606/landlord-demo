@@ -18,8 +18,9 @@ class PropmapPresenter(fragment: BaseFragment) : BasePresenter(fragment) {
         when {
             (action is InitialState) -> { }
             (action is LoadProperties) -> {
-                mutate(state().copy(loading = true))
-                loadProperties(state().filter)
+                val state = state()
+                mutate(state.copy(loading = true))
+                loadProperties(state.filter)
             }
             (action is ChangeFilter) -> {
                 mutate(state().copy(filter = action.filter, loading = true, markerIds = null))

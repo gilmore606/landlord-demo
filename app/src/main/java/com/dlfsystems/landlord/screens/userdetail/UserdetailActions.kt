@@ -7,18 +7,18 @@ class UserLoaded(
     val user: User
 ) : Action
 
-class UserChangeRealtor(
+class SetRealtorStatus(
     val value: Boolean
 ) : Action
 
-class UserChangeAdmin(
+class SetAdminStatus(
     val value: Boolean
 ) : Action
 
-class UserSaveChanges(
+class SubmitUser(
     val user: User
 ) : Action
 
-class UserDelete(
+class DeleteUser(
     val user: User
 ) : Action

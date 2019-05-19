@@ -11,6 +11,7 @@ import com.dlfsystems.landlord.plusAssign
 import com.dlfsystems.landlord.screens.base.BaseFragment
 import com.dlfsystems.landlord.screens.base.BaseState
 import com.dlfsystems.landlord.screens.filter.FilterKey
+import com.dlfsystems.landlord.setIfChanged
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.model.LatLng
@@ -58,10 +59,13 @@ class PropmapFragment : BaseFragment() {
     override fun render(state: BaseState) {
         state as PropmapState
 
-        filterbar_text?.text = state.filter.description()
+        filterbar_text?.setIfChanged(state.filter.description())
 
-        if ((state.markerIds == null) and (state.props?.size ?: 0 > 0) and !state.loading) {
-            stateHolder.mutate(state().copy(markerIds = placeMarkers(state.props!!)))
+        if (state.markerIds == null) {
+            map?.clear()
+            if ((state.props?.size ?: 0 > 0) and !state.loading) {
+                stateHolder.mutate(state().copy(markerIds = placeMarkers(state.props!!)))
+            }
         }
     }
 
@@ -103,12 +107,11 @@ class PropmapFragment : BaseFragment() {
     }
 
     private fun moveCamera(coordx: Double, coordy: Double, zoom: Float) {
-        map?.let { it.moveCamera(CameraUpdateFactory.newLatLngZoom(LatLng(coordx, coordy), zoom))}
+        map?.moveCamera(CameraUpdateFactory.newLatLngZoom(LatLng(coordx, coordy), zoom))
     }
 
-    private fun placeMarkers(props: List<Prop>): List<String> {
-        map?.clear()
-        var markerIds = ArrayList<String>(0)
+    fun placeMarkers(props: List<Prop>): List<String> {
+        val markerIds = ArrayList<String>(0)
         props.forEach {
             val markerOptions = MarkerOptions().position(LatLng(it.coordx, it.coordy))
                 .title(it.name)
@@ -123,11 +126,7 @@ class PropmapFragment : BaseFragment() {
     }
 
     private fun propIdForMarkerId(markerId: String): String {
-        if (state().markerIds == null) throw RuntimeException("markerIds was null when queried!")
-        val i = state().markerIds?.indexOf(markerId) ?: -1
-        if (i > 0) {
-            return state().props!![i].id
-        }
-        throw RuntimeException("markerId not found on query!")
+        val state = state()
+        return state.props!![state.markerIds?.indexOf(markerId)!!].id
     }
 }

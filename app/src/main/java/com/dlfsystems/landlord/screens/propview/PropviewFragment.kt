@@ -113,8 +113,8 @@ class PropviewFragment : BaseFragment() {
         propview_mapview.onSaveInstanceState(outState)
     }
     override fun onDestroyView() {
-        propview_mapview.onDestroy()
         super.onDestroyView()
+        propview_mapview.onDestroy()
     }
     override fun onPause() {
         propview_mapview.onPause()

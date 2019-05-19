@@ -6,9 +6,6 @@ import com.dlfsystems.landlord.screens.base.BaseKey
 import kotlinx.android.parcel.Parcelize
 
 @Parcelize
-data class FilterKey(val tag: String) : BaseKey() {
-    constructor(): this("FilterKey")
-
+data class FilterKey(val tag: String = "FilterKey") : BaseKey() {
     override fun createFragment() = FilterFragment()
-
 }

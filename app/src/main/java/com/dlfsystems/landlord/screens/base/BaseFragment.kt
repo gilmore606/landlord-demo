@@ -11,6 +11,7 @@ import androidx.lifecycle.SavedStateVMFactory
 import androidx.lifecycle.ViewModelProvider
 import com.dlfsystems.landlord.MainActivity
 import com.dlfsystems.landlord.plusAssign
+import io.reactivex.BackpressureStrategy
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.subjects.PublishSubject
@@ -35,7 +36,11 @@ abstract class BaseFragment : androidx.fragment.app.Fragment() {
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, bundle: Bundle?) : View? {
         val view = inflater.inflate(layoutResource, container, false)
-        onCreateView(view)
+        return view
+    }
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
 
         val initialState: BaseState =
             arguments?.let { makeStateFromArguments(it) } ?: defaultState()
@@ -43,14 +48,13 @@ abstract class BaseFragment : androidx.fragment.app.Fragment() {
         stateHolder = ViewModelProvider(this, SavedStateVMFactory(this))
             .get(StateHolder::class.java)
 
-        disposables += stateHolder.state.observeOn(AndroidSchedulers.mainThread())
+        disposables += stateHolder.state.toFlowable(BackpressureStrategy.LATEST)
+            .observeOn(AndroidSchedulers.mainThread())
             .subscribe {
                 doRender(it)
             }
 
         presenter.injectState(stateHolder, initialState, actions)
-
-        return view
     }
 
     override fun onResume() {
@@ -63,8 +67,6 @@ abstract class BaseFragment : androidx.fragment.app.Fragment() {
     open fun makeStateFromArguments(arguments: Bundle) = defaultState()
 
     abstract fun defaultState(): BaseState
-
-    open fun onCreateView(view: View) { }
 
     @CallSuper
     open fun onShowFromBackStack() {

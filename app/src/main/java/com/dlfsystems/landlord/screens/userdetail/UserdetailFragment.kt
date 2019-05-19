@@ -23,16 +23,16 @@ class UserdetailFragment : BaseFragment() {
 
     override fun subscribeUI(view: View) {
         userdetail_realtor_switch.setOnCheckedChangeListener { _, value ->
-            actions.onNext(UserChangeRealtor(value))
+            actions.onNext(SetRealtorStatus(value))
         }
         userdetail_admin_switch.setOnCheckedChangeListener { _, value ->
-            actions.onNext(UserChangeAdmin(value))
+            actions.onNext(SetAdminStatus(value))
         }
         userdetail_apply_button.setOnClickListener {
-            actions.onNext(UserSaveChanges(userFromState()))
+            actions.onNext(SubmitUser(userFromState()))
         }
         userdetail_delete_button.setOnClickListener {
-            actions.onNext(UserDelete(userFromState()))
+            actions.onNext(DeleteUser(userFromState()))
         }
     }
 

@@ -2,6 +2,7 @@ package com.dlfsystems.landlord.screens.base
 
 import com.dlfsystems.landlord.plusAssign
 import io.reactivex.disposables.CompositeDisposable
+import io.reactivex.schedulers.Schedulers
 import io.reactivex.subjects.PublishSubject
 import leakcanary.LeakSentry
 
@@ -22,7 +23,10 @@ abstract class BasePresenter(val fragment: BaseFragment) {
 
         this.stateHolder = stateHolder
         this.actions = actions
-        disposables += actions.subscribe { hearAction(it) }
+
+        disposables += actions.subscribeOn(Schedulers.io())
+            .subscribe { hearAction(it) }
+
         stateHolder.provideInitialState(initialState)
         actions.onNext(InitialState())
     }

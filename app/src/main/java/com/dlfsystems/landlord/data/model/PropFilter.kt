@@ -29,27 +29,26 @@ data class PropFilter(var mineOnly: Boolean = false,
         var d = ""
 
         if ((sizemin == 0) and (sizemax > 0))
-            d += "<" + sizemax.toString() + "sqft "
+            d += sizemax.toString() + " sq ft or less  "
 
         if ((sizemax == 0) and (sizemin > 0))
-            d += ">" + sizemin.toString() + "sqft "
+            d += sizemin.toString() + "+ sq ft  "
 
         if ((sizemin > 0) and (sizemax > 0))
-            d += sizemin.toString() + "-" + sizemax.toString() + "sqft "
+            d += sizemin.toString() + " - " + sizemax.toString() + " sq ft  "
 
         if ((pricemin == 0) and (pricemax > 0))
-            d += "<$" + pricemax.toString() + " "
+            d += "$" + pricemax.toString() + " or less  "
 
         if ((pricemax == 0) and (pricemin > 0))
-            d += ">$" + pricemin.toString() + " "
+            d += "$" + pricemin.toString() + " and up  "
 
         if ((pricemin > 0) and (pricemax > 0))
-            d += "$" + pricemin.toString() + "-$" + pricemax.toString() + " "
+            d += "$" + pricemin.toString() + " - $" + pricemax.toString() + "  "
 
         if ((rooms > 0))
-            d += rooms.toString() + "+rooms "
+            d += rooms.toString() + "+ rooms  "
 
-        if (d == "") return "all properties"
-        else return d
+        return if (d == "") "all properties" else d
     }
 }

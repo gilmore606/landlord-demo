@@ -6,8 +6,7 @@ import com.dlfsystems.landlord.screens.base.BaseKey
 import kotlinx.android.parcel.Parcelize
 
 @Parcelize
-data class PropmapKey(val tag: String) : BaseKey() {
-    constructor(): this("PropmapKey")
+data class PropmapKey(val tag: String = "PropmapKey") : BaseKey() {
     override fun createFragment() = PropmapFragment()
 
     override fun getAnimation(): FragAnimPair =

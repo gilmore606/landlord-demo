@@ -7,8 +7,7 @@ import kotlinx.android.parcel.IgnoredOnParcel
 import kotlinx.android.parcel.Parcelize
 
 @Parcelize
-data class ProplistKey(val tag: String) : BaseKey() {
-    constructor(): this("ProplistKey")
+data class ProplistKey(val tag: String = "ProplistKey") : BaseKey() {
 
     @IgnoredOnParcel
     override val allowBack = false

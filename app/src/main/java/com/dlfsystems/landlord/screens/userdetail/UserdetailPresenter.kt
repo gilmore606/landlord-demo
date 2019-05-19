@@ -31,18 +31,18 @@ class UserdetailPresenter(fragment: BaseFragment) : BasePresenter(fragment) {
                     isAdmin = action.user.isAdmin,
                     isRealtor = action.user.isRealtor))
             }
-            (action is UserChangeRealtor) -> {
+            (action is SetRealtorStatus) -> {
                 mutate(state().copy(isRealtor = action.value))
             }
-            (action is UserChangeAdmin) -> {
+            (action is SetAdminStatus) -> {
                 mutate(state().copy(isAdmin = action.value))
             }
-            (action is UserSaveChanges) -> {
+            (action is SubmitUser) -> {
                 FirebaseRepository().putUser(action.user)
                 fragment.makeToast(action.user.username + " updated.")
                 Rudder.navBack()
             }
-            (action is UserDelete) -> {
+            (action is DeleteUser) -> {
                 confirmAndDeleteUser(action.user)
             }
             else -> { throw RuntimeException(action.toString()) }
