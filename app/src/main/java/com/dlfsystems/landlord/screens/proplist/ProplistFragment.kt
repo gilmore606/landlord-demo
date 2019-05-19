@@ -2,6 +2,7 @@ package com.dlfsystems.landlord.screens.proplist
 
 import android.view.View
 import android.widget.AdapterView
+import android.widget.ArrayAdapter
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.dlfsystems.landlord.Prefs
 import com.dlfsystems.landlord.R
@@ -45,6 +46,11 @@ class ProplistFragment : BaseFragment() {
             Rudder.navTo(FilterKey())
         }
 
+        ArrayAdapter.createFromResource(context!!, R.array.sort_by, R.layout.spinner_item)
+            .also {
+                it.setDropDownViewResource(R.layout.spinner_dropdown_item)
+                proplist_sort_spinner.adapter = it
+            }
         proplist_sort_spinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
             override fun onNothingSelected(parent: AdapterView<*>?) { }
             override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {

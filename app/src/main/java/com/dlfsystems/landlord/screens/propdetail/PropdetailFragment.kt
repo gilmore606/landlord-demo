@@ -124,8 +124,8 @@ class PropdetailFragment : BaseFragment() {
 
             context?.also { state.realtorList?.also {
                 if (realtorAdapter == null) {
-                    realtorAdapter = ArrayAdapter(context!!, android.R.layout.simple_spinner_item, state.realtorList)
-                    realtorAdapter!!.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+                    realtorAdapter = ArrayAdapter(context!!, R.layout.spinner_item, state.realtorList)
+                    realtorAdapter!!.setDropDownViewResource(R.layout.spinner_dropdown_item)
                     propdetail_realtor_spinner.adapter = realtorAdapter!!
                 }
                 state.realtorIds?.also {

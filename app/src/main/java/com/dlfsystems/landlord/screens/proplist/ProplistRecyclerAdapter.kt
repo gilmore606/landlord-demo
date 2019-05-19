@@ -16,10 +16,16 @@ class ProplistHolder(val view: View, val prop: Prop? = null): RecyclerView.ViewH
         view.setOnClickListener {
             actions.onNext(ViewProperty(prop.id))
         }
+        view.setBackgroundColor(view.context.getColor(
+            if (prop.available) R.color.white else R.color.lightred
+        ))
         view.proprow_name.text = prop.name
+        view.proprow_name.setTextColor(view.context.getColor(
+            if (prop.available) R.color.black else R.color.darkred
+        ))
         view.proprow_address.text = prop.address
         view.proprow_rent.text = "$" + prop.rent.toString()
-        view.proprow_rooms.text = prop.rooms.toString() + " rooms"
+        view.proprow_rooms.text = prop.rooms.toString() + " rm"
         view.proprow_sqft.text = prop.sqft.toString() + " sqft"
     }
 }
