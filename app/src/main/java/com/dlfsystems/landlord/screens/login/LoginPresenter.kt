@@ -38,7 +38,7 @@ class LoginPresenter(fragment: BaseFragment) : BasePresenter(fragment) {
                 if (it.isSuccessful()) {
                     val uid = Rudder.auth.currentUser!!.uid
                     repo.getUser(uid) {
-                        onLogin(it, password)
+                        onLogin(it!!, password)
                     }
                 } else {
                     mutate(state().copy(lastError = it.exception?.message ?: "Couldn't log in -- try again.",

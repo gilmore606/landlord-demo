@@ -21,7 +21,7 @@ class UserdetailPresenter(fragment: BaseFragment) : BasePresenter(fragment) {
                 if ((state.username == "") and (!state.loading)) {
                     mutate(state().copy(loading = true))
                     FirebaseRepository().getUser(state.userId) {
-                        actions.onNext(UserLoaded(it))
+                        it?.also { actions.onNext(UserLoaded(it)) }
                     }
                 }
             }

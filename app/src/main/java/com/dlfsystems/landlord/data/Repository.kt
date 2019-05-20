@@ -8,7 +8,7 @@ import com.google.firebase.database.Query
 interface Repository {
 
     fun putUser(user: User)
-    fun getUser(uid: String, callback: (User) -> Unit)
+    fun getUser(uid: String, callback: (User?) -> Unit)
     fun deleteUser(userid: String)
     fun getUsers(): Query
     fun getRealtors(callback: (List<User>) -> Unit)

@@ -77,7 +77,7 @@ class PropviewPresenter(fragment: BaseFragment) : BasePresenter(fragment) {
             zip = prop.zip
         ))
         repo.getUser(prop.realtorId) {
-            actions.onNext(LoadRealtorName(it.username))
+            actions.onNext(LoadRealtorName(it?.username ?: "none"))
         }
     }
 

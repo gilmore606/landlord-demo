@@ -13,7 +13,7 @@ class FirebaseRepository : Repository {
         repo.child("users").child(user.uid).setValue(user)
     }
 
-    override fun getUser(uid: String, callback: (User) -> Unit) {
+    override fun getUser(uid: String, callback: (User?) -> Unit) {
         repo.child("users").child(uid)
             .addListenerForSingleValueEvent(object: ValueEventListener {
                 override fun onCancelled(e: DatabaseError) {
@@ -21,7 +21,7 @@ class FirebaseRepository : Repository {
                 }
 
                 override fun onDataChange(snapshot: DataSnapshot) {
-                    callback(snapshot.getValue<User>(User::class.java)!!)
+                    callback(snapshot.getValue<User>(User::class.java))
                 }
             })
     }
