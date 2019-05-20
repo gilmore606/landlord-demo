@@ -22,6 +22,8 @@ class PropdetailPresenter(fragment: BaseFragment) : BasePresenter(fragment) {
     val repo = FirebaseRepository()
     val geocoder: Geocoder by lazy { Geocoder(fragment.activity, Locale.getDefault()) }
 
+    var lastPermissionAction: Action? = null
+
     override fun hearAction(action: Action) {
         when {
             (action is InitialState) -> {
@@ -43,6 +45,7 @@ class PropdetailPresenter(fragment: BaseFragment) : BasePresenter(fragment) {
                 }
             }
             (action is LocateAddress) -> {
+                lastPermissionAction = action
                 mutate(state().copy(loading = true))
                 requestCoordsHere {
                     mutate(state().copy(coordx = it.latitude,
@@ -53,6 +56,7 @@ class PropdetailPresenter(fragment: BaseFragment) : BasePresenter(fragment) {
                 }
             }
             (action is LocateCoords) -> {
+                lastPermissionAction = action
                 mutate(state().copy(loading = true))
                 requestCoordsHere {
                     mutate(state().copy(loading = false,
@@ -87,6 +91,10 @@ class PropdetailPresenter(fragment: BaseFragment) : BasePresenter(fragment) {
             }
             else -> { throw RuntimeException(action.toString()) }
         }
+    }
+
+    fun onPermissionGranted() {
+        lastPermissionAction?.also { actions.onNext(it) }
     }
 
     private fun updateAddress(it: Address?) {

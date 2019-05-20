@@ -83,6 +83,8 @@ abstract class BaseFragment : androidx.fragment.app.Fragment() {
 
     open fun render(state: BaseState) { }
 
+    open fun onPermissionGranted() { }
+
     fun makeToast(message: String) {
         activity?.runOnUiThread {
             Toast.makeText(activity, message, Toast.LENGTH_SHORT).show()

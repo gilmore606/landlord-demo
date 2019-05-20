@@ -137,6 +137,8 @@ class PropdetailFragment : BaseFragment() {
         }
     }
 
+    override fun onPermissionGranted() = presenter.onPermissionGranted()
+
     private fun propFromState(state: PropdetailState): Prop {
         var prop = Prop(
             id = state.propId,

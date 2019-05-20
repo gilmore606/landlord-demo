@@ -31,6 +31,7 @@ import io.reactivex.disposables.CompositeDisposable
 import kotlinx.android.synthetic.main.activity_main.*
 import timber.log.Timber
 import com.crashlytics.android.Crashlytics;
+import com.dlfsystems.landlord.screens.base.BaseFragment
 import io.fabric.sdk.android.Fabric;
 
 class MainActivity : AppCompatActivity(), StateChanger, NavigationView.OnNavigationItemSelectedListener {
@@ -198,7 +199,10 @@ class MainActivity : AppCompatActivity(), StateChanger, NavigationView.OnNavigat
     override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
         if (!grantResults.isEmpty()) {
             if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-
+                // This is a hack and I genuinely don't know what the right answer is.
+                val topFragment = supportFragmentManager.findFragmentById(R.id.base_frame)
+                if (topFragment is BaseFragment)
+                    topFragment.onPermissionGranted()
             }
         }
         super.onRequestPermissionsResult(requestCode, permissions, grantResults)
