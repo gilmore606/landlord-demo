@@ -2,7 +2,6 @@ package com.dlfsystems.landlord.screens.base
 
 import com.dlfsystems.landlord.plusAssign
 import io.reactivex.disposables.CompositeDisposable
-import io.reactivex.schedulers.Schedulers
 import io.reactivex.subjects.PublishSubject
 import leakcanary.LeakSentry
 

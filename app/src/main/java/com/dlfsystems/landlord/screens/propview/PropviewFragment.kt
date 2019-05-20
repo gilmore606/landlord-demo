@@ -2,9 +2,7 @@ package com.dlfsystems.landlord.screens.propview
 
 import android.graphics.Paint
 import android.os.Bundle
-import android.service.autofill.Validators.or
 import android.view.View
-import androidx.core.graphics.PaintCompat
 import com.dlfsystems.landlord.Prefs
 import com.dlfsystems.landlord.R
 import com.dlfsystems.landlord.data.FirebaseRepository

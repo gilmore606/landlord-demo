@@ -2,7 +2,6 @@ package com.dlfsystems.landlord.screens.base
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.SavedStateHandle
-import io.reactivex.BackpressureStrategy
 import io.reactivex.subjects.ReplaySubject
 import timber.log.Timber
 

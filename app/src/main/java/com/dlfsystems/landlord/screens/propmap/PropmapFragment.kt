@@ -19,7 +19,6 @@ import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MarkerOptions
 import kotlinx.android.synthetic.main.fragment_propmap.*
 import kotlinx.android.synthetic.main.include_filterbar.*
-import java.lang.RuntimeException
 
 class PropmapFragment : BaseFragment() {
 

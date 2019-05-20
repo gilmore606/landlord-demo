@@ -24,10 +24,6 @@ fun ioThread(f : () -> Unit) {
     IO_EXECUTOR.execute(f)
 }
 
-fun Fragment.hideKeyboard() {
-    view?.let { activity?.hideKeyboard(it) }
-}
-
 fun Activity.hideKeyboard() {
     hideKeyboard(if (currentFocus == null) View(this) else currentFocus)
 }
