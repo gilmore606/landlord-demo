@@ -47,7 +47,7 @@
                       style="@style/FieldHint" android:layout_marginVertical="8dp"
                       android:text="realtor:" />
             <TextView android:layout_width="match_parent" android:layout_height="wrap_content"
-                      style="@style/PropDesc" android:gravity="right" android:layout_marginVertical="8dp"
+                      style="@style/Email" android:gravity="right" android:layout_marginVertical="8dp"
                       android:id="@+id/propview_realtor" />
             <TextView android:layout_width="match_parent" android:layout_height="wrap_content"
                       style="@style/FieldHint" android:layout_marginVertical="8dp"

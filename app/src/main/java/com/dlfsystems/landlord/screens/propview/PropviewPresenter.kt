@@ -1,5 +1,6 @@
 package com.dlfsystems.landlord.screens.propview
 
+import android.content.Intent
 import com.dlfsystems.landlord.data.FirebaseRepository
 import com.dlfsystems.landlord.data.model.Prop
 import com.dlfsystems.landlord.nav.Rudder
@@ -45,6 +46,9 @@ class PropviewPresenter(fragment: BaseFragment) : BasePresenter(fragment) {
             }
             (action is LoadRealtorName) -> {
                 mutate(state().copy(realtorName = action.name, loading = false))
+            }
+            (action is EmailRealtor) -> {
+                launchEmailClient(action.toAddress, action.fromAddress, action.subject)
             }
             else -> { throw RuntimeException(action.toString()) }
         }
@@ -106,5 +110,14 @@ class PropviewPresenter(fragment: BaseFragment) : BasePresenter(fragment) {
     private fun updateProperty(property: Prop) {
         repo.putProp(property)
         fragment.makeToast("Property is now " + (if (property.available) "available" else "unavailable") + ".")
+    }
+
+    private fun launchEmailClient(toAddress: String, fromAddress: String, subject: String) {
+        // this is a hack.  what is the right way for a presenter to signal back to the activity to do Android things?
+        val intent = Intent(Intent.ACTION_SEND)
+        intent.putExtra(Intent.EXTRA_EMAIL, arrayOf(toAddress))
+        intent.putExtra(Intent.EXTRA_SUBJECT, subject)
+        intent.setType("message/rfc822")
+        fragment.activity?.startActivity(Intent.createChooser(intent, "Send email using:"))
     }
 }

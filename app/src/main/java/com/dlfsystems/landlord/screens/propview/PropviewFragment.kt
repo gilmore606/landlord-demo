@@ -1,8 +1,10 @@
 package com.dlfsystems.landlord.screens.propview
 
+import android.graphics.Paint
 import android.os.Bundle
 import android.service.autofill.Validators.or
 import android.view.View
+import androidx.core.graphics.PaintCompat
 import com.dlfsystems.landlord.Prefs
 import com.dlfsystems.landlord.R
 import com.dlfsystems.landlord.data.FirebaseRepository
@@ -56,6 +58,9 @@ class PropviewFragment : BaseFragment() {
         propview_available_button.setOnClickListener {
             actions.onNext(SetAvailable(state().propId, !state().available))
         }
+        propview_realtor.setOnClickListener {
+            actions.onNext(EmailRealtor(state().realtorName, prefs.user!!.username, state().address))
+        }
     }
 
     override fun render(state: BaseState) {
@@ -79,6 +84,7 @@ class PropviewFragment : BaseFragment() {
             propview_sqft.setIfChanged(state.sqft.toString() + " sq ft")
             propview_rooms.setIfChanged(state.rooms.toString() + " rooms")
             propview_realtor.setIfChanged(state.realtorName.replace("@", "@\n"))
+            propview_realtor.paintFlags = Paint.UNDERLINE_TEXT_FLAG
             propview_date.setIfChanged(dateFormat.format(Date(state.addtime)))
             propview_desc.setIfChanged("\"" + state.desc + "\"")
             propview_address.setIfChanged(state.address + "\n" + state.city + ", " + state.state + " " + state.zip)

@@ -25,3 +25,9 @@ class LoadRealtorName(
 ) : Action
 
 class Reload : Action
+
+class EmailRealtor(
+    val toAddress: String,
+    val fromAddress: String,
+    val subject: String
+) : Action
