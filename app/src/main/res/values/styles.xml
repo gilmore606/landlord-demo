@@ -18,7 +18,7 @@
     </style>
 
     <style name="ErrorText" parent="Theme.AppCompat.Light">
-        <item name="android:textSize">10dp</item>
+        <item name="android:textSize">11dp</item>
         <item name="android:textColor">#DD0000</item>
     </style>
 

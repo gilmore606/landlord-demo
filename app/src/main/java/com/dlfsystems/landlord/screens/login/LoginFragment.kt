@@ -23,7 +23,7 @@ class LoginFragment : BaseFragment() {
     override fun subscribeUI(view: View) {
 
         login_username.validate({ it.isNotEmpty() }, "your email address", {
-            stateHolder.mutate(state().copy(username = it))
+            stateHolder.mutate(state().copy(username = it.trim { it == ' '}))
         })
         login_password.validate({ it.length > 5 }, "your password", {
             stateHolder.mutate(state().copy(password = it))

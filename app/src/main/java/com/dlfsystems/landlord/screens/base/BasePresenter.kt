@@ -24,8 +24,7 @@ abstract class BasePresenter(val fragment: BaseFragment) {
         this.stateHolder = stateHolder
         this.actions = actions
 
-        disposables += actions.subscribeOn(Schedulers.io())
-            .subscribe { hearAction(it) }
+        disposables += actions.subscribe { hearAction(it) }
 
         stateHolder.provideInitialState(initialState)
         actions.onNext(InitialState())

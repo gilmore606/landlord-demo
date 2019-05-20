@@ -52,7 +52,7 @@ abstract class BaseFragment : androidx.fragment.app.Fragment() {
             // .toFlowable(BackpressureStrategy.LATEST)
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe {
-                doRender(it)
+                if (view != null) doRender(it)
             }
 
         presenter.injectState(stateHolder, initialState, actions)
